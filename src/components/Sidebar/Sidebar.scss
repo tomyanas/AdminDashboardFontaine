@@ -1,14 +1,14 @@
 .sidebar {
   width: 270px;
+  min-height: 100%;
   display: flex;
   flex-shrink: 0;
   background-color: #ffffff;
   flex-direction: column;
-  min-height: 100%;
-
+  box-shadow: 1px 0 3px #0003;
   @media only screen and (max-width: 767px) {
-    width: auto;
-    padding: 0;
+    width: 220px;
+    // padding: 0;
   }
   .sidebar__navigation {
     width: 100%;
@@ -38,11 +38,12 @@
             
         @media only screen and (max-width: 767px) {
             width: 100%;
-            padding: 20px 35px;
+            padding: 1rem 2rem;
         }
         
         &:hover {
-            color: #00c58d;
+            // color: #00c58d;
+            color: #55a1e7;
             background-color: #f7f7f7;
             border-radius: 50px 0 0 50px;
         }
@@ -54,7 +55,8 @@
         }
     }
     .active{
-        color: #00C58D;
+        // color: #00C58D;
+        color: #4a8cca;
         background-color: #f7f7f7;
         border-radius: 50px 0 0 50px;
       }

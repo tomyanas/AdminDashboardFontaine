@@ -1,8 +1,18 @@
-.layout__container {
+.layout {
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
-  height: calc(100vh - 72px);
+  height: 100vh;
+  background-color: #f7f7f7;
+  
+  .layout__container {
+    // padding-top: 72px;
+    display: flex;
+    width: 100%;
+    // background-color: crimson;
+    height: 100%;
+  }
   .layout__sidebar_desktop {
     height: 100%;
     @media only screen and (max-width: 1023px) {
@@ -13,13 +23,12 @@
     width: 100%;
     height: 100%;
     display: flex;
-    background-color: #f7f7f7;
-    padding: 45px 30px;
+    padding:  30px;
     overflow: hidden;
     overflow-y: auto;
-
+// background-color: chocolate;
     @media only screen and (max-width: 767px) {
-      padding: 45px 15px;
+      padding: 30px 15px;
     }
   }
 }

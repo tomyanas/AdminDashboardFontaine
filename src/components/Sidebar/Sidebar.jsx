@@ -61,7 +61,7 @@ export const Sidebar = () => {
       <div className="sidebar__navigation">
         {sidebarMenus.map((menu, index) => (
           <NavLink
-            to={menu.path}
+            to={"/"+menu.path}
             key={index}
             className="sidebar__navigation_navlinks"
           >

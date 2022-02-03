@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import { Header } from "../../components/Header/Header";
 import { Sidebar } from "../../components/Sidebar/Sidebar";
 import "./Layout.scss";
@@ -15,7 +16,7 @@ export const Layout = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <>
+    <div className="layout">
       <Header onOpenSidebar={onOpen} />
       <div className="layout__container">
         <div className="layout__sidebar_desktop">
@@ -30,8 +31,8 @@ export const Layout = ({ children }) => {
             <Sidebar />
           </DrawerContent>
         </Drawer>
-        <div className="layout__content_wrapper">{children}</div>
+        <div className="layout__content_wrapper"><Outlet/></div>
       </div>
-    </>
+    </div>
   );
 };

@@ -8,7 +8,7 @@ import Logoimage from "../../assets/image/fontaine_m0.png";
 
 export const Header = ({onOpenSidebar}) => {
   return (
-    <header className="header">
+    <div className="header">
       <div className="header__left">
         <div className="header__menu_button">
           <Button bg={"transparent"} onClick={onOpenSidebar} >
@@ -26,6 +26,6 @@ export const Header = ({onOpenSidebar}) => {
             <UserIcon/>
         </div >
       </div>
-    </header>
+    </div>
   );
 };
