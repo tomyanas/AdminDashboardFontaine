@@ -3,11 +3,12 @@ import { Button } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { VStack } from "@chakra-ui/layout";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
-  
+  let navigate = useNavigate();
 
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -15,6 +16,10 @@ const Signup = () => {
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
+
+  const handleSubmit = () => {
+    navigate('/');
+  }
 
   return (
     <VStack spacing="5px">
@@ -42,7 +47,7 @@ const Signup = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <InputRightElement width="4.5rem">
-          <Button h="1.75rem" size="sm" onClick={handleClick}>
+          <Button h="1.75rem" size="sm" onClick={handleClick} _focus={{ outline: "none" }}>
             {show ? "Hide" : "Show"}
           </Button>
         </InputRightElement>
@@ -76,6 +81,8 @@ const Signup = () => {
       width="100%"
       style={{ marginTop: 15 }}
       isLoading={picLoading}
+      onClick={handleSubmit} 
+      _focus={{ outline: "none" }}
     >
       Sign Up
     </Button>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Header.scss";
 import { MenuIcon } from "../../assets/icons/MenuIcon";
 import { UserIcon } from "../../assets/icons/UserIcon";
@@ -16,6 +16,11 @@ import {
 } from "@chakra-ui/react";
 
 export const Header = ({ onOpenSidebar }) => {
+  let navigate = useNavigate();
+
+  const handleLogout = () => {
+    navigate('/login');
+  }
   return (
     <div className="header">
       <div className="header__left">
@@ -49,7 +54,7 @@ export const Header = ({ onOpenSidebar }) => {
           <MenuList>
             <MenuGroup title="Profile">
               <MenuItem icon={<UserAvatar />}>My Account</MenuItem>
-              <MenuItem icon={<LogoutIcon />}>Logout</MenuItem>
+              <MenuItem icon={<LogoutIcon />} onClick={handleLogout}>Logout</MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
