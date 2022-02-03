@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
+
+import HomePage from "../Pages/HomePage";
 import { InLineLoader } from "../components/InlineLoader/InlineLoader";
 // import { Layout } from "../containers/Layout/Layout";
 // import { Dashboard } from "../containers/Dashboard/Dashboard";
@@ -27,9 +29,12 @@ const Customers = lazy(() => import("../containers/Customers/Customers"));
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
 const Settings = lazy(() => import("../containers/Settings/Settings"));
 
+
 export const Routing = () => {
   return (
     <Routes>
+
+      <Route path="/login" element={<HomePage/>} />
       <Route
         path="/"
         element={
@@ -95,6 +100,7 @@ export const Routing = () => {
           }
         />
       </Route>
+
     </Routes>
   );
 };
