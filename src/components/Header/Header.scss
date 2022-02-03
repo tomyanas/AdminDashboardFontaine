@@ -21,7 +21,7 @@
         display: none;
       }
       img {
-        height: 30px;
+        height: 28px;
         margin-left: 1rem;
       }
     }
@@ -35,7 +35,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
-    button {
+    .add_products {
       // background-color: rgb(0, 197, 141);
       background-color: #4a8cca;
       color: #fff;
@@ -54,13 +54,6 @@
         background-color: #4a8cca;
       }
     }
-    .header__right_profile {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #ffffff;
-      cursor: pointer;
-      color: #b4b4b4;
-    }
+
   }
 }

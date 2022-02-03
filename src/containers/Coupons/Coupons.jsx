@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Coupons = () => {
+const Coupons = () => {
  
   return (
     <div className="coupons">
@@ -8,3 +8,4 @@ export const Coupons = () => {
     </div>
   );
 };
+export default Coupons;

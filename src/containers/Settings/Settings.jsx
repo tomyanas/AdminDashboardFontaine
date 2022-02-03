@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Settings = () => {
+const Settings = () => {
  
   return (
     <div className="settings">
@@ -8,3 +8,4 @@ export const Settings = () => {
     </div>
   );
 };
+export default Settings;

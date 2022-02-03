@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowLeftRound } from "../../assets/icons/ArrowLeftRound";
 
-export const Layout = ({ children }) => {
+const Layout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -36,3 +36,5 @@ export const Layout = ({ children }) => {
     </div>
   );
 };
+
+export default Layout

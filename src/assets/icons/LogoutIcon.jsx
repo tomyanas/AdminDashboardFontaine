@@ -5,7 +5,7 @@ export const LogoutIcon = () => {
       xmlns='http://www.w3.org/2000/svg'
       width='15.999'
       height='13'
-      viewBox='0 0 15.999 13'
+      viewBox='-3 0 15.999 13'
     >
       <defs>
         <filter

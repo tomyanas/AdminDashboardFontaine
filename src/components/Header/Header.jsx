@@ -4,14 +4,27 @@ import { Link } from "react-router-dom";
 import "./Header.scss";
 import { MenuIcon } from "../../assets/icons/MenuIcon";
 import { UserIcon } from "../../assets/icons/UserIcon";
-import Logoimage from "../../assets/image/fontaine_m0.png";
+import { UserAvatar } from "../../assets/icons/UserAvatar";
+import { LogoutIcon } from "../../assets/icons/LogoutIcon";
+import Logoimage from "../../assets/image/fontaine.svg";
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuGroup,
+} from "@chakra-ui/react";
 
-export const Header = ({onOpenSidebar}) => {
+export const Header = ({ onOpenSidebar }) => {
   return (
     <div className="header">
       <div className="header__left">
         <div className="header__menu_button">
-          <Button bg={"transparent"} onClick={onOpenSidebar} >
+          <Button
+            bg={"transparent"}
+            onClick={onOpenSidebar}
+            _focus={{ outline: "none" }}
+          >
             <MenuIcon />
           </Button>
         </div>
@@ -21,10 +34,25 @@ export const Header = ({onOpenSidebar}) => {
       </div>
 
       <div className="header__right">
-        <button>Add Products</button>
-        <div className="header__right_profile">
-            <UserIcon/>
-        </div >
+        <button className="add_products">Add Products</button>
+        <Menu>
+          <MenuButton
+            as={Button}
+            p={0}
+            borderRadius="100"
+            bg="transparent"
+            _focus={{ outline: "none" }}
+            color="#b4b4b4"
+          >
+            <UserIcon />
+          </MenuButton>
+          <MenuList>
+            <MenuGroup title="Profile">
+              <MenuItem icon={<UserAvatar />}>My Account</MenuItem>
+              <MenuItem icon={<LogoutIcon />}>Logout</MenuItem>
+            </MenuGroup>
+          </MenuList>
+        </Menu>
       </div>
     </div>
   );
