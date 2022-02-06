@@ -4,7 +4,6 @@ export const DASHBOARD = '';
 export const PRODUCTS = 'products';
 export const CATEGORY = 'category';
 export const LOGIN = '/login';
-export const LOGOUT = '/logout';
 export const ORDERS = 'orders';
 export const CUSTOMERS = 'customers';
 export const COUPONS = 'coupons';

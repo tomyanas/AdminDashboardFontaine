@@ -15,12 +15,15 @@ import {
   MenuGroup,
 } from "@chakra-ui/react";
 
+import { useAuth } from "../../auth/auth";
+
 export const Header = ({ onOpenSidebar }) => {
   let navigate = useNavigate();
+  let auth = useAuth();
 
   const handleLogout = () => {
-    navigate('/login');
-  }
+    auth.signout(() => navigate("/login"));
+  };
   return (
     <div className="header">
       <div className="header__left">
@@ -54,7 +57,9 @@ export const Header = ({ onOpenSidebar }) => {
           <MenuList>
             <MenuGroup title="Profile">
               <MenuItem icon={<UserAvatar />}>My Account</MenuItem>
-              <MenuItem icon={<LogoutIcon />} onClick={handleLogout}>Logout</MenuItem>
+              <MenuItem icon={<LogoutIcon />} onClick={handleLogout}>
+                Logout
+              </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
