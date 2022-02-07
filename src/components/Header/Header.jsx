@@ -15,14 +15,19 @@ import {
   MenuGroup,
 } from "@chakra-ui/react";
 
-import { useAuth } from "../../auth/auth";
+import { useAuth } from "../../auth/AuthProvider";
 
 export const Header = ({ onOpenSidebar }) => {
   let navigate = useNavigate();
   let auth = useAuth();
 
-  const handleLogout = () => {
-    auth.signout(() => navigate("/login"));
+  const handleLogout = async () => {
+    try{
+      await auth.logout();
+      // navigate("/login");
+    }catch(e){
+      console.error(e.message)
+    }
   };
   return (
     <div className="header">

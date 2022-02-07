@@ -1,8 +1,8 @@
 import { Box, Container, Text, Image } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../auth/auth";
-import Login from "../../components/Authentications/Login";
+import { useAuth } from "../../auth/AuthProvider";
+import Login from "../../components/Login/Login";
 
 import Logoimage from "../../assets/image/fontaine.svg";
 const LoginRegister = () => {

@@ -5,9 +5,10 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Eye } from "../../assets/icons/Eye";
 import { EyeOff } from "../../assets/icons/EyeOff";
-import { useAuth } from "../../auth/auth";
+import { useAuth } from "../../auth/AuthProvider";
 import { Formik, Field, Form } from "formik";
 import * as Yup from "yup";
+import { useToast } from '@chakra-ui/react'
 
 const loginValidationSchema = () => {
   return Yup.object().shape({
@@ -21,12 +22,23 @@ const Login = () => {
   let location = useLocation();
   let auth = useAuth();
   let from = location.state?.from?.pathname || "/";
+  const toast = useToast()
 
   const handleSubmit = async (values) => {
     console.log(values);
-    auth.signin(values, () => {
+    try {
+      await auth.login(values);
       navigate(from, { replace: true });
-    });
+    } catch (e) {
+      toast({
+        // title: 'Login Error.',
+        description: e.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+      console.error(e.message);
+    }
   };
   return (
     <Formik
@@ -56,7 +68,7 @@ const Login = () => {
             type="password"
             name="password"
             component={MyInput}
-            placeholder="Ex: Fontaine"
+            placeholder="********"
           />
         </FormControl>
 
