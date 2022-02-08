@@ -3,14 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../auth/AuthProvider";
 
 import { InLineLoader } from "../components/InlineLoader/InlineLoader";
-// import { Layout } from "../containers/Layout/Layout";
-// import { Dashboard } from "../containers/Dashboard/Dashboard";
-// import { Products } from "../containers/Products/Products";
-// import { Category } from "../containers/Category/Category";
-// import { Orders } from "../containers/Orders/Orders";
-// import { Customers } from "../containers/Customers/Customers";
-// import { Coupons } from "../containers/Coupons/Coupons";
-// import { Settings } from "../containers/Settings/Settings";
 import {
   PRODUCTS,
   CATEGORY,
@@ -33,6 +25,11 @@ const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
 const Settings = lazy(() => import("../containers/Settings/Settings"));
+const SiteSettings = lazy(() => import("../containers/SiteSettings/SiteSettings"));
+const SettingsOptions = lazy(() =>
+  import("../containers/Settings/SettingsOptions")
+);
+const Staff = lazy(() => import("../containers/Staff/Staff"));
 
 export const Routing = () => {
   return (
@@ -116,16 +113,41 @@ export const Routing = () => {
               </PrivateRoute>
             }
           />
+          {/* ____________________Route Settings _______________________*/}
           <Route
             path={SETTINGS}
             element={
-              <PrivateRoute>
-                <Suspense fallback={<InLineLoader />}>
-                  <Settings />
-                </Suspense>
-              </PrivateRoute>
+              <Suspense fallback={<InLineLoader />}>
+                <Settings />
+              </Suspense>
             }
-          />
+          >
+            <Route
+              index
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <SettingsOptions />
+                </Suspense>
+              }
+            />
+            <Route
+              path="site-settings"
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <SiteSettings />
+                </Suspense>
+              }
+            />
+            <Route
+              path="staff"
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <Staff />
+                </Suspense>
+              }
+            />
+          </Route>
+          {/* _____ fin Route Settings */}
         </Route>
       </Routes>
     </AuthProvider>
