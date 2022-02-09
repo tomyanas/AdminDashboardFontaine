@@ -9,10 +9,10 @@ const LoginRegister = () => {
   let navigate = useNavigate();
   let auth = useAuth();
   useEffect(() => {
-    if (!!auth.user) {
+    if (auth.user) {
       navigate("/");
     }
-  }, []);
+  }, [auth.user]);
   return (
     <Container
       maxW="100%"

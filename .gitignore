@@ -24,3 +24,5 @@ yarn-error.log*
 
 .now
 .vercel
+
+MEOW.js

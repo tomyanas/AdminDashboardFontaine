@@ -45,8 +45,8 @@ const cards = [
 const SettingsOptions = () => {
   return (
     <div className="settings-options">
-      {cards?.map(({ index, icon, title, subtitle, linkTo = false }) => {
-        return <SettingsCard key={index} Icon={icon} title={title} subtitle={subtitle} linkTo={linkTo}/>;
+      {cards?.map(({ icon, title, subtitle, linkTo = false }) => {
+        return <SettingsCard key={title + "_key"} Icon={icon} title={title} subtitle={subtitle} linkTo={linkTo}/>;
       })}
     </div>
   );
