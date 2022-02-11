@@ -4,7 +4,6 @@ const Staff = () => {
     return (
       <div className="staff">
         <h2>Staff Section </h2>
-        <StaffMemberForm></StaffMemberForm>
       </div>
     );
   };

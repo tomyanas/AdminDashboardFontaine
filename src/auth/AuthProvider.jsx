@@ -24,11 +24,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const signup = ({email, password}) => {
-    createUserWithEmailAndPassword(auth, email, password);
-    sendEmailVerification()
-    signOut(auth)
-    // return 
+
+    return createUserWithEmailAndPassword(auth, email, password)
   };
+
+  const getCredentials = () => {
+    return auth.AuthCredential
+  }
 
   const login = ({email, password}) => {
     return signInWithEmailAndPassword(auth, email, password);
@@ -45,7 +47,7 @@ export const AuthProvider = ({ children }) => {
     return () => unsubscribe();
   }, []);
 
-  let value = { user, signup, login, logout, loading };
+  let value = { user, signup, login, logout, loading, getCredentials };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

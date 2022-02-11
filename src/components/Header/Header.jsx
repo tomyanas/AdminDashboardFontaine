@@ -60,7 +60,7 @@ export const Header = ({ onOpenSidebar }) => {
             <UserIcon />
           </MenuButton>
           <MenuList>
-            <MenuGroup title="Profile">
+            <MenuGroup title={auth.user?.email}>
               <MenuItem icon={<UserAvatar />}>My Account</MenuItem>
               <MenuItem icon={<LogoutIcon />} onClick={handleLogout}>
                 Logout

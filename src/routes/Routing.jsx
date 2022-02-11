@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../auth/AuthProvider";
+import StaffMemberForm from "../components/Forms/StaffMemberForm";
 
 import { InLineLoader } from "../components/InlineLoader/InlineLoader";
 import {
@@ -13,7 +14,7 @@ import {
   LOGIN,
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
-
+import RegisterForm from "../components/Forms/RegisterForm";
 const LoginRegister = lazy(() =>
   import("../containers/LoginRegister/LoginRegister")
 );
@@ -25,16 +26,27 @@ const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
 const Settings = lazy(() => import("../containers/Settings/Settings"));
-const SiteSettings = lazy(() => import("../containers/SiteSettings/SiteSettings"));
+const SiteSettings = lazy(() =>
+  import("../containers/SiteSettings/SiteSettings")
+);
 const SettingsOptions = lazy(() =>
   import("../containers/Settings/SettingsOptions")
 );
 const Staff = lazy(() => import("../containers/Staff/Staff"));
 
+
 export const Routing = () => {
   return (
     <AuthProvider>
       <Routes>
+        <Route
+          path="/register"
+          element={
+            // <Suspense fallback={<InLineLoader />}>
+            <RegisterForm />
+            // </Suspense>
+          }
+        />
         <Route
           path={LOGIN}
           element={
