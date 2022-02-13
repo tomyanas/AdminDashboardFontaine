@@ -8,6 +8,20 @@
   width: 100px;
   height: 100px;
   padding: 4px;
+  .uploader__thumb-inner{
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    .uploader__thumb_close-button{
+
+    }
+  }
+  .uploader__thumb-img{
+    display: block;
+    width: auto;
+    height: 100%;
+  }
 }
 .uploader__thumb-container {
   display: flex;

@@ -1,4 +1,4 @@
-import Uploader from "./Uploader/Uploader";
+import { Uploader } from "./Uploader/Uploader";
 import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -10,6 +10,7 @@ import {
 } from "./CustomInputs/CustomInputs";
 import "./Forms.scss";
 import { useState } from "react";
+import { string } from "yup/lib/locale";
 
 const validationSchema = Yup.object().shape({
   catetegory_name: Yup.string()
@@ -17,37 +18,40 @@ const validationSchema = Yup.object().shape({
     .max(100, "Max 100 Characters"),
   slug: Yup.string().max(100, "Max 100 Characters"),
   parent_category: Yup.string().max(100, "Max 100 Characters"),
+  files: Yup.array().min(1).max(5).required(),
+  // files: Yup.array(
+  //   Yup.object({
+  //     url: string().required("carga una imagen"),
+  //   })
+  // ),
 });
 
 export const AddCategoryForm = () => {
-  const auth = useAuth();
-  const [upload, setUpload] = useState([]);
-
-  const handleUploader = (files) => {
-    console.log(files);
-    setUpload(files[0].path);
-  };
-
   const handleSubmit = async (values) => {
-    console.log(values);
+    console.log("Submit", values);
   };
 
   return (
     <div className="form_container ">
-      <h2>Register </h2>
+      <h2>Add a New Category </h2>
 
       <Formik
         initialValues={{
           catetegory_name: "",
           slug: "",
           parent_category: "",
+          files: [],
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleSubmit(values)}
       >
+
         <Form>
           <Stack mt={4}>
-            <Uploader onChange={handleUploader} imageURL="Hola" />
+            <FormControl>
+              <Uploader name="files" maxFiles={1} />
+              <ErrorMessage name="files" component="div" className="error" />
+            </FormControl>
           </Stack>
           {/* ____________ */}
           <Stack mt={4} spacing={6} direction="column">
@@ -106,6 +110,7 @@ export const AddCategoryForm = () => {
           </Stack>
           {/* _____________________ */}
         </Form>
+
       </Formik>
     </div>
   );

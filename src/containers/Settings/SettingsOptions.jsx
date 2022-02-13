@@ -7,6 +7,7 @@ import { SidebarCategoryIcon } from "../../assets/icons/SidebarCategoryIcon";
 import { ProductIcon } from "../../assets/icons/ProductIcon";
 import "./Settings.scss";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
+import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 
 const cards = [
   {
@@ -25,7 +26,7 @@ const cards = [
     icon: OrderIcon,
     title: "Add Staff Members",
     subtitle: "Add your staff members from here",
-    form: StaffMemberForm
+    form: StaffMemberForm,
   },
   {
     icon: CouponIcon,
@@ -36,6 +37,7 @@ const cards = [
     icon: SidebarCategoryIcon,
     title: "Add Categories",
     subtitle: "Add product categories from here",
+    form: AddCategoryForm,
   },
   {
     icon: ProductIcon,
@@ -45,10 +47,9 @@ const cards = [
 ];
 
 const SettingsOptions = () => {
-
   return (
     <div className="settings-options">
-      {cards?.map(({ icon, title, subtitle, linkTo = false, form= false }) => {
+      {cards?.map(({ icon, title, subtitle, linkTo = false, form = false }) => {
         return (
           <SettingsCard
             key={title + "_key"}
@@ -64,4 +65,3 @@ const SettingsOptions = () => {
   );
 };
 export default SettingsOptions;
-
