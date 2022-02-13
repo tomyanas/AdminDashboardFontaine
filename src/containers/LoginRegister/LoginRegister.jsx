@@ -2,10 +2,10 @@ import { Box, Container, Text, Image } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthProvider";
-import Login from "../../components/Login/Login";
 
 import Logoimage from "../../assets/image/fontaine.svg";
-const LoginRegister = () => {
+
+const LoginRegister = ({children, subtitle}) => {
   let navigate = useNavigate();
   let auth = useAuth();
   useEffect(() => {
@@ -32,11 +32,11 @@ const LoginRegister = () => {
           <Image src={Logoimage} alt="Fontaine-logo" w={"50%"} m={6} />
 
           <Text fontSize="2xl" fontFamily="Work sans" display="block">
-            Log in to admin
+              {subtitle}
           </Text>
         </Box>
         <Box bg="white" w="100%" p={8} borderRadius="lg">
-          <Login />
+          {children}
         </Box>
       </Container>
     </Container>

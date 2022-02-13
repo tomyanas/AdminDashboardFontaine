@@ -9,12 +9,11 @@ import {
 } from "./CustomInputs/CustomInputs";
 import "./Forms.scss";
 
-
 const validationSchema = Yup.object().shape({
-  first_name: Yup.string()
+  firstName: Yup.string()
     .required("First Name is Required")
     .max(100, "Max 100 Characters"),
-  last_name: Yup.string()
+  lastName: Yup.string()
     .required("Last Name is Required")
     .max(100, "Max 100 Characters"),
   email: Yup.string()
@@ -28,104 +27,89 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
-    const auth = useAuth();
+  const auth = useAuth();
 
-  const handleSubmit= async(values) => {
-    console.log(values.email, values.password);
+  const handleSubmit = async (values) => {
+    // console.log(values);
     try {
-        let userCredential = await auth.signup(values)
-        console.log(userCredential)
+      auth.signup(values);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
-    <div className="form_container staff">
-      <h2>Register </h2>
-      <Formik
-        initialValues={{
-          first_name: "",
-          last_name: "",
-          email: "",
-          password: "",
-        }}
-        onSubmit={(values) => handleSubmit(values)}
-        validationSchema={validationSchema}
-      >
-        <Form >
-          <Stack mt={4} spacing={6} direction="column">
-            <FormControl>
-              <FormLabel htmlFor="first_name">First name</FormLabel>
-              <Field
-                name="first_name"
-                id="first_name"
-                placeholder="First Name"
-                component={CustomInput}
-              />
-              <ErrorMessage
-                name="first_name"
-                component="div"
-                className="error"
-              />
-            </FormControl>
-            {/* _____________________ */}
-            <FormControl>
-              <FormLabel htmlFor="last_name">Last name</FormLabel>
-              <Field
-                name="last_name"
-                id="last_name"
-                placeholder="Last Name"
-                component={CustomInput}
-              />
-              <ErrorMessage
-                name="last_name"
-                component="div"
-                className="error"
-              />
-            </FormControl>
-            {/* _____________________ */}
-            <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Field
-                name="email"
-                id="email"
-                type="email"
-                placeholder="Email"
-                component={CustomInput}
-                autoComplete="username"
-              />
-              <ErrorMessage name="email" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-            <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <Field
-                name="password"
-                id="password"
-                type="password"
-                placeholder="Password"
-                autoComplete="current-password"
-                component={CustomInputPassword}
-              />
-              <ErrorMessage name="password" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-         
-            <Stack mt={4} spacing={2} direction="row" align="space-between">
-              <CustomButton
-                type="reset"
-                color="red"
-                variant="outline"
-                content="Cancel"
-              />
-              <CustomButton type="submit" content="Add Staff" />
-            </Stack>
+    <Formik
+      initialValues={{
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+      }}
+      onSubmit={(values) => handleSubmit(values)}
+      validationSchema={validationSchema}
+    >
+      <Form>
+          <FormControl isRequired marginBottom={6}>
+            <FormLabel htmlFor="firstName">First name</FormLabel>
+            <Field
+              id="firstName"
+              name="firstName"
+              placeholder="Example"
+              component={CustomInput}
+            />
+            <ErrorMessage name="firstName" component="div" className="error" />
+          </FormControl>
+          {/* _____________________ */}
+          <FormControl isRequired marginBottom={6}>
+            <FormLabel htmlFor="lastName">Last name</FormLabel>
+            <Field
+              name="lastName"
+              id="lastName"
+              placeholder="Fontaine"
+              component={CustomInput}
+            />
+            <ErrorMessage name="lastName" component="div" className="error" />
+          </FormControl>
+          {/* _____________________ */}
+          <FormControl isRequired marginBottom={6}>
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <Field
+              name="email"
+              id="email"
+              type="email"
+              placeholder="Ex: example@fontaine.com"
+              component={CustomInput}
+              autoComplete="username"
+            />
+            <ErrorMessage name="email" component="div" className="error" />
+          </FormControl>
+          {/* _____________________ */}
+          <FormControl isRequired marginBottom={6}>
+            <FormLabel htmlFor="password">Password</FormLabel>
+            <Field
+              name="password"
+              id="password"
+              type="password"
+              placeholder="********"
+              autoComplete="current-password"
+              component={CustomInputPassword}
+            />
+            <ErrorMessage name="password" component="div" className="error" />
+          </FormControl>
+          {/* _____________________ */}
+
+          <Stack mt={4} spacing={2} direction="row" align="space-between">
+            <CustomButton
+              type="reset"
+              color="red"
+              variant="outline"
+              content="Cancel"
+            />
+            <CustomButton type="submit" content="Register" />
           </Stack>
-        </Form>
-        {/* )} */}
-      </Formik>
-    </div>
+      </Form>
+    </Formik>
   );
 };
 export default RegisterForm;

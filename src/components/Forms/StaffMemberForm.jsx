@@ -5,10 +5,36 @@ import { useAuth } from "../../auth/AuthProvider";
 import {
   CustomButton,
   CustomInput,
-  CustomInputPassword,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
 import "./Forms.scss";
+
+
+/*TODO: 
+* => comprobar que el email ingresado exista en la db como customer 
+* => Listar los roles existentes y mostrar solo los permitidos segun su nivel
+*/
+
+let roles = [
+  {
+    id: 1,
+    name: "SuperAdmin"
+  },
+  {
+    id: 2,
+    name: "Admin"
+  },
+  {
+    id: 3,
+    name: "Shop Manager"
+  },
+  {
+    id: 4,
+    name: "Customer"
+  },
+]
+
+
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -23,11 +49,11 @@ const StaffMemberForm = () => {
   const auth = useAuth();
 
   const handleSubmit = async (values) => {
-    console.log(values.email, values.password);
+    console.log(values);
     try {
-      let userCredential = await auth.signup(values);
-      console.log(userCredential);
-    } catch (error) {
+      // metodo en auth add Staff member
+      console.log();
+   } catch (error) {
       console.log(error);
     }
   };
@@ -37,13 +63,10 @@ const StaffMemberForm = () => {
       <h2>Add Staff Member </h2>
       <Formik
         initialValues={{
-          first_name: "",
-          last_name: "",
           email: "",
           role: "",
           mobile_phone: "",
-          password: "",
-        }}
+         }}
         onSubmit={(values) => handleSubmit(values)}
         validationSchema={validationSchema}
       >
@@ -89,9 +112,11 @@ const StaffMemberForm = () => {
                 placeholder="Select Role"
                 component={CustomSelect}
               >
-                <option>Shop Manager</option>
-                <option>Delivery</option>
-                <option>Admin</option>
+                {
+                  roles.length && roles.map((role)=>{
+                    return <option key={role.id}>{role.name}</option>
+                  })
+                }
               </Field>
               <ErrorMessage name="role" component="div" className="error" />
             </FormControl>

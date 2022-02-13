@@ -1,7 +1,8 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../auth/AuthProvider";
-import StaffMemberForm from "../components/Forms/StaffMemberForm";
+import RegisterForm from "../components/Forms/RegisterForm";
+import Login from "../components/Login/Login";
 
 import { InLineLoader } from "../components/InlineLoader/InlineLoader";
 import {
@@ -14,7 +15,6 @@ import {
   LOGIN,
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
-import RegisterForm from "../components/Forms/RegisterForm";
 const LoginRegister = lazy(() =>
   import("../containers/LoginRegister/LoginRegister")
 );
@@ -34,7 +34,6 @@ const SettingsOptions = lazy(() =>
 );
 const Staff = lazy(() => import("../containers/Staff/Staff"));
 
-
 export const Routing = () => {
   return (
     <AuthProvider>
@@ -42,16 +41,20 @@ export const Routing = () => {
         <Route
           path="/register"
           element={
-            // <Suspense fallback={<InLineLoader />}>
-            <RegisterForm />
-            // </Suspense>
+            <Suspense fallback={<InLineLoader />}>
+              <LoginRegister subtitle="Register">
+                <RegisterForm />
+              </LoginRegister>
+            </Suspense>
           }
         />
         <Route
           path={LOGIN}
           element={
             <Suspense fallback={<InLineLoader />}>
-              <LoginRegister />
+              <LoginRegister subtitle="Log in to admin">
+                <Login />
+              </LoginRegister>
             </Suspense>
           }
         />
