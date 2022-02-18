@@ -10,11 +10,9 @@ import {
   // signInWithPopup,
   // sendPasswordResetEmail,
 } from "firebase/auth";
-import { addDoc, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth, db } from "../firebase";
-
 import { useToast } from "@chakra-ui/react";
-import { async } from "@firebase/util";
 
 const setToast = {
   duration: 5000,
@@ -37,7 +35,102 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const toast = useToast();
 
-  const signup = ({ email, password, firstName, lastName }) => {
+  const signup = async ({ email, password, firstName, lastName }) => {
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      //________Actualizar name en auth firebase_________
+      updateProfile(userCredentials.user, {
+        displayName: `${firstName} ${lastName}`,
+      });
+
+      //________Email verification_________
+
+      const config = {
+        url: "http://localhost:3000/",
+      };
+      sendEmailVerification(userCredentials.user, config)
+        .then((res) => {
+          toast({
+            title: "Account Created.",
+            description: "Verify your account. Check your email.",
+            status: "success",
+            ...setToast,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          toast({
+            title: "error al enviar email de verificacion",
+            description: error.message,
+            status: "error",
+            ...setToast,
+          });
+        });
+
+      //===========USER DB===========
+
+      try {
+        const docRef = doc(db, "users", userCredentials.user.uid);
+        await setDoc(docRef, {
+          firstName,
+          lastName,
+          email,
+          uid: userCredentials.user.uid,
+          role: "customer",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    } catch (error) {
+      console.log("error", error);
+      toast({
+        title: "Sign In Error.",
+        description: error.message,
+        status: "error",
+        ...setToast,
+      });
+    }
+    // signOut(auth);
+  };
+
+  const getCredentials = () => {
+    return auth.AuthCredential;
+  };
+
+  const login = ({ email, password }) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const logout = () => signOut(auth);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log({ currentUser });
+      currentUser &&
+        console.log({
+          email: currentUser.email,
+          name: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+          isVerified: currentUser.emailVerified,
+        });
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  let value = { user, signup, login, logout, loading, getCredentials };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+/*
+ const signup =  ({ email, password, firstName, lastName }) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         updateProfile(userCredentials.user, {
@@ -61,26 +154,24 @@ export const AuthProvider = ({ children }) => {
           .catch((error) => {
             console.log(error);
             toast({
-              // title: 'Login Error.',
               description: error.message,
               status: "error",
               ...setToast,
             });
           });
 
-        //======================
-        doc(db, "users", userCredentials.user.uid).then(
-          (docRef) => {
-            setDoc(docRef, {
+          //======================
+    
+          const docRef = doc(db ,"users", userCredentials.user.uid);
+          setDoc(docRef, {
               firstName,
               lastName,
               email,
-              password,
               uid: userCredentials.user.uid,
               role: "customer",
-          });
-          console.log("llegue aca", docRef);
-        }).catch((e) => console.log(e));
+          })
+         
+        // }).catch((e) => console.log(e));
         // const docRef = doc(db, "users", userCredentials.user.uid);
         // console.log("uid", userCredentials.user.uid);
         //   .then((res) => {
@@ -89,44 +180,14 @@ export const AuthProvider = ({ children }) => {
 
         signOut(auth);
       })
-      .catch((error) => {
-        console.log("e", error);
-        toast({
-          // title: 'Login Error.',
-          description: error.message,
-          status: "error",
-          ...setToast,
-        });
-      });
+      // .catch((error) => {
+      //   console.log("e", error);
+      //   toast({
+      //     // title: 'Login Error.',
+      //     description: error.message,
+      //     status: "error",
+      //     ...setToast,
+      //   });
+      // });
   };
-
-  const getCredentials = () => {
-    return auth.AuthCredential;
-  };
-
-  const login = ({ email, password }) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const logout = () => signOut(auth);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log({ currentUser });
-      currentUser &&
-        console.log({
-          email: currentUser.email,
-          name: currentUser.displayName,
-          photoURL: currentUser.photoURL,
-          isVerified: currentUser.emailVerified,
-        });
-      setUser(currentUser);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
-
-  let value = { user, signup, login, logout, loading, getCredentials };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+*/
