@@ -1,6 +1,5 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import { AuthProvider } from "../auth/AuthProvider";
 import RegisterForm from "../components/Forms/RegisterForm";
 import Login from "../components/Login/Login";
 
@@ -36,7 +35,6 @@ const Staff = lazy(() => import("../containers/Staff/Staff"));
 
 export const Routing = () => {
   return (
-    <AuthProvider>
       <Routes>
         <Route
           path="/register"
@@ -165,6 +163,5 @@ export const Routing = () => {
           {/* _____ fin Route Settings */}
         </Route>
       </Routes>
-    </AuthProvider>
   );
 };

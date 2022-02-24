@@ -8,6 +8,7 @@ import { ProductIcon } from "../../assets/icons/ProductIcon";
 import "./Settings.scss";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
+import AddProductForm from "../../components/Forms/ProductForm";
 
 const cards = [
   {
@@ -43,6 +44,7 @@ const cards = [
     icon: ProductIcon,
     title: "Add Products",
     subtitle: "Add products from here",
+    form: AddProductForm,
   },
 ];
 

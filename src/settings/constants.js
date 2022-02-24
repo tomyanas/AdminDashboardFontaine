@@ -13,3 +13,5 @@ export const SITE_SETTINGS = '/site-settings';
 // **************** ROUTE CONSTANT END **************************
 
 export const CURRENCY = '$';
+
+export const URL_BASE = 'https://us-central1-fontaine-dev.cloudfunctions.net/app/api';
