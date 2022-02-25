@@ -6,7 +6,7 @@ import {
     ModalCloseButton,
   } from "@chakra-ui/react";
 
-export const ModalForm = ({ Form, isOpen, onClose }) => {
+export const CustomModal = ({ Form, isOpen, onClose }) => {
     return (
       <Modal isOpen={isOpen} onClose={onClose} size="2xl" scrollBehavior="inside">
         <ModalOverlay />

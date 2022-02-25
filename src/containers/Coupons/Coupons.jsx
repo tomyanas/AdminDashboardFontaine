@@ -1,11 +1,4 @@
-import React from "react";
-
 const Coupons = () => {
- 
-  return (
-    <div className="coupons">
-        Coupons Section
-    </div>
-  );
+  return <div className="coupons">Coupons</div>;
 };
 export default Coupons;

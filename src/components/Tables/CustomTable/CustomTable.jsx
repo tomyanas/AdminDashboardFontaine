@@ -6,7 +6,7 @@ import "./CustomTable.scss"
 export const CustomTable = ({ items, headers }) => {
   return (
     <div className="custom_table"> 
-      <Table variant="striped" py="10px" overflow={"hidden"} >
+      <Table variant="simple" py="10px" overflow={"hidden"} >
         <TableHeader headers={headers}></TableHeader>
         <TableBody items={items} headers={headers}></TableBody>
       </Table>

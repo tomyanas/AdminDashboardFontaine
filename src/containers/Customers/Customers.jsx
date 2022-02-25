@@ -4,10 +4,12 @@ import "./Customers.scss";
 import axios from "axios";
 import { URL_BASE } from "../../settings/constants";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
+import { useDb } from "../../db/DbProvider";
 
 const Customers = () => {
-  let [customers, setCustomers] = useState([]);
-  
+  // let [customers, setCustomers] = useState([]);
+  const db = useDb()
+  let customers = db.customers;
   
   const headers = [
     {
@@ -29,10 +31,11 @@ const Customers = () => {
   ];
   
   useEffect(() => {
-    axios.get(`${URL_BASE}/customers`).then((data) => {
-      setCustomers(data.data);
-      console.log(data.data);
-    });
+    // axios.get(`${URL_BASE}/customers`).then((data) => {
+    //   setCustomers(data.data);
+    //   console.log(data.data);
+    // });
+    db.getAllCustomers()
   }, []);
   return (
     <div className="customers">

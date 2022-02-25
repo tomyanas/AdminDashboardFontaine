@@ -9,6 +9,7 @@ import {
 } from "./CustomInputs/CustomInputs";
 import "./Forms.scss";
 import { useDb } from "../../db/DbProvider";
+import { useEffect } from "react";
 
 /*TODO:
  */
@@ -21,13 +22,12 @@ const validationSchema = Yup.object().shape({
   description: Yup.string().max(2000, "Max 2000 Characters"),
   price: Yup.number().required().min(0, "the price should be higher zero"),
   stock: Yup.number().required().min(0, "the stock should be higher zero"),
-  minstock: Yup.number()
+  minStock: Yup.number()
     .required()
     .min(0, "the min stock should be higher zero"),
   category: Yup.string().required().min(0, "Select a category"),
   gallery: Yup.array().min(1).max(5).required(),
-  discountinpercent: Yup.number()
-    .required()
+  discountInPercent: Yup.number()
     .min(0, "The discount should be higher zero")
     .max(100, "The discount should be lower one hundred"),
 
@@ -40,19 +40,23 @@ const AddProductForm = () => {
 
   const handleSubmit = async (values) => {
     console.log(values);
-    let gallery = values.gallery.map(item=>item.path)
-    let saleprice = values.price - (values.price * values.discountinpercent / 100) 
+    let gallery = values.gallery.map((item) => item.path);
+    let salePrice =
+      values.price - (values.price * values.discountinpercent) / 100;
     try {
-        await db.addProduct({
-            ...values,
-            gallery,
-            image: gallery[0],
-            saleprice,
-        })
+      await db.addProduct({
+        ...values,
+        gallery,
+        image: gallery[0],
+        salePrice,
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  useEffect(() => {
+    db.getAllCategories();
+  }, []);
 
   return (
     <div className="form_container staff">
@@ -62,12 +66,12 @@ const AddProductForm = () => {
           name: "",
           brand: "",
           description: "",
-          price: 0,
+          price: "",
           category: "",
           gallery: [],
-          discountinpercent: 0,
-          stock: 0,
-          minstock: 0,
+          discountInPercent: 0,
+          stock: "",
+          minStock: "",
           sku: "",
         }}
         onSubmit={(values) => handleSubmit(values)}
@@ -82,28 +86,24 @@ const AddProductForm = () => {
                 id="name"
                 placeholder="Product Name"
                 component={CustomInput}
-                autoComplete="username"
               />
               <ErrorMessage name="name" component="div" className="error" />
             </FormControl>
             {/* _____________________ */}
-            <FormControl isRequired>
+            <FormControl>
               <FormLabel htmlFor="brand">Brand</FormLabel>
               <Field
                 name="brand"
                 id="brand"
                 placeholder="Brand"
                 component={CustomInput}
-                autoComplete="username"
               />
               <ErrorMessage name="brand" component="div" className="error" />
             </FormControl>
             {/* _____________________ */}
 
-            <FormControl isRequired>
-              <FormLabel htmlFor="description" >
-                Description
-              </FormLabel>
+            <FormControl>
+              <FormLabel htmlFor="description">Description</FormLabel>
               <Field
                 name="description"
                 id="description"
@@ -115,89 +115,110 @@ const AddProductForm = () => {
                 component="div"
                 className="error"
               />
-            </FormControl >
-            {/* _____________________ */}
-            <FormControl isRequired>
-              <FormLabel htmlFor="sku" >
-                SKU
-              </FormLabel>
-              <Field
-                name="sku"
-                id="sku"
-                placeholder="SKU"
-                component={CustomInput}
-              />
-              <ErrorMessage name="sku" component="div" className="error" />
             </FormControl>
             {/* _____________________ */}
 
-            <FormControl isRequired>
-              <FormLabel htmlFor="price" >
-                Price
-              </FormLabel>
-              <Field
-                name="price"
-                id="price"
-                type="number"
-                placeholder="price"
-                component={CustomInput}
-              />
-              <ErrorMessage name="price" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="category">Category</FormLabel>
-              <Field
-                name="category"
-                id="category"
-                as="select"
-                placeholder="Select Category"
-                component={CustomSelect}
-              >
-                {categories.length &&
-                  categories.map((category) => {
-                    return <option key={category.id}>{category.name}</option>;
-                  })}
-              </Field>
-              <ErrorMessage name="category" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-
-            <FormControl isRequired>
-              <FormLabel htmlFor="stock">Stock</FormLabel>
-              <Field
-                name="stock"
-                id="stock"
-                type="number"
-                placeholder="Stock"
-                component={CustomInput}
-              />
-              <ErrorMessage name="stock" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-            <FormControl isRequired>
-              <FormLabel htmlFor="minstock">Min Stock</FormLabel>
-              <Field
-                name="minstock"
-                id="minstock"
-                type="number"
-                placeholder="Min Stock"
-                component={CustomInput}
-              />
-              <ErrorMessage name="minstock" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-            <Stack mt={4}>
-              <FormControl isRequired >
-                <Uploader name="gallery" maxFiles={5} />
+            <Stack mt={4} spacing={2} direction="row" align="space-between">
+              <FormControl isRequired>
+                <FormLabel htmlFor="price">Price</FormLabel>
+                <Field
+                  name="price"
+                  id="price"
+                  type="number"
+                  placeholder="price"
+                  component={CustomInput}
+                />
+                <ErrorMessage name="price" component="div" className="error" />
+              </FormControl>
+              {/* _____________________ */}
+              <FormControl isRequired>
+                <FormLabel htmlFor="discountInPercent">Discount</FormLabel>
+                <Field
+                  name="discountInPercent"
+                  id="discountInPercent"
+                  type="number"
+                  placeholder="%"
+                  component={CustomInput}
+                />
                 <ErrorMessage
-                  name="gallery"
+                  name="discountInPercent"
                   component="div"
                   className="error"
                 />
               </FormControl>
             </Stack>
+            {/* _____________________ */}
+
+            <Stack mt={4} spacing={2} direction="row" align="space-between">
+              <FormControl isRequired>
+                <FormLabel htmlFor="category">Category</FormLabel>
+                <Field
+                  name="category"
+                  id="category"
+                  as="select"
+                  placeholder="Select Category"
+                  component={CustomSelect}
+                >
+                  {categories.length &&
+                    categories.map((category) => {
+                      return <option key={category.id}>{category.name}</option>;
+                    })}
+                </Field>
+                <ErrorMessage
+                  name="category"
+                  component="div"
+                  className="error"
+                />
+              </FormControl>
+              {/* _____________________ */}
+              <FormControl>
+                <FormLabel htmlFor="sku">SKU</FormLabel>
+                <Field
+                  name="sku"
+                  id="sku"
+                  placeholder="SKU"
+                  component={CustomInput}
+                />
+                <ErrorMessage name="sku" component="div" className="error" />
+              </FormControl>
+            </Stack>
+            {/* _____________________ */}
+            <Stack mt={4} spacing={2} direction="row" align="space-between">
+              <FormControl isRequired>
+                <FormLabel htmlFor="stock">Stock</FormLabel>
+                <Field
+                  name="stock"
+                  id="stock"
+                  type="number"
+                  placeholder="Stock"
+                  component={CustomInput}
+                />
+                <ErrorMessage name="stock" component="div" className="error" />
+              </FormControl>
+              {/* _____________________ */}
+              <FormControl isRequired>
+                <FormLabel htmlFor="minStock">Min Stock</FormLabel>
+                <Field
+                  name="minStock"
+                  id="minStock"
+                  type="number"
+                  placeholder="Min Stock"
+                  component={CustomInput}
+                />
+                <ErrorMessage
+                  name="minStock"
+                  component="div"
+                  className="error"
+                />
+              </FormControl>
+            </Stack>
+            {/* _____________________ */}
+
+            <FormControl isRequired>
+              <Uploader name="gallery" maxFiles={5} />
+              <ErrorMessage name="gallery" component="div" className="error" />
+            </FormControl>
+
             {/* _____________________ */}
 
             <Stack mt={4} spacing={2} direction="row" align="space-between">
@@ -207,7 +228,7 @@ const AddProductForm = () => {
                 variant="outline"
                 content="Cancel"
               />
-              <CustomButton type="submit" content="Add Staff" />
+              <CustomButton type="submit" content="Add Product" />
             </Stack>
           </Stack>
         </Form>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./SettingsCard.scss";
 import { useDisclosure } from "@chakra-ui/react";
-import { ModalForm } from "../Forms/ModalForm/ModalForm";
+import { CustomModal } from "../Forms/CustomModal/CustomModal";
 
 const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -31,7 +31,7 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
           <h2>{title}</h2>
           <h4>{subtitle}</h4>
         </div>
-        <ModalForm Form={form} isOpen={isOpen} onClose={onClose}/>
+        <CustomModal Form={form} isOpen={isOpen} onClose={onClose}/>
       </div>
     );
   //_____________________________

@@ -5,7 +5,6 @@ import { OrderIcon } from "../../assets/icons/OrderIcon";
 import { CouponIcon } from "../../assets/icons/CouponIcon";
 import { SidebarCategoryIcon } from "../../assets/icons/SidebarCategoryIcon";
 import { ProductIcon } from "../../assets/icons/ProductIcon";
-import "./Settings.scss";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import AddProductForm from "../../components/Forms/ProductForm";

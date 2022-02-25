@@ -1,10 +1,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import './Settings.scss'
+
 const Settings = () => {
- 
   return (
-    <div className="settings-section">
+    <div className="section-container">
        <Outlet/>
     </div>
   );

@@ -12,19 +12,26 @@ export const TableBody = ({ items, headers }) => {
                 minW="150px"
                 px={2}
                 py={3}
+                fontSize={"0.875rem"}
                 fontWeight={600}
+                borderLeft={"1px solid #eee"}
                 color={
                   row[header.property] === undefined ||
                   row[header.property] === null
                     ? "crimson"
                     : "#4E4E4E"
                 }
+                // textAlign={
+                //   (row[header.property] === undefined ||
+                //     row[header.property] === null) &&
+                //   "center"
+                // }
                 textAlign={
-                  (row[header.property] === undefined ||
-                    row[header.property] === null) &&
-                  "center"
+                  row[header.property] === undefined ||
+                  row[header.property] === null ||
+                  (typeof row[header.property] === "number" && "center")
                 }
-                isNumeric={typeof row[header.property] === "number"}
+                // isNumeric={typeof row[header.property] === "number"}
               >
                 {row[header.property] === undefined ||
                 row[header.property] === null
