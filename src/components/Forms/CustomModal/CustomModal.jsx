@@ -13,7 +13,7 @@ export const CustomModal = ({ Form, isOpen, onClose }) => {
         <ModalContent>
           <ModalCloseButton />
           <ModalBody>
-            <Form />
+            <Form onClose={onClose} />
           </ModalBody>
         </ModalContent>
       </Modal>

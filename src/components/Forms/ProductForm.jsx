@@ -10,8 +10,9 @@ import {
 import "./Forms.scss";
 import { useDb } from "../../db/DbProvider";
 import { useEffect } from "react";
-
+import { useToast } from "@chakra-ui/react";
 /*TODO:
+Subir imagenes a FB storage
  */
 
 const validationSchema = Yup.object().shape({
@@ -34,24 +35,46 @@ const validationSchema = Yup.object().shape({
   sku: Yup.string(),
 });
 
-const AddProductForm = () => {
+const AddProductForm = ({ onClose = null }) => {
+  const toast = useToast();
   const db = useDb();
   const categories = db.categories;
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    console.log(values)
     let gallery = values.gallery.map((item) => item.path);
+    let discountInPercent =
+    values.discountInPercent === "" ? 0 : values.discountInPercent;
     let salePrice =
-      values.price - (values.price * values.discountinpercent) / 100;
+    values.price - (values.price * values.discountInPercent) / 100;
+    console.log(salePrice, values.price,values.discountInPercent )
     try {
-      await db.addProduct({
+      let res = await db.addProduct({
         ...values,
         gallery,
         image: gallery[0],
         salePrice,
+        discountInPercent,
       });
+      if (res) {
+        toast({
+          title: res,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error Al Crear.",
+          description: "Intenta nuevamente mas tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+      onClose && onClose();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
   useEffect(() => {
@@ -69,7 +92,7 @@ const AddProductForm = () => {
           price: "",
           category: "",
           gallery: [],
-          discountInPercent: 0,
+          discountInPercent: "",
           stock: "",
           minStock: "",
           sku: "",
@@ -131,8 +154,8 @@ const AddProductForm = () => {
                 <ErrorMessage name="price" component="div" className="error" />
               </FormControl>
               {/* _____________________ */}
-              <FormControl isRequired>
-                <FormLabel htmlFor="discountInPercent">Discount</FormLabel>
+              <FormControl>
+                <FormLabel htmlFor="discountInPercent">Discount %</FormLabel>
                 <Field
                   name="discountInPercent"
                   id="discountInPercent"
@@ -227,6 +250,7 @@ const AddProductForm = () => {
                 color="red"
                 variant="outline"
                 content="Cancel"
+                onClick={() => onClose && onClose()}
               />
               <CustomButton type="submit" content="Add Product" />
             </Stack>

@@ -8,6 +8,7 @@ import {
   collection,
   getDocs,
   where,
+  addDoc,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
 
@@ -43,14 +44,9 @@ export const DbProvider = ({ children }) => {
     return products;
   };
   const addProduct = async (newProduct) => {
-    // const addedProduct = await axios.post(`${URL_BASE}/products`, newProduct);
     try{
-      console.log(newProduct)
-      let productRef = db.collection("products");
-      let addedProduct = await productRef.add(newProduct)
-      // setCustomers(addedProduct.data);
-      console.log("addedProduct", addedProduct);
-      // return addedProduct;
+      await addDoc(collection(db, "products"), newProduct);
+      return "Producto Añadido Correctamente";
     }catch(error){
       console.error(error);
       return null;
