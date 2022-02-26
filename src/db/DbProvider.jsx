@@ -4,9 +4,11 @@ import { URL_BASE } from "../settings/constants";
 import {
   query,
   doc,
+  deleteDoc,
   setDoc,
   collection,
   getDocs,
+  getDoc,
   where,
   addDoc,
 } from "firebase/firestore";
@@ -109,17 +111,27 @@ export const DbProvider = ({ children }) => {
   };
   const getOneProduct = async (id) => {
     try {
-      let foundProduct = await db
-        .collection("products")
-        .where(firebase.firestore.FieldPath.documentId(), "==", `${id}`)
-        .get();
-      return foundProduct;
+      const docRef = doc(db, "products", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
     } catch (error) {
       console.error(error);
       return null;
     }
   }; //x id todos
-  const deleteProduct = async () => {};
+  const deleteProduct = async (id) => {
+    try {
+      let deletedProduct = await deleteDoc(doc(db, "products", id));
+      return deletedProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const updateProduct = async () => {}; // ver tema del merge true
   //=======================CATEGORY============================
 
