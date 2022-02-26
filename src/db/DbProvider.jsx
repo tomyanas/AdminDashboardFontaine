@@ -4,14 +4,17 @@ import { URL_BASE } from "../settings/constants";
 import {
   query,
   doc,
+  deleteDoc,
   setDoc,
   collection,
   getDocs,
+  getDoc,
   where,
   addDoc,
 } from "firebase/firestore";
-import { auth, db } from "../firebase";
 import { searchByName } from "./filters";
+import { auth, db, storage } from "../firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export let DbContext = createContext(null);
 
@@ -26,6 +29,60 @@ export const DbProvider = ({ children }) => {
   let [products, setProducts] = useState([]);
   let [filteredProducts, setFilteredProducts] = useState(products);
   let [customers, setCustomers] = useState([]);
+  //=======================UPLOAD============================
+  // const onUpload = async () => {
+  //   const storageRef = storage.ref();
+  //   const fileRef = storageRef.child(file.name);
+  //   await fileRef.put(file);
+  //   db.collection("products")
+  //     .doc(currentProduct)
+  //     .update({
+  //       images: firebase.firestore.FieldValue.arrayUnion({
+  //         name: file.name,
+  //         url: await fileRef.getDownloadURL(),
+  //       }),
+  //     });
+  // };
+
+  const onUpload = async (file) => {
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
+    try {
+      const productsRef = ref(storage, "products/" + file.name);
+      const uploadTask = uploadBytesResumable(productsRef, file, metadata);
+
+      // uploadTask.on(
+      //   "state_changed",
+      //   (snapshot) => {
+      //     const progress =
+      //       (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      //     console.log("Upload is " + progress + "% done");
+      //     switch (snapshot.state) {
+      //       case "paused":
+      //         console.log("Upload is paused");
+      //         break;
+      //       case "running":
+      //         console.log("Upload is running");
+      //         break;
+      //     }
+      //   },
+      //   (error) => {
+      //     console.log("Se rompio todo", error.code);
+      //   },
+      //   () => {
+      //     // Upload completed successfully, now we can get the download URL
+      //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      //       console.log("File available at", downloadURL);
+      //     });
+      //   }
+      // );
+      return uploadTask;
+    } catch (e) {
+      console.log("error", e);
+    }
+  };
   //=======================PRODUCTS============================
   const getAllProducts = async () => {
     try {
@@ -48,18 +105,38 @@ export const DbProvider = ({ children }) => {
     setFilteredProducts(searchFound)
   };
   const addProduct = async (newProduct) => {
-    try{
+    try {
       await addDoc(collection(db, "products"), newProduct);
       return "Producto Añadido Correctamente";
-    }catch(error){
+    } catch (error) {
       console.error(error);
       return null;
     }
   };
-  const getOneProduct = async () => {};
-  const createProduct = async () => {};
-  const deleteProduct = async () => {};
-  const updateProduct = async () => {};
+  const getOneProduct = async (id) => {
+    try {
+      const docRef = doc(db, "products", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }; //x id todos
+  const deleteProduct = async (id) => {
+    try {
+      let deletedProduct = await deleteDoc(doc(db, "products", id));
+      return deletedProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const updateProduct = async () => {}; // ver tema del merge true
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -78,7 +155,7 @@ export const DbProvider = ({ children }) => {
     }
   };
   const getOneCategory = async () => {};
-  const createCategory = async () => {};
+  const addCategory = async () => {};
   const deleteCategory = async () => {};
   const categoryCategory = async () => {};
 
@@ -98,8 +175,9 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-
+  //addStaff put a users from customer to admin
   let value = {
+    onUpload,
     customers,
     categories,
     products,
@@ -110,8 +188,7 @@ export const DbProvider = ({ children }) => {
     getAllProducts,
     getOneCategory,
     getOneProduct,
-    createCategory,
-    createProduct,
+    addCategory,
     deleteCategory,
     deleteProduct,
     categoryCategory,
