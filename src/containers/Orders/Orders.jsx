@@ -4,7 +4,11 @@ import { useDb } from "../../db/DbProvider";
 const Orders = () => {
   let db = useDb();
   const test = async () => {
-    let test = await db.deleteProduct("530JhJsSlAoxUAEFFece");
+    let test = await db.updateProductByField(
+      "7FbVmgU5Kb2jGvP3UV4C",
+      "name",
+      "azul"
+    );
     console.log("hello", test);
   };
   useEffect(() => {
