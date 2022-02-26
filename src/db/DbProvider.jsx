@@ -102,8 +102,8 @@ export const DbProvider = ({ children }) => {
     }
   };
   const searchProducs = (search) => {
-    let searchFound = searchByName(products, search)
-    setFilteredProducts(searchFound)
+    let searchFound = searchByName(products, search);
+    setFilteredProducts(searchFound);
   };
   const addProduct = async (newProduct) => {
     try {
@@ -148,7 +148,19 @@ export const DbProvider = ({ children }) => {
       console.error(error);
       return null;
     }
-  }; // ver hace update completo usando setDoc?
+  };
+  // const updateProduct = async (id, field, value) => {
+  //   try {
+  //     const prodRef = doc(db, "products", id);
+  //     let updatedProduct = await updateDoc(prodRef, {
+  //       [field]: value,
+  //     });
+  //     return updatedProduct;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return null;
+  //   }
+  // };
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -189,6 +201,31 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
+  const addSubcategory = async (newSubcategory) => {
+    try {
+      await addDoc(collection(db, "subcategories"), newSubcategory);
+      return "Subcategoria Añadida Correctamente";
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const updateCategoryBySub = async (idCat, subcategory, newSubcategory) => {
+    try {
+      const subcatRef = await addDoc(
+        collection(db, "subcategories"),
+        newSubcategory
+      );
+      const catRef = doc(db, "categories", idCat);
+      let updatedCategory = await updateDoc(catRef, {
+        [subcategory]: subcatRef,
+      });
+      return updatedCategory;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const deleteCategory = async (id) => {
     try {
       let deletedCategory = await deleteDoc(doc(db, "categories", id));
@@ -198,7 +235,6 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const categoryCategory = async () => {};
 
   //=======================CUSTOMERS============================
   const getAllCustomers = async () => {
@@ -230,9 +266,11 @@ export const DbProvider = ({ children }) => {
     getOneCategory,
     getOneProduct,
     addCategory,
+    addSubcategory,
+    updateCategoryBySub,
     deleteCategory,
     deleteProduct,
-    categoryCategory,
+    updateProduct,
     updateProductByField,
     getAllCustomers,
   };

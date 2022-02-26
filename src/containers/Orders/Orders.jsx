@@ -4,7 +4,11 @@ import { useDb } from "../../db/DbProvider";
 const Orders = () => {
   let db = useDb();
   const test = async () => {
-    let test = await db.addCategory({ name: "Crema de enjuegue", thumb: null });
+    let test = await db.updateCategoryBySub(
+      "t1OFaTV1baqWFTJAin67",
+      "subcategory",
+      { name: "sin lagrimas", thumb: null }
+    );
     console.log("hello", test);
   };
   useEffect(() => {
