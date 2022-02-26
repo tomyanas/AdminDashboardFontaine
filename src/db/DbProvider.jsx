@@ -144,7 +144,7 @@ export const DbProvider = ({ children }) => {
       console.error(error);
       return null;
     }
-  }; // ver hace update completo
+  }; // ver hace update completo usando setDoc?
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -162,9 +162,30 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const getOneCategory = async () => {};
+  const getOneCategory = async (id) => {
+    try {
+      const docRef = doc(db, "categories", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const addCategory = async () => {};
-  const deleteCategory = async () => {};
+  const deleteCategory = async (id) => {
+    try {
+      let deletedCategory = await deleteDoc(doc(db, "categories", id));
+      return deletedCategory;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const categoryCategory = async () => {};
 
   //=======================CUSTOMERS============================

@@ -4,11 +4,7 @@ import { useDb } from "../../db/DbProvider";
 const Orders = () => {
   let db = useDb();
   const test = async () => {
-    let test = await db.updateProductByField(
-      "7FbVmgU5Kb2jGvP3UV4C",
-      "name",
-      "azul"
-    );
+    let test = await db.deleteCategory("4YU1n0kX63BmQ67EbPsk");
     console.log("hello", test);
   };
   useEffect(() => {
