@@ -41,13 +41,16 @@ const AddProductForm = ({ onClose = null }) => {
   const categories = db.categories;
 
   const handleSubmit = async (values) => {
-    console.log(values)
+    console.log(values);
+    let algo = await db.onUpload(values.gallery[0]);
+    console.log(algo);
     let gallery = values.gallery.map((item) => item.path);
     let discountInPercent =
-    values.discountInPercent === "" ? 0 : values.discountInPercent;
+      values.discountInPercent === "" ? 0 : values.discountInPercent;
     let salePrice =
-    values.price - (values.price * values.discountInPercent) / 100;
-    console.log(salePrice, values.price,values.discountInPercent )
+      values.price - (values.price * values.discountInPercent) / 100;
+    console.log(salePrice, values.price, values.discountInPercent);
+
     try {
       let res = await db.addProduct({
         ...values,
