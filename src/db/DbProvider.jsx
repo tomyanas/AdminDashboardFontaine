@@ -107,7 +107,18 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const getOneProduct = async () => {}; //x id todos
+  const getOneProduct = async (id) => {
+    try {
+      let foundProduct = await db
+        .collection("products")
+        .where(firebase.firestore.FieldPath.documentId(), "==", `${id}`)
+        .get();
+      return foundProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }; //x id todos
   const deleteProduct = async () => {};
   const updateProduct = async () => {}; // ver tema del merge true
   //=======================CATEGORY============================
