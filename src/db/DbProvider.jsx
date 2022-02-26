@@ -11,6 +11,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { auth, db } from "../firebase";
+import { searchByName } from "./filters";
 
 export let DbContext = createContext(null);
 
@@ -23,6 +24,7 @@ export const useDb = () => {
 export const DbProvider = ({ children }) => {
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
+  let [filteredProducts, setFilteredProducts] = useState(products);
   let [customers, setCustomers] = useState([]);
   //=======================PRODUCTS============================
   const getAllProducts = async () => {
@@ -34,6 +36,7 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setProducts(allProducts);
+      setFilteredProducts(allProducts);
       return allProducts;
     } catch (error) {
       console.error(error);
@@ -41,7 +44,8 @@ export const DbProvider = ({ children }) => {
     }
   };
   const searchProducs = (search) => {
-    return products;
+    let searchFound = searchByName(products, search)
+    setFilteredProducts(searchFound)
   };
   const addProduct = async (newProduct) => {
     try{
@@ -99,6 +103,7 @@ export const DbProvider = ({ children }) => {
     customers,
     categories,
     products,
+    filteredProducts,
     addProduct,
     searchProducs,
     getAllCategories,
