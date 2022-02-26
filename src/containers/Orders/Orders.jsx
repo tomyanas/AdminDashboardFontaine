@@ -4,7 +4,7 @@ import { useDb } from "../../db/DbProvider";
 const Orders = () => {
   let db = useDb();
   const test = async () => {
-    let test = await db.deleteCategory("4YU1n0kX63BmQ67EbPsk");
+    let test = await db.addCategory({ name: "Crema de enjuegue", thumb: null });
     console.log("hello", test);
   };
   useEffect(() => {

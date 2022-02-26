@@ -176,7 +176,15 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const addCategory = async () => {};
+  const addCategory = async (newCategory) => {
+    try {
+      await addDoc(collection(db, "categories"), newCategory);
+      return "Categoria Añadida Correctamente";
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const deleteCategory = async (id) => {
     try {
       let deletedCategory = await deleteDoc(doc(db, "categories", id));
