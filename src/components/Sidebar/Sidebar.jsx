@@ -67,6 +67,7 @@ export const Sidebar = () => {
           >
             {menu.icon ? <span>{menu.icon}</span> : ""}
             {menu.name}
+
           </NavLink>
         ))}
       </div>
