@@ -7,6 +7,7 @@ import {
   deleteDoc,
   setDoc,
   collection,
+  updateDoc,
   getDocs,
   getDoc,
   where,
@@ -136,7 +137,18 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const updateProduct = async () => {}; // ver tema del merge true
+  const updateProductByField = async (id, field, value) => {
+    try {
+      const prodRef = doc(db, "products", id);
+      let updatedProduct = await updateDoc(prodRef, {
+        [field]: value,
+      });
+      return updatedProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }; // ver hace update completo
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -192,7 +204,7 @@ export const DbProvider = ({ children }) => {
     deleteCategory,
     deleteProduct,
     categoryCategory,
-    updateProduct,
+    updateProductByField,
     getAllCustomers,
   };
   return <DbContext.Provider value={value}>{children}</DbContext.Provider>;
