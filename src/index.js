@@ -6,9 +6,10 @@ import { ChakraProvider } from "@chakra-ui/react";
 import "./style/global.scss";
 import { AuthProvider } from "./auth/AuthProvider";
 import { DbProvider } from "./db/DbProvider";
+import { newTheme } from "./style/theme";
 
 ReactDOM.render(
-  <ChakraProvider>
+  <ChakraProvider theme={newTheme}>
     <BrowserRouter>
       <AuthProvider>
         <DbProvider>

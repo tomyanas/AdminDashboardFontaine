@@ -1,10 +1,11 @@
+import { Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 
 const Dashboard = () => {
  
   return (
     <div className="dashboard">
-        Dashboard Section
+       <Text color={useColorModeValue('red', 'gray.800')} >Dashboard Section</Text> 
     </div>
   );
 };

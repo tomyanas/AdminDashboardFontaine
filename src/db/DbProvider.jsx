@@ -13,6 +13,7 @@ import {
   where,
   addDoc,
 } from "firebase/firestore";
+import { searchByName } from "./filters";
 import { auth, db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
@@ -27,6 +28,7 @@ export const useDb = () => {
 export const DbProvider = ({ children }) => {
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
+  let [filteredProducts, setFilteredProducts] = useState(products);
   let [customers, setCustomers] = useState([]);
   //=======================UPLOAD============================
   // const onUpload = async () => {
@@ -92,6 +94,7 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setProducts(allProducts);
+      setFilteredProducts(allProducts);
       return allProducts;
     } catch (error) {
       console.error(error);
@@ -99,7 +102,8 @@ export const DbProvider = ({ children }) => {
     }
   };
   const searchProducs = (search) => {
-    return products;
+    let searchFound = searchByName(products, search)
+    setFilteredProducts(searchFound)
   };
   const addProduct = async (newProduct) => {
     try {
@@ -218,6 +222,7 @@ export const DbProvider = ({ children }) => {
     customers,
     categories,
     products,
+    filteredProducts,
     addProduct,
     searchProducs,
     getAllCategories,
