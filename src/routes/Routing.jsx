@@ -12,6 +12,7 @@ import {
   COUPONS,
   SETTINGS,
   LOGIN,
+  PRODUCTSDETAIL
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
 const LoginRegister = lazy(() =>
@@ -20,6 +21,7 @@ const LoginRegister = lazy(() =>
 const Layout = lazy(() => import("../containers/Layout/Layout"));
 const Dashboard = lazy(() => import("../containers/Dashboard/Dashboard"));
 const Products = lazy(() => import("../containers/Products/Products"));
+const AddProductDetail = lazy(() => import("../components/Forms/ProductDetailForm"));
 const Category = lazy(() => import("../containers/Category/Category"));
 const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
@@ -82,6 +84,16 @@ export const Routing = () => {
               <PrivateRoute>
                 <Suspense fallback={<InLineLoader />}>
                   <Products />
+                </Suspense>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path={PRODUCTSDETAIL}
+            element={
+              <PrivateRoute>
+                <Suspense fallback={<InLineLoader />}>
+                  <AddProductDetail />
                 </Suspense>
               </PrivateRoute>
             }

@@ -8,6 +8,7 @@ import { ProductIcon } from "../../assets/icons/ProductIcon";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import AddProductForm from "../../components/Forms/ProductForm";
+import AddProductDetail from "../../components/Forms/ProductDetailForm";
 
 const cards = [
   {
@@ -32,6 +33,7 @@ const cards = [
     icon: CouponIcon,
     title: "Add Coupons",
     subtitle: "Add coupons from here",
+    form: AddProductDetail,
   },
   {
     icon: SidebarCategoryIcon,
