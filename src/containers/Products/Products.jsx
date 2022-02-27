@@ -1,16 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { Stack } from "@chakra-ui/react";
+import { Stack, useDisclosure } from "@chakra-ui/react";
 import { ButtonAdd } from "../../components/Buttons/AddButton";
-import { CustomSelect } from "../../components/Forms/CustomInputs/CustomInputs";
+// import { CustomSelect } from "../../components/Forms/CustomInputs/CustomInputs";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { Section } from "../../components/Sections/Section";
+import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
+import AddProductForm from "../../components/Forms/ProductForm";
 const Products = () => {
-  const db = useDb();
-  let products = db.filteredProducts;
+  const {
+    filteredProducts,
+    getAllProducts,
+    // categories,
+    getAllCategories,
+    searchProducs,
+    // filterProductBy,
+  } = useDb();
+  // const [filter, setFilter] = useState("");
+  let products = filteredProducts;
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const headers = [
     {
       name: "Name",
@@ -47,28 +59,42 @@ const Products = () => {
   ];
 
   useEffect(() => {
-    db.getAllProducts();
+    getAllProducts();
+    getAllCategories();
   }, []);
 
   return (
     <Section>
       <SectionHeader title="Products">
         <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
-          <CustomSelect minW="150px" w="200px" placeholder="Category">
-            <option value="v1">Valor 1</option>
-            <option value="v2">Valor 2</option>
-            <option value="v3">Valor 3</option>
-            <option value="v4">Valor 4</option>
-            <option value="v5">Valor 5</option>
-            <option value="v6">Valor 6</option>
-          </CustomSelect>
+          {/* <CustomSelect
+            minW="150px"
+            w="200px"
+            placeholder="Category"
+            onChange={(e) => {
+              console.log(e.target.value);
+              setFilter(e.target.value);
+              filterProductBy("category", e.target.value)
+            }}
+          >
+            {categories?.map((item) => (
+              <option value={item.name} key={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </CustomSelect> */}
 
           <SearchBar
-            searchFunction={db.searchProducs}
-            resetFunction={db.getAllProducts}
+            searchFunction={searchProducs}
+            resetFunction={getAllProducts}
           />
 
-          <ButtonAdd>Add Products</ButtonAdd>
+          <ButtonAdd onClick={onOpen}>Add Products</ButtonAdd>
+          <CustomModal
+            Component={AddProductForm}
+            onClose={onClose}
+            isOpen={isOpen}
+          />
         </Stack>
       </SectionHeader>
 

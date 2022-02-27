@@ -26,8 +26,10 @@ export const useDb = () => {
 export const DbProvider = ({ children }) => {
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
-  let [filteredProducts, setFilteredProducts] = useState(products);
   let [customers, setCustomers] = useState([]);
+  let [filteredProducts, setFilteredProducts] = useState(products);
+  let [filteredCustomers, setFilteredCustomers] = useState(customers);
+  let [filteredCategories, setFilteredCategories] = useState(categories);
   //=======================UPLOAD============================
   // const onUpload = async () => {
   //   const storageRef = storage.ref();
@@ -100,9 +102,14 @@ export const DbProvider = ({ children }) => {
     }
   };
   const searchProducs = (search) => {
-    let searchFound = searchByName(products, search)
-    setFilteredProducts(searchFound)
+    let searchFound = searchByName(products, search);
+    setFilteredProducts(searchFound);
   };
+  const filterProductBy = (prop, value) => {
+    let filtered = filteredProducts?.filter(item=>item[prop] === value);
+    setFilteredProducts(filtered);
+  };
+
   const addProduct = async (newProduct) => {
     try {
       await addDoc(collection(db, "products"), newProduct);
@@ -158,11 +165,16 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setCategories(allCategories);
+      setFilteredCategories(allCategories);
       return allCategories;
     } catch (error) {
       console.error(error);
       return null;
     }
+  };
+  const searchCategories = (search) => {
+    let searchFound = searchByName(categories, search);
+    setFilteredCategories(searchFound);
   };
   const getOneCategory = async () => {};
   const addCategory = async () => {};
@@ -179,12 +191,18 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setCustomers(allCustomers);
+      setFilteredCustomers(allCustomers);
       return allCustomers;
     } catch (error) {
       console.error(error);
       return null;
     }
   };
+  const searchCustomers = (search) => {
+    let searchFound = searchByName(customers, search);
+    setFilteredCustomers(searchFound);
+  };
+
   //addStaff put a users from customer to admin
   let value = {
     onUpload,
@@ -192,18 +210,23 @@ export const DbProvider = ({ children }) => {
     categories,
     products,
     filteredProducts,
+    filterProductBy,
+    filteredCategories,
+    filteredCustomers,
     addProduct,
     searchProducs,
     getAllCategories,
     getAllProducts,
     getOneCategory,
     getOneProduct,
+    searchCategories,
     addCategory,
     deleteCategory,
     deleteProduct,
     categoryCategory,
     updateProductByField,
     getAllCustomers,
+    searchCustomers,
   };
   return <DbContext.Provider value={value}>{children}</DbContext.Provider>;
 };

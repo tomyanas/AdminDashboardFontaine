@@ -118,7 +118,7 @@ export const Header = ({ onOpenSidebar }) => {
           </MenuList>
         </Menu>
       </Box>
-      <CustomModal Form={ModalProfile} isOpen={isOpen} onClose={onClose} />
+      <CustomModal Component={ModalProfile} isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

@@ -1,7 +1,7 @@
 import { Button} from "@chakra-ui/react";
 import { Plus } from "phosphor-react";
 
-export const ButtonAdd = ({ children, ...props }) => {
+export const ButtonAdd = ({ children,  ...props }) => {
   return (
     <Button
       {...props}
