@@ -1,6 +1,4 @@
-import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import { URL_BASE } from "../settings/constants";
 import {
   query,
   doc,
@@ -14,7 +12,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { searchByName } from "./filters";
-import { auth, db, storage } from "../firebase";
+import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 
 export let DbContext = createContext(null);

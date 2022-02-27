@@ -1,40 +1,37 @@
-import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { useAuth } from "../../auth/AuthProvider";
+// import { useAuth } from "../../auth/AuthProvider";
 import {
   CustomButton,
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
 
 
-/*TODO: 
-* => comprobar que el email ingresado exista en la db como customer 
-* => Listar los roles existentes y mostrar solo los permitidos segun su nivel
-*/
+/*TODO:
+ * => comprobar que el email ingresado exista en la db como customer
+ * => Listar los roles existentes y mostrar solo los permitidos segun su nivel
+ */
 
 let roles = [
   {
     id: 1,
-    name: "SuperAdmin"
+    name: "SuperAdmin",
   },
   {
     id: 2,
-    name: "Admin"
+    name: "Admin",
   },
   {
     id: 3,
-    name: "Shop Manager"
+    name: "Shop Manager",
   },
   {
     id: 4,
-    name: "Customer"
+    name: "Customer",
   },
-]
-
-
+];
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
@@ -46,27 +43,30 @@ const validationSchema = Yup.object().shape({
 });
 
 const StaffMemberForm = () => {
-  const auth = useAuth();
+  // const auth = useAuth();
 
   const handleSubmit = async (values) => {
     console.log(values);
     try {
       // metodo en auth add Staff member
       console.log();
-   } catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="form_container staff">
-      <h2>Add Staff Member </h2>
+    <Box bg={"#fff"} p={"20px"}>
+      <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
+        Add Staff Member
+      </Heading>
+
       <Formik
         initialValues={{
           email: "",
           role: "",
           mobile_phone: "",
-         }}
+        }}
         onSubmit={(values) => handleSubmit(values)}
         validationSchema={validationSchema}
       >
@@ -112,11 +112,10 @@ const StaffMemberForm = () => {
                 placeholder="Select Role"
                 component={CustomSelect}
               >
-                {
-                  roles.length && roles.map((role)=>{
-                    return <option key={role.id}>{role.name}</option>
-                  })
-                }
+                {roles.length &&
+                  roles.map((role) => {
+                    return <option key={role.id}>{role.name}</option>;
+                  })}
               </Field>
               <ErrorMessage name="role" component="div" className="error" />
             </FormControl>
@@ -135,7 +134,7 @@ const StaffMemberForm = () => {
         </Form>
         {/* )} */}
       </Formik>
-    </div>
+    </Box>
   );
 };
 export default StaffMemberForm;

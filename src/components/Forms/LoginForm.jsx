@@ -9,7 +9,7 @@ import {
   CustomButton,
   CustomInput,
   CustomInputPassword,
-} from "../Forms/CustomInputs/CustomInputs";
+} from "./CustomInputs/CustomInputs";
 
 const loginValidationSchema = () => {
   return Yup.object().shape({
@@ -18,7 +18,7 @@ const loginValidationSchema = () => {
   });
 };
 
-const Login = () => {
+const LoginForm = () => {
   let navigate = useNavigate();
   let location = useLocation();
   let auth = useAuth();
@@ -81,4 +81,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

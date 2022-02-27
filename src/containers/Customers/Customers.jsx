@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
 import "./Customers.scss";
-import axios from "axios";
-import { URL_BASE } from "../../settings/constants";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
+import { SectionHeader } from "../../components/Sections/SectionHeader";
+import { Section } from "../../components/Sections/Section";
 
 const Customers = () => {
   // let [customers, setCustomers] = useState([]);
-  const db = useDb()
+  const db = useDb();
   let customers = db.customers;
-  
+
   const headers = [
     {
       name: "First Name",
@@ -29,27 +29,24 @@ const Customers = () => {
       property: "role",
     },
   ];
-  
+
   useEffect(() => {
-    // axios.get(`${URL_BASE}/customers`).then((data) => {
-    //   setCustomers(data.data);
-    //   console.log(data.data);
-    // });
-    db.getAllCustomers()
+
+    db.getAllCustomers();
   }, []);
   return (
-    <div className="customers">
-        {customers.length ? (
+    <Section>
+      <SectionHeader title="Customers"></SectionHeader>
+      {customers.length ? (
         <CustomTable headers={headers} items={customers} />
       ) : (
         <InLineLoader />
       )}
       {/* <CustomTable headers={headers} items={sales}></CustomTable> */}
-    </div>
+    </Section>
   );
 };
 export default Customers;
-
 
 // const headers = [
 //   {

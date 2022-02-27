@@ -12,7 +12,7 @@ export const TableHeader = ({ headers }) => {
             py={3}
             fontSize={"1rem"}
             fontWeight={600}
-            color="black"
+            color="#161f6a"
             borderLeft={"1px solid #fff"}
             // borderLeftColor={"black"}
             // textAlign={"center"}
