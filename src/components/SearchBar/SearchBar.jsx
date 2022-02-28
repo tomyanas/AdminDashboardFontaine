@@ -41,9 +41,10 @@ export const SearchBar = ({ searchFunction, resetFunction, ...props }) => {
           onClick={handleReset}
           variant="ghost"
           outline="none"
+          color= "#777"
           _hover={{
             background: "transparent",
-            color: "crimson",
+            color: "#51a6f5",
           }}
           _active={{}}
           _focus={{

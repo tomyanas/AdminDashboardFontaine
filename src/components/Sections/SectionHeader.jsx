@@ -10,7 +10,7 @@ export const SectionHeader = ({ children, title, ...props }) => {
       boxShadow="1px 1px 3px 1px #0003"
       paddingBottom={"2rem"}
     >
-      <Heading p={"1rem"} textAlign="center">
+      <Heading p={"1rem"} textAlign="center" color="#343a40">
         {title}
       </Heading>
       {children}

@@ -15,6 +15,7 @@ const Category = () => {
   const db = useDb();
   const { isOpen, onOpen, onClose } = useDisclosure();
   let categories = db.filteredCategories;
+  console.log(categories)
   const headers = [
     {
       name: "ID",

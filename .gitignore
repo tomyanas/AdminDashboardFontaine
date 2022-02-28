@@ -4,7 +4,6 @@
 /node_modules
 /.pnp
 .pnp.js 
-
 # testing
 /coverage
 
@@ -25,4 +24,4 @@ yarn-error.log*
 .now
 .vercel
 
-MEOW.js
+package-lock.json

@@ -1,10 +1,9 @@
-import { Button} from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import { Plus } from "phosphor-react";
 
-export const ButtonAdd = ({ children,  ...props }) => {
+export const ButtonAdd = ({ children, ...props }) => {
   return (
     <Button
-      {...props}
       leftIcon={<Plus size={24} weight="bold" />}
       minW={"fit-content"}
       color="#fff"
@@ -12,6 +11,7 @@ export const ButtonAdd = ({ children,  ...props }) => {
       borderRadius={0}
       _focus={{ outline: "none" }}
       _hover={{ bg: "#51a6f5" }}
+      {...props}
     >
       {children}
     </Button>

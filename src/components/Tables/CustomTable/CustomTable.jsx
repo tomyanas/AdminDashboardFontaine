@@ -11,7 +11,7 @@ export const CustomTable = ({ items, headers, ...props }) => {
       overflow="auto"
       minH="400px"
       maxH="100vh"
-      p="5px"
+      p="1rem"
       boxShadow="1px 1px 3px 2px #0003"
       {...props}
     >
