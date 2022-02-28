@@ -1,12 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
-import { Box } from "@chakra-ui/react";
+import {
+  Box
+} from "@chakra-ui/react";
+import { SearchBar } from "../../components/SearchBar/SearchBar";
 
 const Products = () => {
   const db = useDb();
-  let products = db.products;
+  let products = db.filteredProducts;
   const headers = [
     {
       name: "Name",
@@ -50,16 +53,19 @@ const Products = () => {
     <Box
       display="flex"
       flexDirection="column"
-      bg={"#d0d0d0"}
+      bg={"#d0d000"}
       gap={"1rem"}
-      overflow={"auto"}
       w={"100%"}
-      h={"100%"}
-      // className="section-container"
+      height={"fit-content"}
     >
-      <Box bg={"#fff"} height="400px">
-        Probando
+      <Box bg={"#fff"} minHeight="200px" padding={"10px"}>
+        <SearchBar
+          searchFunction={db.searchProducs}
+          resetFunction={db.getAllProducts}
+        />
+        {/* {found ? <p>Resultados para la busqueda: {search} </p> : ""} */}
       </Box>
+
       {products.length ? (
         <CustomTable headers={headers} items={products} />
       ) : (
@@ -70,3 +76,4 @@ const Products = () => {
 };
 
 export default Products;
+
