@@ -31,7 +31,7 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
           <h2>{title}</h2>
           <h4>{subtitle}</h4>
         </div>
-        <CustomModal Form={form} isOpen={isOpen} onClose={onClose}/>
+        <CustomModal Component={form} isOpen={isOpen} onClose={onClose}/>
       </div>
     );
   //_____________________________

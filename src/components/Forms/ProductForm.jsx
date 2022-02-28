@@ -1,5 +1,5 @@
 import { Uploader } from "./Uploader/Uploader";
-import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -7,7 +7,6 @@ import {
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
 import { useDb } from "../../db/DbProvider";
 import { useEffect } from "react";
 import { useToast } from "@chakra-ui/react";
@@ -85,8 +84,10 @@ const AddProductForm = ({ onClose = null }) => {
   }, []);
 
   return (
-    <div className="form_container staff">
-      <h2>Add New Product </h2>
+    <Box bg={"#fff"} p={"20px"}>
+      <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
+        Add New Product
+      </Heading>
       <Formik
         initialValues={{
           name: "",
@@ -261,7 +262,7 @@ const AddProductForm = ({ onClose = null }) => {
         </Form>
         {/* )} */}
       </Formik>
-    </div>
+    </Box>
   );
 };
 export default AddProductForm;

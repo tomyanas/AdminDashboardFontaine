@@ -1,5 +1,5 @@
 import { Uploader } from "./Uploader/Uploader";
-import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -7,7 +7,7 @@ import {
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
+
 
 /*TODO: 
 * => comprobar que no haya categorias repetidas para listarlas en el select
@@ -29,32 +29,32 @@ const validationSchema = Yup.object().shape({
 let categories = [
   {
     id: 1,
-    name: "Tinturas"
+    name: "Tinturas",
   },
   {
     id: 2,
-    name: "Decolorantes"
+    name: "Decolorantes",
   },
   {
     id: 3,
-    name: "Mascaras"
+    name: "Mascaras",
   },
   {
     id: 4,
-    name: "Shampoos"
+    name: "Shampoos",
   },
-]
-
+];
 
 export const AddCategoryForm = () => {
-  
   const handleSubmit = async (values) => {
     console.log("Submit", values);
   };
 
   return (
-    <div className="form_container ">
-      <h2>Add a New Category </h2>
+    <Box bg={"#fff"} p={"20px"}>
+      <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
+        Add a New Category
+      </Heading>
 
       <Formik
         initialValues={{
@@ -111,13 +111,14 @@ export const AddCategoryForm = () => {
                 component={CustomSelect}
                 autoComplete="username"
               >
-                {categories.length && categories?.map((cat) => {
-                  return (
-                    <option name={cat.name} value={cat.name} key={cat.id}>
-                      {cat.name}
-                    </option>
-                  );
-                })}
+                {categories.length &&
+                  categories?.map((cat) => {
+                    return (
+                      <option name={cat.name} value={cat.name} key={cat.id}>
+                        {cat.name}
+                      </option>
+                    );
+                  })}
               </Field>
               <ErrorMessage
                 name="parent_category"
@@ -139,6 +140,6 @@ export const AddCategoryForm = () => {
           {/* _____________________ */}
         </Form>
       </Formik>
-    </div>
+    </Box>
   );
 };

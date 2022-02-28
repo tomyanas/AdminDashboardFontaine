@@ -7,7 +7,7 @@ import {
   CustomInput,
   CustomInputPassword,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
+
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string()

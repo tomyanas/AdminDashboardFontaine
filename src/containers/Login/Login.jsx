@@ -5,7 +5,7 @@ import { useAuth } from "../../auth/AuthProvider";
 
 import Logoimage from "../../assets/image/fontaine.svg";
 
-const LoginRegister = ({children, subtitle}) => {
+const Login = ({children, subtitle}) => {
   let navigate = useNavigate();
   let auth = useAuth();
   useEffect(() => {
@@ -43,4 +43,4 @@ const LoginRegister = ({children, subtitle}) => {
   );
 };
 
-export default LoginRegister;
+export default Login;

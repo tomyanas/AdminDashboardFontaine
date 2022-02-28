@@ -25,20 +25,23 @@ export const CustomInput = ({ field, form: { touched, errors }, ...props }) => {
 
 export const CustomSelect = ({
   field,
-  form: { touched, errors },
+  form,
   children,
   ...props
 }) => {
   return (
-    <Select {...field} {...props} bg="#EEEEEE"
+    <Select
+      {...field}
+      {...props}
+      bg="#EEEEEE"
+      color="#161f6a"
+      fontWeight={700}
       _focus={{ border: "2px solid #51a6f5" }}
-      _placeholder={{ color: "#777", fontWeight: 600 }}
       borderRadius={0}
       // border="none"
     >
       {children}
     </Select>
-
   );
 };
 
@@ -93,4 +96,3 @@ export const CustomButton = ({ content, color, ...props }) => {
     </Button>
   );
 };
-
