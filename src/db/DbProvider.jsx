@@ -106,7 +106,7 @@ export const DbProvider = ({ children }) => {
     setFilteredProducts(searchFound);
   };
   const filterProductBy = (prop, value) => {
-    let filtered = filteredProducts?.filter(item=>item[prop] === value);
+    let filtered = filteredProducts?.filter((item) => item[prop] === value);
     setFilteredProducts(filtered);
   };
 
@@ -153,7 +153,23 @@ export const DbProvider = ({ children }) => {
       console.error(error);
       return null;
     }
-  }; // ver hace update completo
+  };
+  const updateProduct = async (id, newProduct) => {
+    try {
+      const prodRef = doc(db, "products", id);
+      let updatedProduct = await updateDoc(
+        prodRef,
+        {
+          ...newProduct,
+        },
+        { merge: true }
+      );
+      return updatedProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -172,14 +188,58 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
+  const getOneCategory = async (id) => {
+    try {
+      const docRef = doc(db, "categories", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const addCategory = async (newCategory) => {
+    try {
+      await addDoc(collection(db, "categories"), newCategory);
+      return "Categoria Añadida Correctamente";
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const updateCategoryBySub = async (idCat, subcategory, newSubcategory) => {
+    try {
+      const subcatRef = await addDoc(
+        collection(db, "categories"),
+        newSubcategory
+      );
+      const catRef = doc(db, "categories", idCat);
+      let updatedCategory = await updateDoc(catRef, {
+        [subcategory]: subcatRef,
+      });
+      return updatedCategory;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const deleteCategory = async (id) => {
+    try {
+      let deletedCategory = await deleteDoc(doc(db, "categories", id));
+      return deletedCategory;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const searchCategories = (search) => {
     let searchFound = searchByName(categories, search);
     setFilteredCategories(searchFound);
   };
-  const getOneCategory = async () => {};
-  const addCategory = async () => {};
-  const deleteCategory = async () => {};
-  const categoryCategory = async () => {};
 
   //=======================CUSTOMERS============================
   const getAllCustomers = async () => {
@@ -221,9 +281,10 @@ export const DbProvider = ({ children }) => {
     getOneProduct,
     searchCategories,
     addCategory,
+    updateCategoryBySub,
     deleteCategory,
     deleteProduct,
-    categoryCategory,
+    updateProduct,
     updateProductByField,
     getAllCustomers,
     searchCustomers,

@@ -8,7 +8,35 @@ import { ProductIcon } from "../../assets/icons/ProductIcon";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import AddProductForm from "../../components/Forms/ProductForm";
+import { Box, Button, Heading, HStack, Icon, Text } from "@chakra-ui/react";
+import { Trash } from "../../assets/icons/Trash";
 
+const ModalDelete = () => {
+  return (
+    <Box
+      display="flex"
+      gap="1rem"
+      justifyContent="space-between"
+      alignItems="center"
+      flexDir="column"
+      p="1rem"
+      // w="90%"
+      // h={270}
+    >
+      <Trash height="2.5rem"></Trash>
+      <Heading>Delete</Heading>
+      <Text>¿Está seguro que desea eliminar?</Text>
+      <HStack>
+        <Button bg="green" color="white">
+          Cancelar
+        </Button>
+        <Button bg="red" color="white">
+          Eliminar
+        </Button>
+      </HStack>
+    </Box>
+  );
+};
 const cards = [
   {
     icon: Members,
@@ -20,7 +48,8 @@ const cards = [
     icon: SiteSettings,
     title: "Site Settings",
     subtitle: "View and update your site settings",
-    linkTo: "site-settings",
+    //linkTo: "site-settings",
+    form: ModalDelete,
   },
   {
     icon: OrderIcon,
@@ -65,4 +94,5 @@ const SettingsOptions = () => {
     </div>
   );
 };
+
 export default SettingsOptions;
