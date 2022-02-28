@@ -149,18 +149,22 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  // const updateProduct = async (id, field, value) => {
-  //   try {
-  //     const prodRef = doc(db, "products", id);
-  //     let updatedProduct = await updateDoc(prodRef, {
-  //       [field]: value,
-  //     });
-  //     return updatedProduct;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return null;
-  //   }
-  // };
+  const updateProduct = async (id, newProduct) => {
+    try {
+      const prodRef = doc(db, "products", id);
+      let updatedProduct = await updateDoc(
+        prodRef,
+        {
+          ...newProduct,
+        },
+        { merge: true }
+      );
+      return updatedProduct;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -201,19 +205,10 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
-  const addSubcategory = async (newSubcategory) => {
-    try {
-      await addDoc(collection(db, "subcategories"), newSubcategory);
-      return "Subcategoria Añadida Correctamente";
-    } catch (error) {
-      console.error(error);
-      return null;
-    }
-  };
   const updateCategoryBySub = async (idCat, subcategory, newSubcategory) => {
     try {
       const subcatRef = await addDoc(
-        collection(db, "subcategories"),
+        collection(db, "categories"),
         newSubcategory
       );
       const catRef = doc(db, "categories", idCat);
@@ -266,7 +261,6 @@ export const DbProvider = ({ children }) => {
     getOneCategory,
     getOneProduct,
     addCategory,
-    addSubcategory,
     updateCategoryBySub,
     deleteCategory,
     deleteProduct,
