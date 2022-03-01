@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  /* background-color: black; */
+  background-position: center;
+  background-size: cover;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.281);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+$primary-color: #4a8cca;
+$text-dark: #0d123b;
+$text-gray: #666d92;
+$background-f7: #f7f7f7;
+
+.orders,
+.dashboard,
+.coupons {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 1px 1px 3px 2px #0003;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: 600;
+}
+.section-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  // overflow-y: auto;
+}
+.settings-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-content: start;
+  gap: 2rem 1rem;
+  width: 100%;
+  height: 100%;
+  padding: 3px;
+  @media screen and (max-width: 768px) {
+      grid-template-columns: auto;
+      gap: 1rem;
+    }
+}
+.error {
+  width: fit-content;
+  margin-top: 5px;
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #fc5c63;
+}
