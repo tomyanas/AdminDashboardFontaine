@@ -10,6 +10,7 @@ import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import { useNavigate } from "react-router-dom";
+import { CellImage } from "../../components/Tables/TableCell/TableCell";
 
 const Category = () => {
   const db = useDb();
@@ -41,17 +42,21 @@ const Category = () => {
   };
   const headers = [
     {
-      name: "ID",
-      property: "id",
-      
+      name: "Image",
+      property: "image",
+      customStyles: {width: "80px"},
+      customStylesHeader: {width: "80px"},
+      Component: CellImage,
+      columnWidth: "80px",
     },
     {
       name: "Name",
       property: "name",
     },
     {
-      name: "Thumb",
-      property: "thumb",
+      name: "ID",
+      property: "id",
+      
     },
     {
       name: "Actions",
@@ -59,7 +64,9 @@ const Category = () => {
         navigate(`/category/${id}`);
       },
       onClickDelete: handleDelete,
-      customStyles: {width: "100px"}
+      columnWidth: "100px",
+      customStyles: {width: "100px"},
+      customStylesHeader: {width: "100px"}
     },
   ];
 

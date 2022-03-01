@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   IconButton,
+  Image,
   Td,
   Th,
   useDisclosure,
@@ -51,9 +52,8 @@ const TdBase = ({ children, ...props }) => {
       minW={"fit-content"}
       h={"fit-content"}
       w={"fit-content"}
-      color="#4E4E4E"
       borderColor="#dee2e6"
-      color="#f8f9fa"
+      color="#495057"
       p={0}
       m={0}
       bg="transparent"
@@ -63,7 +63,7 @@ const TdBase = ({ children, ...props }) => {
     </Td>
   );
 };
-const ThBase = ({ children,  ...props }) => {
+const ThBase = ({ children, ...props }) => {
   return (
     <Th
       minW={"fit-content"}
@@ -85,14 +85,14 @@ const ThBase = ({ children,  ...props }) => {
 };
 
 export const CellActions = ({
-  header: { onClickDelete, onClickEdit , onClickView},
+  header: { onClickDelete, onClickEdit, onClickView, columnWidth },
   itemId,
   customStyles = false,
 }) => {
   let { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <TdBase w="100px">
+    <TdBase  w={columnWidth}>
       <Box
         w={"100%"}
         maxW={"120px"}
@@ -132,7 +132,7 @@ export const CellActions = ({
         )}
       </Box>
       <CustomModal
-        size="sm"
+        size="xs"
         isOpen={isOpen}
         onClose={onClose}
         isCentered
@@ -146,9 +146,13 @@ export const CellActions = ({
     </TdBase>
   );
 };
-export const CellHeader = ({ header, customStyles = false, ...props }) => {
+export const CellHeader = ({
+  header,
+  customStylesHeader = false,
+  ...props
+}) => {
   return (
-    <ThBase>
+    <ThBase  w={header.columnWidth}>
       <Box
         borderTop={"1px solid #dee2e6"}
         borderBottom={"1px solid #dee2e6"}
@@ -168,7 +172,7 @@ export const CellHeader = ({ header, customStyles = false, ...props }) => {
         //   bg: "transpatent",
         // }}
 
-        sx={customStyles ? customStyles : {}}
+        sx={customStylesHeader ? customStylesHeader : {}}
         {...props}
       >
         <Box
@@ -188,6 +192,76 @@ export const CellHeader = ({ header, customStyles = false, ...props }) => {
         )}
       </Box>
     </ThBase>
+  );
+};
+export const CellPrice = ({ header, row, ...props }) => {
+  return (
+    <TdBase  w={header.columnWidth}>
+      <Box
+        bg="transparent"
+        p="0.875rem"
+        minW="fit-content"
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={600}
+        sx={header.customStyles ? header.customStyles : {}}
+        {...props}
+      >
+        {row[header.property] === undefined || row[header.property] === null
+          ? "No Value"
+          : `$ ${row[header.property]}`}
+      </Box>
+    </TdBase>
+  );
+};
+export const CellPercent = ({ header, row, ...props }) => {
+  return (
+    <TdBase w={header.columnWidth}>
+      <Box
+        bg="transparent"
+        p="0.875rem"
+        minW="fit-content"
+        display="flex"
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        fontWeight={600}
+        sx={header.customStyles ? header.customStyles : {}}
+        {...props}
+      >
+        {row[header.property] === undefined || row[header.property] === null
+          ? "No Value"
+          : `${row[header.property]} %`}
+      </Box>
+    </TdBase>
+  );
+};
+export const CellImage = ({ header, row, ...props }) => {
+  let url_image =
+    row[header.property] ||
+    "https://firebasestorage.googleapis.com/v0/b/fontaine-dev.appspot.com/o/logo-square.jpg?alt=media&token=f1b1b8d0-a08d-4f9c-9798-e4eb3b4a95d8";
+  return (
+    <TdBase w={header.columnWidth}>
+      <Box
+        p="0.5rem"
+        minW="fit-content"
+        display={"flex"}
+        flexDirection="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={header.customStyles ? header.customStyles : {}}
+        {...props}
+      >
+        <Image
+          h={"40px"}
+          w={"40px"}
+          src={url_image}
+          alt="img"
+        />
+      </Box>
+    </TdBase>
   );
 };
 

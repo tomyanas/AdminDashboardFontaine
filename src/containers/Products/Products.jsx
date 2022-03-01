@@ -11,6 +11,7 @@ import { Section } from "../../components/Sections/Section";
 import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import AddProductForm from "../../components/Forms/ProductForm";
 import { useNavigate } from "react-router-dom";
+import { CellImage, CellPercent, CellPrice } from "../../components/Tables/TableCell/TableCell";
 
 const Products = () => {
   const {
@@ -52,17 +53,25 @@ const Products = () => {
 
   const headers = [
     {
+      name: "Image",
+      property: "image",
+      customStyles: {width: "80px"},
+      customStylesHeader: {width: "80px"},
+      Component: CellImage,
+    },
+    {
       name: "Name",
       property: "name",
       order: true,
-      filter: true,
-      customStyles: {minWidth: "300px"}
+      // filter: true,
+      customStyles: {minWidth: "250px"},
+      customStylesHeader: {width: "250px"},
     },
     {
       name: "Brand",
       property: "brand",
       order: true,
-      filter: true,
+      // filter: true,
     },
     {
       name: "Category",
@@ -75,18 +84,21 @@ const Products = () => {
       property: "price",
       order: true,
       filter: false,
+      Component: CellPrice,
     },
     {
       name: "Discount",
       property: "discountInPercent",
       order: true,
       filter: false,
+      Component: CellPercent,
     },
     {
       name: "Sale Price",
       property: "salePrice",
       order: true,
       filter: false,
+      Component: CellPrice,
     },
     {
       name: "Stock",
@@ -106,8 +118,8 @@ const Products = () => {
         navigate(`/products/${id}`);
       },
       onClickDelete: handleDelete,
-      customStyles: {width: "100px"}
-      
+      customStyles: {width: "100px"},
+      columnWidth: "100px",
     },
   ];
 
