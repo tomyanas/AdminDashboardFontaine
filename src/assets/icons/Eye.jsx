@@ -1,9 +1,11 @@
 import React from "react";
-export const Eye = () => {
+export const Eye = ({ height = "20", width = "20" }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       className="h-5 w-5"
+      height={height}
+      width={width}
       viewBox="0 0 20 20"
       fill="currentColor"
     >

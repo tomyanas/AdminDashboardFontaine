@@ -3,10 +3,10 @@ import { CellHeader } from "../TableCell/TableCell";
 
 export const TableHeader = ({ headers }) => {
   return (
-    <Thead bg="#F2F2F2" borderBottom={"1px solid "} borderBottomColor={"black"}>
+    <Thead  borderBottom={"1px solid "} borderBottomColor={"black"}>
       <Tr>
         {headers?.map((header, i) => (
-          <CellHeader header={header} key={i} />
+          <CellHeader header={header} key={i} customStyles={header.customStyles}/>
           // <Th
           //   key={i}
           //   minW="150px"

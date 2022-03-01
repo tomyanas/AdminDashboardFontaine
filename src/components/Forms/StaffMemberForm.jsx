@@ -1,6 +1,10 @@
 import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
+import { useDb } from "../../db/DbProvider";
+import { db } from "../../firebase";
 // import { useAuth } from "../../auth/AuthProvider";
 import {
   CustomButton,
@@ -8,41 +12,54 @@ import {
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
 
-
 /*TODO:
  * => comprobar que el email ingresado exista en la db como customer
  * => Listar los roles existentes y mostrar solo los permitidos segun su nivel
  */
+const isValidEmail = async (value) => {
+  try {
+    if (!value) return false;
+    else {
+      const docRef = query(
+        collection(db, "users"),
+        where("email", "==", value)
+      );
+      const querySnapshot = await getDocs(docRef);
+      let foundUser = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
 
-let roles = [
-  {
-    id: 1,
-    name: "SuperAdmin",
-  },
-  {
-    id: 2,
-    name: "Admin",
-  },
-  {
-    id: 3,
-    name: "Shop Manager",
-  },
-  {
-    id: 4,
-    name: "Customer",
-  },
-];
+      if (foundUser[0]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .required("Email is Required")
     .email("Invalid Email")
-    .max(255, "Max 255 Characters"),
-  mobile_phone: Yup.number().min(8, "Min 8 Characters"),
+    .required("Email is Required")
+    .max(255, "Max 255 Characters")
+    .test(
+      "checkEmailExist",
+      "El Email de este usuario no esta registrado",
+      (value) => isValidEmail(value)
+    ),
   role: Yup.string().required("Select Role"),
 });
 
-const StaffMemberForm = () => {
+const StaffMemberForm = ({ onClose }) => {
+  const { roles, getAllRoles, getOneUserByEmail } = useDb();
+
   // const auth = useAuth();
 
   const handleSubmit = async (values) => {
@@ -55,6 +72,9 @@ const StaffMemberForm = () => {
     }
   };
 
+  useEffect(() => {
+    getAllRoles();
+  }, []);
   return (
     <Box bg={"#fff"} p={"20px"}>
       <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
@@ -65,14 +85,13 @@ const StaffMemberForm = () => {
         initialValues={{
           email: "",
           role: "",
-          mobile_phone: "",
         }}
         onSubmit={(values) => handleSubmit(values)}
         validationSchema={validationSchema}
       >
         <Form>
           <Stack mt={4} spacing={6} direction="column">
-            <FormControl isRequired>
+            <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Field
                 name="email"
@@ -81,25 +100,9 @@ const StaffMemberForm = () => {
                 placeholder="Email"
                 component={CustomInput}
                 autoComplete="username"
+                // onBlur={(e)=>handleOnBlur(e)}
               />
               <ErrorMessage name="email" component="div" className="error" />
-            </FormControl>
-            {/* _____________________ */}
-
-            <FormControl>
-              <FormLabel htmlFor="mobile_phone">Mobile Phone</FormLabel>
-              <Field
-                name="mobile_phone"
-                id="mobile_phone"
-                type="tel"
-                placeholder="Mobile Phone"
-                component={CustomInput}
-              />
-              <ErrorMessage
-                name="mobile_phone"
-                component="div"
-                className="error"
-              />
             </FormControl>
             {/* _____________________ */}
 
@@ -127,6 +130,7 @@ const StaffMemberForm = () => {
                 color="red"
                 variant="outline"
                 content="Cancel"
+                onClick={onClose}
               />
               <CustomButton type="submit" content="Add Staff" />
             </Stack>

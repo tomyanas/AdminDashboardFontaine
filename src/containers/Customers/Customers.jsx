@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
 import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
-import "./Customers.scss";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { Section } from "../../components/Sections/Section";
 import { Stack } from "@chakra-ui/react";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
+import { useNavigate } from "react-router-dom";
 
 const Customers = () => {
   const db = useDb();
   let customers = db.filteredCustomers;
+  let navigate = useNavigate()
 
   const headers = [
     {
@@ -24,6 +25,12 @@ const Customers = () => {
     {
       name: "Role",
       property: "role",
+    },
+    {
+      name: "Actions",
+      onClickView: (id) => {
+        navigate(`/customers/${id}`);
+      },
     },
   ];
 

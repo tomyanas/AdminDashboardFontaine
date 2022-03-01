@@ -6,7 +6,14 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 
-export const CustomModal = ({ Component, isOpen, onClose, ...props }) => {
+export const CustomModal = ({
+  children,
+  Component,
+  isOpen,
+  onClose,
+  closeButton = true,
+  ...props
+}) => {
   return (
     <Modal
       isOpen={isOpen}
@@ -17,20 +24,23 @@ export const CustomModal = ({ Component, isOpen, onClose, ...props }) => {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalCloseButton
-          _hover={{
-            transform: "rotate(180deg)",
-            transitionDuration: "0.6s",
-            outline: "none",
-            fontSize: "1rem",
-          }}
-          _focus={{
-            bg: "transparent",
-            outline: "none",
-          }}
-        />
+        {closeButton && (
+          <ModalCloseButton
+            _hover={{
+              transform: "rotate(180deg)",
+              transitionDuration: "0.6s",
+              outline: "none",
+              fontSize: "1rem",
+            }}
+            _focus={{
+              bg: "transparent",
+              outline: "none",
+            }}
+          />
+        )}
         <ModalBody>
-          <Component onClose={onClose} />
+          {Component && <Component onClose={onClose} />}
+          {children}
         </ModalBody>
       </ModalContent>
     </Modal>

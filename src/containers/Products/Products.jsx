@@ -3,19 +3,20 @@ import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { Stack, useDisclosure } from "@chakra-ui/react";
+import { Stack, useDisclosure, useToast } from "@chakra-ui/react";
 import { ButtonAdd } from "../../components/Buttons/AddButton";
 // import { CustomSelect } from "../../components/Forms/CustomInputs/CustomInputs";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { Section } from "../../components/Sections/Section";
 import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import AddProductForm from "../../components/Forms/ProductForm";
-import { useNavigate }from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const {
     filteredProducts,
     getAllProducts,
+    deleteProduct,
     // categories,
     getAllCategories,
     searchProducs,
@@ -23,14 +24,39 @@ const Products = () => {
   } = useDb();
   // const [filter, setFilter] = useState("");
   let products = filteredProducts;
-  let navigate = useNavigate()
+  let navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  let toast = useToast();
+  const handleDelete = async (id, onClose) => {
+    try {
+      let res = await deleteProduct(id);
+      console.log(res);
+      toast({
+        title: `Eliminado Correctamente`,
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      getAllProducts();
+      onClose();
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Ocurrio un error, intenta Luego",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   const headers = [
     {
       name: "Name",
       property: "name",
       order: true,
       filter: true,
+      customStyles: {minWidth: "300px"}
     },
     {
       name: "Brand",
@@ -76,12 +102,12 @@ const Products = () => {
     },
     {
       name: "Actions",
-      onClickEdit: ()=>{onOpen()
-        // navigate("/dashboard")
+      onClickEdit: (id) => {
+        navigate(`/products/${id}`);
       },
-      onClickDelete: (id) => {
-        console.log(id);
-      },
+      onClickDelete: handleDelete,
+      customStyles: {width: "100px"}
+      
     },
   ];
 
@@ -92,7 +118,7 @@ const Products = () => {
 
   return (
     <Section>
-      <SectionHeader title="Products">
+      <SectionHeader title="Products" >
         <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
           {/* <CustomSelect
             minW="150px"

@@ -45,7 +45,7 @@ let categories = [
   },
 ];
 
-export const AddCategoryForm = () => {
+export const AddCategoryForm = ({onClose}) => {
   const handleSubmit = async (values) => {
     console.log("Submit", values);
   };
@@ -134,6 +134,7 @@ export const AddCategoryForm = () => {
               color="red"
               variant="outline"
               content="Cancel"
+              onClick={onClose}
             />
             <CustomButton type="submit" content="Add Staff" />
           </Stack>

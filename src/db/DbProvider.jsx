@@ -27,6 +27,7 @@ export const DbProvider = ({ children }) => {
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
   let [customers, setCustomers] = useState([]);
+  let [roles, setRoles] = useState([]);
   let [filteredProducts, setFilteredProducts] = useState(products);
   let [filteredCustomers, setFilteredCustomers] = useState(customers);
   let [filteredCategories, setFilteredCategories] = useState(categories);
@@ -101,6 +102,7 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
+
   const searchProducs = (search) => {
     let searchFound = searchByName(products, search);
     setFilteredProducts(searchFound);
@@ -132,14 +134,13 @@ export const DbProvider = ({ children }) => {
       console.error(error);
       return null;
     }
-  }; //x id todos
+  };
   const deleteProduct = async (id) => {
     try {
-      let deletedProduct = await deleteDoc(doc(db, "products", id));
-      return deletedProduct;
+      await deleteDoc(doc(db, "products", id));
+      return "Eliminado";
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const updateProductByField = async (id, field, value) => {
@@ -148,7 +149,8 @@ export const DbProvider = ({ children }) => {
       let updatedProduct = await updateDoc(prodRef, {
         [field]: value,
       });
-      return updatedProduct;
+      console.log(updatedProduct.data());
+      return updatedProduct.data();
     } catch (error) {
       console.error(error);
       return null;
@@ -164,7 +166,7 @@ export const DbProvider = ({ children }) => {
         },
         { merge: true }
       );
-      return updatedProduct;
+      return updatedProduct.data();
     } catch (error) {
       console.error(error);
       return null;
@@ -221,7 +223,7 @@ export const DbProvider = ({ children }) => {
       let updatedCategory = await updateDoc(catRef, {
         [subcategory]: subcatRef,
       });
-      return updatedCategory;
+      return updatedCategory.data();
     } catch (error) {
       console.error(error);
       return null;
@@ -229,11 +231,10 @@ export const DbProvider = ({ children }) => {
   };
   const deleteCategory = async (id) => {
     try {
-      let deletedCategory = await deleteDoc(doc(db, "categories", id));
-      return deletedCategory;
+      await deleteDoc(doc(db, "categories", id));
+      return "Eliminado";
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const searchCategories = (search) => {
@@ -258,14 +259,78 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
+  const getOneUser = async (id) => {
+    try {
+      const docRef = doc(db, "users", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+        return null;
+      }
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const getOneUserByEmail = async (email) => {
+    try {
+      const docRef = query(
+        collection(db, "users"),
+        where("email", "==", email)
+      );
+      const querySnapshot = await getDocs(docRef);
+      let user = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      return user[0];
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+  const updateUserByField = async (id, field, value) => {
+    try {
+      const userRef = doc(db, "users", id);
+      let updatedUser = await updateDoc(userRef, {
+        [field]: value,
+      });
+      console.log(updatedUser.data());
+      return updatedUser.data();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
   const searchCustomers = (search) => {
     let searchFound = searchByName(customers, search);
     setFilteredCustomers(searchFound);
   };
 
-  //addStaff put a users from customer to admin
+  //=======================Role============================
+  const getAllRoles = async () => {
+    try {
+      const q = query(collection(db, "roles"));
+      const querySnapshot = await getDocs(q);
+      let allRoles = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setRoles(allRoles);
+      return allRoles;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   let value = {
     onUpload,
+    roles,
     customers,
     categories,
     products,
@@ -275,6 +340,9 @@ export const DbProvider = ({ children }) => {
     filteredCustomers,
     addProduct,
     searchProducs,
+    getOneUserByEmail,
+    getOneUser,
+    getAllRoles,
     getAllCategories,
     getAllProducts,
     getOneCategory,
@@ -282,6 +350,7 @@ export const DbProvider = ({ children }) => {
     searchCategories,
     addCategory,
     updateCategoryBySub,
+    updateUserByField,
     deleteCategory,
     deleteProduct,
     updateProduct,

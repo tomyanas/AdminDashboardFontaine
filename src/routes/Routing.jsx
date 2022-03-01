@@ -14,21 +14,31 @@ import {
   LOGIN,
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
+const SectionWrapperRouter = lazy(() =>
+  import("../components/Sections/SectionWrapperRouter")
+);
+
 const Login = lazy(() => import("../containers/Login/Login"));
 const Layout = lazy(() => import("../containers/Layout/Layout"));
 const Dashboard = lazy(() => import("../containers/Dashboard/Dashboard"));
 const Products = lazy(() => import("../containers/Products/Products"));
+const ProductDetail = lazy(() =>
+  import("../containers/Products/ProductDetail")
+);
 const Category = lazy(() => import("../containers/Category/Category"));
+const CategoryDetail = lazy(() =>
+  import("../containers/Category/CategoryDetail")
+);
 const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
+const CustomerDetail = lazy(() =>
+  import("../containers/Customers/CustomerDetail")
+);
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
-const Settings = lazy(() => import("../containers/Settings/Settings"));
 const SiteSettings = lazy(() =>
   import("../containers/SiteSettings/SiteSettings")
 );
-const SettingsOptions = lazy(() =>
-  import("../containers/Settings/SettingsOptions")
-);
+const Settings = lazy(() => import("../containers/Settings/Settings"));
 const Staff = lazy(() => import("../containers/Staff/Staff"));
 
 export const Routing = () => {
@@ -54,6 +64,7 @@ export const Routing = () => {
           </Suspense>
         }
       />
+      {/* _____________General Admin Router init_________ */}
       <Route
         path="/"
         element={
@@ -74,26 +85,93 @@ export const Routing = () => {
             </PrivateRoute>
           }
         />
+
+        {/* ____________________Route Products Init_______________________*/}
         <Route
           path={PRODUCTS}
           element={
-            <PrivateRoute>
+            <Suspense fallback={<InLineLoader />}>
+              <SectionWrapperRouter />
+            </Suspense>
+          }
+        >
+          <Route
+            index
+            element={
               <Suspense fallback={<InLineLoader />}>
                 <Products />
               </Suspense>
-            </PrivateRoute>
-          }
-        />
+            }
+          />
+          <Route
+            path=":productId"
+            element={
+              <Suspense fallback={<InLineLoader />}>
+                <ProductDetail />
+              </Suspense>
+            }
+          />
+        </Route>
+
+        {/* ____________________Route Products finish_______________________*/}
+        {/* ____________________Route Category Init_______________________*/}
         <Route
           path={CATEGORY}
           element={
             <PrivateRoute>
               <Suspense fallback={<InLineLoader />}>
-                <Category />
+                <SectionWrapperRouter />
               </Suspense>
             </PrivateRoute>
           }
-        />
+        >
+          <Route
+            index
+            element={
+              <Suspense fallback={<InLineLoader />}>
+                <Category />
+              </Suspense>
+            }
+          />
+          <Route
+            path=":categoryId"
+            element={
+              <Suspense fallback={<InLineLoader />}>
+                <CategoryDetail />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* ____________________Route Category Finish_______________________*/}
+        {/* ____________________Route Customer Init_______________________*/}
+        <Route
+          path={CUSTOMERS}
+          element={
+            <PrivateRoute>
+              <Suspense fallback={<InLineLoader />}>
+                <SectionWrapperRouter />
+              </Suspense>
+            </PrivateRoute>
+          }
+        >
+          <Route
+            index
+            element={
+              <Suspense fallback={<InLineLoader />}>
+                <Customers />
+              </Suspense>
+            }
+          />
+          <Route
+            path=":customerId"
+            element={
+              <Suspense fallback={<InLineLoader />}>
+                <CustomerDetail />
+              </Suspense>
+            }
+          />
+        </Route>
+        {/* ____________________Route Customer Finish_______________________*/}
         <Route
           path={ORDERS}
           element={
@@ -124,12 +202,12 @@ export const Routing = () => {
             </PrivateRoute>
           }
         />
-        {/* ____________________Route Settings _______________________*/}
+        {/* ____________________Route Settings Init_______________________*/}
         <Route
           path={SETTINGS}
           element={
             <Suspense fallback={<InLineLoader />}>
-              <Settings />
+              <SectionWrapperRouter />
             </Suspense>
           }
         >
@@ -137,7 +215,7 @@ export const Routing = () => {
             index
             element={
               <Suspense fallback={<InLineLoader />}>
-                <SettingsOptions />
+                <Settings />
               </Suspense>
             }
           />
@@ -158,8 +236,9 @@ export const Routing = () => {
             }
           />
         </Route>
-        {/* _____ fin Route Settings */}
+        {/* _____________Settings Router finish_________ */}
       </Route>
+      {/* _____________General Admin Router finish_________ */}
     </Routes>
   );
 };

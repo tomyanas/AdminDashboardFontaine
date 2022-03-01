@@ -1,11 +1,21 @@
-import { Box, Button, IconButton, Td, Th } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Td,
+  Th,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { SortAsc } from "../../../assets/icons/SortAsc";
 import { SortDesc } from "../../../assets/icons/SortDesc";
 import { Sort } from "../../../assets/icons/Sort";
 import { Trash } from "../../../assets/icons/Trash";
 import { Edit } from "../../../assets/icons/Edit";
+import { Eye } from "../../../assets/icons/Eye";
 import { FilterSolid } from "../../../assets/icons/FilterSolid";
 import { FilterOutline } from "../../../assets/icons/FilterOutline";
+import { DeleleItemMessage } from "../../DeleleItemMessage";
+import { CustomModal } from "../../Forms/CustomModal/CustomModal";
 
 const IconButtonBase = ({ icon, ...props }) => {
   return (
@@ -43,7 +53,7 @@ const TdBase = ({ children, ...props }) => {
       w={"fit-content"}
       color="#4E4E4E"
       borderColor="#dee2e6"
-      // color="#f8f9fa"
+      color="#f8f9fa"
       p={0}
       m={0}
       bg="transparent"
@@ -53,7 +63,7 @@ const TdBase = ({ children, ...props }) => {
     </Td>
   );
 };
-const ThBase = ({ children, ...props }) => {
+const ThBase = ({ children,  ...props }) => {
   return (
     <Th
       minW={"fit-content"}
@@ -74,20 +84,28 @@ const ThBase = ({ children, ...props }) => {
   );
 };
 
-export const CellActions = ({ header: { onClickDelete, onClickEdit }, itemId }) => {
+export const CellActions = ({
+  header: { onClickDelete, onClickEdit , onClickView},
+  itemId,
+  customStyles = false,
+}) => {
+  let { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
-    <TdBase>
+    <TdBase w="100px">
       <Box
         w={"100%"}
+        maxW={"120px"}
         h={"100%"}
         p={2}
         display={"flex"}
         justifyContent="space-around"
         gap={"3px"}
+        sx={customStyles ? customStyles : {}}
       >
         {onClickDelete && (
           <IconButtonBase
-            onClick={()=>onClickDelete(itemId)}
+            onClick={onOpen}
             _hover={{
               color: "#ff3636",
             }}
@@ -97,17 +115,38 @@ export const CellActions = ({ header: { onClickDelete, onClickEdit }, itemId }) 
         )}
         {onClickEdit && (
           <IconButtonBase
-            onClick={()=>onClickEdit(itemId)}
+            onClick={() => onClickEdit(itemId)}
             _hover={{ color: "#2495ff" }}
             color="#4a8ccaAA"
             icon={<Edit height="1.3rem" />}
           />
         )}
+        {onClickView && (
+          <IconButtonBase
+            onClick={() => onClickView(itemId)}
+            _hover={{ color: "#2495ff" }}
+            color="#4a8ccaAA"
+            height="1.3rem"
+            icon={<Eye height="1.3rem" />}
+          />
+        )}
       </Box>
+      <CustomModal
+        size="sm"
+        isOpen={isOpen}
+        onClose={onClose}
+        isCentered
+        closeButton={false}
+      >
+        <DeleleItemMessage
+          onClickDelete={() => onClickDelete(itemId, onClose)}
+          onClose={onClose}
+        />
+      </CustomModal>
     </TdBase>
   );
 };
-export const CellHeader = ({ header, ...props }) => {
+export const CellHeader = ({ header, customStyles = false, ...props }) => {
   return (
     <ThBase>
       <Box
@@ -128,10 +167,12 @@ export const CellHeader = ({ header, ...props }) => {
         // _active={{
         //   bg: "transpatent",
         // }}
+
+        sx={customStyles ? customStyles : {}}
         {...props}
       >
         <Box
-          display={"flex"}
+          display="flex"
           flexDirection="row"
           justifyContent="space-between"
           alignItems={"center"}
