@@ -10,7 +10,7 @@ import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import { useNavigate } from "react-router-dom";
-import { CellImage } from "../../components/Tables/TableCell/TableCell";
+import { CellImage } from "../../components/Tables/CustomTable/TableCell";
 
 const Category = () => {
   const db = useDb();

@@ -1,6 +1,6 @@
 import { Tbody, Tr, Td } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { CellActions } from "../TableCell/TableCell";
+import { CellActions } from "./TableCell";
 
 const CellDefault = ({ row, header }) => {
   return (

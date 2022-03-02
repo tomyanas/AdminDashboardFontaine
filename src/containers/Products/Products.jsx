@@ -11,7 +11,7 @@ import { Section } from "../../components/Sections/Section";
 import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import AddProductForm from "../../components/Forms/ProductForm";
 import { useNavigate } from "react-router-dom";
-import { CellImage, CellPercent, CellPrice } from "../../components/Tables/TableCell/TableCell";
+import { CellImage, CellPercent, CellPrice } from "../../components/Tables/CustomTable/TableCell";
 
 const Products = () => {
   const {
