@@ -18,7 +18,7 @@ import { FilterOutline } from "../../../assets/icons/FilterOutline";
 import { DeleleItemMessage } from "../../DeleleItemMessage";
 import { CustomModal } from "../../Forms/CustomModal/CustomModal";
 
-const IconButtonBase = ({ icon, ...props }) => {
+export const IconButtonBase = ({ icon, ...props }) => {
   return (
     <>
       <Button
@@ -92,7 +92,7 @@ export const CellActions = ({
   let { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <TdBase  w={columnWidth}>
+    <TdBase w={columnWidth}>
       <Box
         w={"100%"}
         maxW={"120px"}
@@ -147,12 +147,13 @@ export const CellActions = ({
   );
 };
 export const CellHeader = ({
+  onClickOrder,
   header,
   customStylesHeader = false,
   ...props
 }) => {
   return (
-    <ThBase  w={header.columnWidth}>
+    <ThBase w={header.columnWidth}>
       <Box
         borderTop={"1px solid #dee2e6"}
         borderBottom={"1px solid #dee2e6"}
@@ -168,6 +169,7 @@ export const CellHeader = ({
         _hover={{
           bg: "#e9ecef",
         }}
+      
         // _active={{
         //   bg: "transpatent",
         // }}
@@ -185,7 +187,16 @@ export const CellHeader = ({
           {header.name}
           {/* <IconButtonBase icon={<SortDesc height="1rem" />} /> */}
           {/* <IconButtonBase icon={<SortAsc height="1rem" />} /> */}
-          {header.order && <IconButtonBase icon={<Sort height="1rem" />} />}
+          {header.order && (
+            <IconButtonBase
+              icon={<Sort height="1rem" />}
+              onClick={
+                onClickOrder
+                  ? () => onClickOrder(header.property, header.order)
+                  : () => {}
+              }
+            />
+          )}
         </Box>
         {header.filter && (
           <IconButtonBase icon={<FilterOutline height="1rem" />} />
@@ -196,7 +207,7 @@ export const CellHeader = ({
 };
 export const CellPrice = ({ header, row, ...props }) => {
   return (
-    <TdBase  w={header.columnWidth}>
+    <TdBase w={header.columnWidth}>
       <Box
         bg="transparent"
         p="0.875rem"
@@ -254,12 +265,7 @@ export const CellImage = ({ header, row, ...props }) => {
         sx={header.customStyles ? header.customStyles : {}}
         {...props}
       >
-        <Image
-          h={"40px"}
-          w={"40px"}
-          src={url_image}
-          alt="img"
-        />
+        <Image h={"40px"} w={"40px"} src={url_image} alt="img" />
       </Box>
     </TdBase>
   );

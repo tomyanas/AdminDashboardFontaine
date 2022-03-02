@@ -31,17 +31,15 @@ const CellDefault = ({ row, header }) => {
 };
 
 export const TableBody = ({ items, headers }) => {
-  let [state, setState] = useState([]);
-  useEffect(() => {
-    setState(items);
-  }, [items]);
+  // let [state, setState] = useState([]);
+  // useEffect(() => {
+  //   setState(items);
+  // }, [items]);
   return (
     <Tbody>
-      {state &&
-        state.map((row, i) => {
-          {
-            // console.log("aaa",row);
-          }
+      {items &&
+        items.map((row, i) => {
+          
           return (
             <Tr
               key={i}

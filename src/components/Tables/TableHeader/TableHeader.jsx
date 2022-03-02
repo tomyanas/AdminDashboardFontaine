@@ -1,7 +1,9 @@
-import { Thead, Tr } from "@chakra-ui/react";
-import { CellHeader } from "../TableCell/TableCell";
+import { Thead, Tr, Th, Box } from "@chakra-ui/react";
+import { FilterOutline } from "../../../assets/icons/FilterOutline";
+import { Sort } from "../../../assets/icons/Sort";
+import { CellHeader, IconButtonBase } from "../TableCell/TableCell";
 
-export const TableHeader = ({ headers }) => {
+export const TableHeader = ({ headers, onClickOrder, ...props }) => {
   return (
     <Thead borderBottom={"1px solid "} borderBottomColor={"black"}>
       <Tr>
@@ -9,10 +11,14 @@ export const TableHeader = ({ headers }) => {
           <CellHeader
             header={header}
             key={i}
+            onClickOrder={onClickOrder}
             customStylesHeader={header.customStylesHeader}
           />
+    
         ))}
       </Tr>
     </Thead>
   );
 };
+
+
