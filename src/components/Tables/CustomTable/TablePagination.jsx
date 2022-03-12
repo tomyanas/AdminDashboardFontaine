@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 export const TablePagination = ({ arrayItems, handler, order }) => {
   // console.log("pg render", arrayItems[0].name )
 
-  const ITEMS_PER_PAGE = 1;
+  const ITEMS_PER_PAGE = 10;
   let totalPages = Math.ceil(arrayItems.length / ITEMS_PER_PAGE);
   const [nroPage, setNroPage] = useState(1);
   let pageNumbers = [];

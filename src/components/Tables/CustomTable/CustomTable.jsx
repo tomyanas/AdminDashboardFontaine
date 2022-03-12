@@ -2,7 +2,7 @@ import { Box, Table } from "@chakra-ui/react";
 import { TableBody } from "./TableBody";
 import { TableHeader } from "./TableHeader";
 import { orderByString, orderByNumber } from "../../../db/filters";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TablePagination } from "./TablePagination";
 
 export const CustomTable = ({ items = [], headers, ...props }) => {
@@ -21,7 +21,7 @@ export const CustomTable = ({ items = [], headers, ...props }) => {
       setState(ordered);
     }
   };
-  console.log("currPage", currentPage[0]?.name);
+  // console.log("currPage", currentPage[0]?.name);
 
   return (
     <Box boxShadow="1px 1px 3px 2px #0003">
@@ -35,7 +35,7 @@ export const CustomTable = ({ items = [], headers, ...props }) => {
         overflow="auto"
         {...props}
       >
-        <p>{state[0].name}</p>
+        {/* <p>{state[0].name}</p> */}
         <Table variant="simple" py="10px" overflow={"hidden"}>
           <TableHeader headers={headers} onClickOrder={selectOrder} />
           <TableBody items={currentPage} headers={headers}></TableBody>
