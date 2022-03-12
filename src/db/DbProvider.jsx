@@ -1,6 +1,4 @@
-import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import { URL_BASE } from "../settings/constants";
 import {
   query,
   doc,
@@ -14,9 +12,9 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { searchByName } from "./filters";
-import { auth, db, storage } from "../firebase";
+import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import { useToast } from "@chakra-ui/react";
 export let DbContext = createContext(null);
 
 export const useDb = () => {
@@ -26,35 +24,45 @@ export const useDb = () => {
 };
 
 export const DbProvider = ({ children }) => {
+  const toast = useToast();
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
-  let [filteredProducts, setFilteredProducts] = useState(products);
   let [customers, setCustomers] = useState([]);
+  let [roles, setRoles] = useState([]);
+  let [staff, setStaff] = useState([]);
+  let [filteredProducts, setFilteredProducts] = useState(products);
+  let [filteredCustomers, setFilteredCustomers] = useState(customers);
+  let [filteredCategories, setFilteredCategories] = useState(categories);
+  let [filteredStaff, setFilteredStaff] = useState(staff);
+  //=======================Toast============================
+  const GenericToastError = (message, description) => {
+    toast({
+      title: message ? message : "Ops... Ocurrio un error, Intenta Luego",
+      description,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+  const GenericToastSuccess = (message, description) => {
+    toast({
+      title: message ? message : "Salio Todo Bien =D",
+      description,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
   //=======================UPLOAD============================
-  // const onUpload = async () => {
-  //   const storageRef = storage.ref();
-  //   const fileRef = storageRef.child(file.name);
-  //   await fileRef.put(file);
-  //   db.collection("products")
-  //     .doc(currentProduct)
-  //     .update({
-  //       images: firebase.firestore.FieldValue.arrayUnion({
-  //         name: file.name,
-  //         url: await fileRef.getDownloadURL(),
-  //       }),
-  //     });
-  // };
-
-  const onUpload = async (file) => {
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-
-    try {
-      const productsRef = ref(storage, "products/" + file.name);
-      const uploadTask = uploadBytesResumable(productsRef, file, metadata);
-
-      // uploadTask.on(
+  // TODO: No borrar lo comentado, lo necesito para hacer un
+  //  modal de carga con barrita de progreso
+  const onUpload = async (path, file) => {
+      try {
+      const productsRef = ref(storage, path + file.name);
+      const uploadTask = await uploadBytesResumable(productsRef, file);
+      console.log(uploadTask)
+      /*/ uploadTask.on(
       //   "state_changed",
       //   (snapshot) => {
       //     const progress =
@@ -70,16 +78,17 @@ export const DbProvider = ({ children }) => {
       //     }
       //   },
       //   (error) => {
+      // // Handle unsuccessful uploads
       //     console.log("Se rompio todo", error.code);
       //   },
-      //   () => {
+      //   () => {// Handle successful uploads on complete
       //     // Upload completed successfully, now we can get the download URL
       //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       //       console.log("File available at", downloadURL);
       //     });
       //   }
-      // );
-      return uploadTask;
+      /*/// );
+      return getDownloadURL(uploadTask.ref);
     } catch (e) {
       console.log("error", e);
     }
@@ -101,10 +110,16 @@ export const DbProvider = ({ children }) => {
       return null;
     }
   };
+
   const searchProducs = (search) => {
-    let searchFound = searchByName(products, search)
-    setFilteredProducts(searchFound)
+    let searchFound = searchByName(products, search);
+    setFilteredProducts(searchFound);
   };
+  const filterProductBy = (prop, value) => {
+    let filtered = filteredProducts?.filter((item) => item[prop] === value);
+    setFilteredProducts(filtered);
+  };
+
   const addProduct = async (newProduct) => {
     try {
       await addDoc(collection(db, "products"), newProduct);
@@ -127,14 +142,13 @@ export const DbProvider = ({ children }) => {
       console.error(error);
       return null;
     }
-  }; //x id todos
+  };
   const deleteProduct = async (id) => {
     try {
-      let deletedProduct = await deleteDoc(doc(db, "products", id));
-      return deletedProduct;
+      await deleteDoc(doc(db, "products", id));
+      return "Eliminado";
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const updateProductByField = async (id, field, value) => {
@@ -143,12 +157,27 @@ export const DbProvider = ({ children }) => {
       let updatedProduct = await updateDoc(prodRef, {
         [field]: value,
       });
-      return updatedProduct;
+      console.log(updatedProduct.data());
+      return updatedProduct.data();
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
-  }; // ver hace update completo
+  };
+  const updateProduct = async (id, newProduct) => {
+    try {
+      const prodRef = doc(db, "products", id);
+      let updatedProduct = await updateDoc(
+        prodRef,
+        {
+          ...newProduct,
+        },
+        { merge: true }
+      );
+      return updatedProduct.data();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
   //=======================CATEGORY============================
 
   const getAllCategories = async () => {
@@ -160,16 +189,61 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setCategories(allCategories);
+      setFilteredCategories(allCategories);
       return allCategories;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
-  const getOneCategory = async () => {};
-  const addCategory = async () => {};
-  const deleteCategory = async () => {};
-  const categoryCategory = async () => {};
+  const getOneCategory = async (id) => {
+    try {
+      const docRef = doc(db, "categories", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const addCategory = async (newCategory) => {
+    console.log(newCategory)
+    try {
+      await addDoc(collection(db, "categories"), newCategory);
+      return "Categoria Añadida Correctamente";
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const updateCategoryBySub = async (idCat, subcategory, newSubcategory) => {
+    try {
+      const subcatRef = await addDoc(
+        collection(db, "categories"),
+        newSubcategory
+      );
+      const catRef = doc(db, "categories", idCat);
+      let updatedCategory = await updateDoc(catRef, {
+        [subcategory]: subcatRef,
+      });
+      return updatedCategory.data();
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const deleteCategory = async (id) => {
+    try {
+      await deleteDoc(doc(db, "categories", id));
+      return "Eliminado";
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const searchCategories = (search) => {
+    let searchFound = searchByName(categories, search);
+    setFilteredCategories(searchFound);
+  };
 
   //=======================CUSTOMERS============================
   const getAllCustomers = async () => {
@@ -181,31 +255,132 @@ export const DbProvider = ({ children }) => {
         id: doc.id,
       }));
       setCustomers(allCustomers);
+      setFilteredCustomers(allCustomers);
       return allCustomers;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
-  //addStaff put a users from customer to admin
+  const getAllStaffMembers = async () => {
+    try {
+      const q = query(collection(db, "users"), where("role", "!=", "customer"));
+      const querySnapshot = await getDocs(q);
+      let allStaff = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setStaff(allStaff);
+      setFilteredStaff(allStaff);
+      return allStaff;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const getOneUser = async (id) => {
+    try {
+      const docRef = doc(db, "users", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        return docSnap.data();
+      } else {
+        console.log("No such document!");
+        return null;
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const getOneUserByEmail = async (email) => {
+    try {
+      const docRef = query(
+        collection(db, "users"),
+        where("email", "==", email)
+      );
+      const querySnapshot = await getDocs(docRef);
+      let user = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
+      return user[0];
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+  const updateUserByField = async (id, field, value) => {
+    try {
+      const userRef = doc(db, "users", id);
+      await updateDoc(userRef, {
+        [field]: value,
+      });
+      GenericToastSuccess("Actualizado Correctamente");
+      return true;
+    } catch (error) {
+      GenericToastError();
+      throw new Error(error);
+    }
+  };
+  const searchCustomers = (search) => {
+    let searchFound = searchByName(customers, search);
+    setFilteredCustomers(searchFound);
+  };
+  const searchStaff = (search) => {
+    let searchFound = searchByName(staff, search);
+    setFilteredStaff(searchFound);
+  };
+
+  //=======================Role============================
+  const getAllRoles = async () => {
+    try {
+      const q = query(collection(db, "roles"));
+      const querySnapshot = await getDocs(q);
+      let allRoles = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setRoles(allRoles);
+      return allRoles;
+    } catch (error) {
+      throw new Error(error);
+    }
+  };
+
   let value = {
     onUpload,
+    staff,
+    roles,
     customers,
     categories,
     products,
+    filteredStaff,
     filteredProducts,
+    filterProductBy,
+    filteredCategories,
+    filteredCustomers,
     addProduct,
-    searchProducs,
-    getAllCategories,
-    getAllProducts,
+    addCategory,
+    getOneUserByEmail,
+    getOneUser,
+    getAllRoles,
     getOneCategory,
     getOneProduct,
-    addCategory,
+    getAllStaffMembers,
+    getAllCategories,
+    getAllCustomers,
+    getAllProducts,
+    searchCustomers,
+    searchCategories,
+    searchProducs,
+    searchStaff,
+    updateCategoryBySub,
+    updateUserByField,
+    updateProduct,
+    updateProductByField,
     deleteCategory,
     deleteProduct,
-    categoryCategory,
-    updateProductByField,
-    getAllCustomers,
+    GenericToastSuccess,
+    GenericToastError,
   };
   return <DbContext.Provider value={value}>{children}</DbContext.Provider>;
 };

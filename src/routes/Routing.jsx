@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import RegisterForm from "../components/Forms/RegisterForm";
-import Login from "../components/Login/Login";
+import LoginForm from "../components/Forms/LoginForm";
 
 import { InLineLoader } from "../components/InlineLoader/InlineLoader";
 import {
@@ -15,99 +15,164 @@ import {
   PRODUCTSDETAIL
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
-const LoginRegister = lazy(() =>
-  import("../containers/LoginRegister/LoginRegister")
+import ProductDetail from "../containers/Products/ProductDetail";
+const SectionWrapperRouter = lazy(() =>
+  import("../components/Sections/SectionWrapperRouter")
 );
+
+const Login = lazy(() => import("../containers/Login/Login"));
 const Layout = lazy(() => import("../containers/Layout/Layout"));
 const Dashboard = lazy(() => import("../containers/Dashboard/Dashboard"));
 const Products = lazy(() => import("../containers/Products/Products"));
-const AddProductDetail = lazy(() => import("../components/Forms/ProductDetailForm"));
 const Category = lazy(() => import("../containers/Category/Category"));
+const CategoryDetail = lazy(() =>
+  import("../containers/Category/CategoryDetail")
+);
 const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
+const CustomerDetail = lazy(() =>
+  import("../containers/Customers/CustomerDetail")
+);
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
-const Settings = lazy(() => import("../containers/Settings/Settings"));
 const SiteSettings = lazy(() =>
   import("../containers/SiteSettings/SiteSettings")
 );
-const SettingsOptions = lazy(() =>
-  import("../containers/Settings/SettingsOptions")
-);
+const Settings = lazy(() => import("../containers/Settings/Settings"));
 const Staff = lazy(() => import("../containers/Staff/Staff"));
 
 export const Routing = () => {
   return (
-      <Routes>
-        <Route
-          path="/register"
-          element={
+    <Routes>
+      <Route
+        path="/register"
+        element={
+          <Suspense fallback={<InLineLoader />}>
+            <Login subtitle="Register">
+              <RegisterForm />
+            </Login>
+          </Suspense>
+        }
+      />
+      <Route
+        path={LOGIN}
+        element={
+          <Suspense fallback={<InLineLoader />}>
+            <Login subtitle="Log in to admin">
+              <LoginForm />
+            </Login>
+          </Suspense>
+        }
+      />
+      {/* _____________General Admin Router init_________ */}
+      <Route
+        path="/"
+        element={
+          <PrivateRoute>
             <Suspense fallback={<InLineLoader />}>
-              <LoginRegister subtitle="Register">
-                <RegisterForm />
-              </LoginRegister>
+              <Layout />
             </Suspense>
-          }
-        />
+          </PrivateRoute>
+        }
+      >
         <Route
-          path={LOGIN}
-          element={
-            <Suspense fallback={<InLineLoader />}>
-              <LoginRegister subtitle="Log in to admin">
-                <Login />
-              </LoginRegister>
-            </Suspense>
-          }
-        />
-        <Route
-          path="/"
+          index
           element={
             <PrivateRoute>
               <Suspense fallback={<InLineLoader />}>
-                <Layout />
+                <Dashboard />
               </Suspense>
             </PrivateRoute>
           }
+        />
+
+        {/* ____________________Route Products Init_______________________*/}
+        <Route
+          path={PRODUCTS}
+          element={
+            <Suspense fallback={<InLineLoader />}>
+              <SectionWrapperRouter />
+            </Suspense>
+          }
         >
+
           <Route
             index
             element={
-              <PrivateRoute>
-                <Suspense fallback={<InLineLoader />}>
-                  <Dashboard />
-                </Suspense>
-              </PrivateRoute>
+              <Suspense fallback={<InLineLoader />}>
+                <Products />
+              </Suspense>
             }
           />
+
           <Route
-            path={PRODUCTS}
+            path=":productId"
             element={
-              <PrivateRoute>
-                <Suspense fallback={<InLineLoader />}>
-                  <Products />
-                </Suspense>
-              </PrivateRoute>
+              <Suspense fallback={<InLineLoader />}>
+                <ProductDetail/>
+              </Suspense>
             }
-          />
-          <Route
-            path={PRODUCTSDETAIL}
-            element={
-              <PrivateRoute>
-                <Suspense fallback={<InLineLoader />}>
-                  <AddProductDetail />
-                </Suspense>
-              </PrivateRoute>
-            }
-          />
+          >
+          </Route>
+
+          {/* ____________________Route Products finish_______________________*/}
+          {/* ____________________Route Category Init_______________________*/}
           <Route
             path={CATEGORY}
             element={
               <PrivateRoute>
                 <Suspense fallback={<InLineLoader />}>
-                  <Category />
+                  <SectionWrapperRouter />
                 </Suspense>
               </PrivateRoute>
             }
           />
+            <Route
+              path=":categoryId"
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <CategoryDetail />
+                </Suspense>
+              }
+            />
+            <Route
+              index
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <Category />
+                </Suspense>
+              }
+            />
+            </Route>
+          {/* ____________________Route Category Finish_______________________*/}
+          {/* ____________________Route Customer Init_______________________*/}
+          <Route
+            path={CUSTOMERS}
+            element={
+              <PrivateRoute>
+                <Suspense fallback={<InLineLoader />}>
+                  <SectionWrapperRouter />
+                </Suspense>
+              </PrivateRoute>
+            }
+          >
+            <Route
+              path={CATEGORY}
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <Customers />
+                </Suspense>
+              }
+            />
+            <Route
+              path=":customerId"
+              element={
+                <Suspense fallback={<InLineLoader />}>
+                  <CustomerDetail />
+                </Suspense>
+              }
+            />
+          </Route>
+          {/* ____________________Route Customer Finish_______________________*/}
           <Route
             path={ORDERS}
             element={
@@ -138,12 +203,12 @@ export const Routing = () => {
               </PrivateRoute>
             }
           />
-          {/* ____________________Route Settings _______________________*/}
+          {/* ____________________Route Settings Init_______________________*/}
           <Route
             path={SETTINGS}
             element={
               <Suspense fallback={<InLineLoader />}>
-                <Settings />
+                <SectionWrapperRouter />
               </Suspense>
             }
           >
@@ -151,7 +216,7 @@ export const Routing = () => {
               index
               element={
                 <Suspense fallback={<InLineLoader />}>
-                  <SettingsOptions />
+                  <Settings />
                 </Suspense>
               }
             />
@@ -172,8 +237,9 @@ export const Routing = () => {
               }
             />
           </Route>
-          {/* _____ fin Route Settings */}
+          {/* _____________Settings Router finish_________ */}
         </Route>
-      </Routes>
+        {/* _____________General Admin Router finish_________ */}
+    </Routes>
   );
 };

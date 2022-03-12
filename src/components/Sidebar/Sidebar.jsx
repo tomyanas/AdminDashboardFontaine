@@ -7,7 +7,6 @@ import {
   CUSTOMERS,
   COUPONS,
   SETTINGS,
-  PRODUCTSDETAIL,
 } from "../../settings/constants";
 import { DashboardIcon } from "../../assets/icons/DashboardIcon";
 import { ProductIcon } from "../../assets/icons/ProductIcon";
@@ -27,11 +26,6 @@ const sidebarMenus = [
   {
     name: "Products",
     path: PRODUCTS,
-    icon: <ProductIcon />,
-  },
-  {
-    name: "Products Details",
-    path: PRODUCTSDETAIL,
     icon: <ProductIcon />,
   },
   {

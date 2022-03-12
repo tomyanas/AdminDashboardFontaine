@@ -1,7 +1,13 @@
-import { Button, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import {
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from "@chakra-ui/react";
 import { useState } from "react";
+import { Backspace } from "phosphor-react";
 
-export const SearchBar = ({ searchFunction, resetFunction }) => {
+export const SearchBar = ({ searchFunction, resetFunction, ...props }) => {
   const [search, setSearch] = useState("");
   const handleChange = (e) => {
     e.preventDefault();
@@ -16,8 +22,14 @@ export const SearchBar = ({ searchFunction, resetFunction }) => {
   return (
     <InputGroup size="md">
       <Input
-        type="text"
+        {...props}
+        bg="#EEEEEE"
+        borderRadius={0}
+        border="none"
+        _placeholder={{ color: "#777", fontWeight: 600 }}
+        _focus={{ border: "2px solid #51a6f5" }}
         placeholder="Escribe Algo.."
+        type="text"
         pr="4.5rem"
         value={search}
         onChange={(e) => {
@@ -25,9 +37,22 @@ export const SearchBar = ({ searchFunction, resetFunction }) => {
         }}
       />
       <InputRightElement width="4.5rem">
-        <Button h="1.75rem" size="sm" type="button" onClick={handleReset}>
-          x
-        </Button>
+        <IconButton
+          onClick={handleReset}
+          variant="ghost"
+          outline="none"
+          color= "#777"
+          _hover={{
+            background: "transparent",
+            color: "#51a6f5",
+          }}
+          _active={{}}
+          _focus={{
+            background: "transparent",
+            outline: "none",
+          }}
+          icon={<Backspace size={24} />}
+        />
       </InputRightElement>
     </InputGroup>
   );

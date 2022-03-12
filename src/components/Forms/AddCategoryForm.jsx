@@ -1,5 +1,5 @@
 import { Uploader } from "./Uploader/Uploader";
-import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -7,7 +7,9 @@ import {
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
+import { useDb } from "../../db/DbProvider";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 /*TODO: 
 * => comprobar que no haya categorias repetidas para listarlas en el select
@@ -18,79 +20,87 @@ import "./Forms.scss";
 
 */
 const validationSchema = Yup.object().shape({
-  catetegory_name: Yup.string()
+  name: Yup.string()
     .required("Catetegory Name is Required")
     .max(100, "Max 100 Characters"),
-  slug: Yup.string().max(100, "Max 100 Characters"),
+  slug: Yup.string().required("slug").max(100, "Max 100 Characters"),
   parent_category: Yup.string().max(100, "Max 100 Characters"),
-  files: Yup.array().min(1).max(5).required(),
+  image: Yup.array().min(1).max(5).required(),
 });
 
-let categories = [
-  {
-    id: 1,
-    name: "Tinturas"
-  },
-  {
-    id: 2,
-    name: "Decolorantes"
-  },
-  {
-    id: 3,
-    name: "Mascaras"
-  },
-  {
-    id: 4,
-    name: "Shampoos"
-  },
-]
+export const AddCategoryForm = ({ onClose }) => {
+  const {
+    GenericToastSuccess,
+    GenericToastError,
+    onUpload,
+    addCategory,
+    getAllCategories,
+    categories,
+  } = useDb();
 
+  let navigate = useNavigate();
 
-export const AddCategoryForm = () => {
-  
   const handleSubmit = async (values) => {
     console.log("Submit", values);
-  };
+    try {
+      let image = [];
+      for (const item of values.image) {
+        let url = await onUpload("category/", item);
+        image.push(url);
+      }
 
+      let res = await addCategory({
+        ...values,
+        image: image[0],
+      });
+      res
+        ? GenericToastSuccess(res)
+        : GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
+        
+        onClose && onClose();
+        navigate("/category");
+      } catch (error) {
+        console.error(error);
+        GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
+    }
+  };
+  useEffect(() => {
+    getAllCategories();
+  }, []);
   return (
-    <div className="form_container ">
-      <h2>Add a New Category </h2>
+    <Box bg={"#fff"} p={"20px"}>
+      <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
+        Add a New Category
+      </Heading>
 
       <Formik
         initialValues={{
-          catetegory_name: "",
+          name: "",
           slug: "",
           parent_category: "",
-          files: [],
+          image: [],
         }}
         validationSchema={validationSchema}
         onSubmit={(values) => handleSubmit(values)}
       >
         <Form>
-          <Stack mt={4}>
-            <FormControl>
-              <Uploader name="files" maxFiles={1} />
-              <ErrorMessage name="files" component="div" className="error" />
-            </FormControl>
-          </Stack>
-          {/* ____________ */}
           <Stack mt={4} spacing={6} direction="column">
-            <FormControl>
-              <FormLabel htmlFor="catetegory_name">Category Name</FormLabel>
+            <FormControl isRequired>
+              <FormLabel htmlFor="name">Category Name</FormLabel>
               <Field
-                name="catetegory_name"
-                id="catetegory_name"
+                name="name"
+                id="name"
                 placeholder="Category Name"
                 component={CustomInput}
               />
               <ErrorMessage
-                name="catetegory_name"
+                name="name"
                 component="div"
                 className="error"
               />
             </FormControl>
             {/* _____________________ */}
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel htmlFor="slug">Slug</FormLabel>
               <Field
                 name="slug"
@@ -111,19 +121,28 @@ export const AddCategoryForm = () => {
                 component={CustomSelect}
                 autoComplete="username"
               >
-                {categories.length && categories?.map((cat) => {
-                  return (
-                    <option name={cat.name} value={cat.name} key={cat.id}>
-                      {cat.name}
-                    </option>
-                  );
-                })}
+                {categories.length &&
+                  categories?.map((cat) => {
+                    return (
+                      <option name={cat.name} value={cat.name} key={cat.id}>
+                        {cat.name}
+                      </option>
+                    );
+                  })}
               </Field>
+
               <ErrorMessage
                 name="parent_category"
                 component="div"
                 className="error"
               />
+            </FormControl>
+          </Stack>
+          {/* ____________ */}
+          <Stack mt={6}>
+            <FormControl isRequired>
+              <Uploader name="image" maxFiles={1} />
+              <ErrorMessage name="image" component="div" className="error" />
             </FormControl>
           </Stack>
           {/* _____________________ */}
@@ -133,12 +152,13 @@ export const AddCategoryForm = () => {
               color="red"
               variant="outline"
               content="Cancel"
+              onClick={onClose}
             />
-            <CustomButton type="submit" content="Add Staff" />
+            <CustomButton type="submit" content="Add Category" />
           </Stack>
           {/* _____________________ */}
         </Form>
       </Formik>
-    </div>
+    </Box>
   );
 };

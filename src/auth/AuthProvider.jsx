@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
           firstName,
           lastName,
           email,
-          fullName: `${firstName} ${lastName}`,
+          name: `${firstName} ${lastName}`,
           uid: userCredentials.user.uid,
           role: "customer",
           photoURL: userCredentials.user.photoURL,

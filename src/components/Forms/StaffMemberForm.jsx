@@ -1,78 +1,94 @@
-import { FormControl, FormLabel, Stack } from "@chakra-ui/react";
+import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useAuth } from "../../auth/AuthProvider";
+import { useDb } from "../../db/DbProvider";
+import { db } from "../../firebase";
 import {
   CustomButton,
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
-import "./Forms.scss";
 
+const isValidEmail = async (value) => {
+  try {
+    if (!value) return false;
+    else {
+      const docRef = query(
+        collection(db, "users"),
+        where("email", "==", value)
+      );
+      const querySnapshot = await getDocs(docRef);
+      let foundUser = querySnapshot.docs.map((doc) => {
+        return {
+          ...doc.data(),
+          id: doc.id,
+        };
+      });
 
-/*TODO: 
-* => comprobar que el email ingresado exista en la db como customer 
-* => Listar los roles existentes y mostrar solo los permitidos segun su nivel
-*/
-
-let roles = [
-  {
-    id: 1,
-    name: "SuperAdmin"
-  },
-  {
-    id: 2,
-    name: "Admin"
-  },
-  {
-    id: 3,
-    name: "Shop Manager"
-  },
-  {
-    id: 4,
-    name: "Customer"
-  },
-]
-
-
+      if (foundUser[0]) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
-    .required("Email is Required")
     .email("Invalid Email")
-    .max(255, "Max 255 Characters"),
-  mobile_phone: Yup.number().min(8, "Min 8 Characters"),
+    .required("Email is Required")
+    .max(255, "Max 255 Characters")
+    .test(
+      "checkEmailExist",
+      "El Email de este usuario no esta registrado",
+      (value) => isValidEmail(value)
+    ),
   role: Yup.string().required("Select Role"),
 });
 
-const StaffMemberForm = () => {
-  const auth = useAuth();
-
+const StaffMemberForm = ({ onClose }) => {
+  const { roles, getAllRoles, getOneUserByEmail, updateUserByField } = useDb();
+  
+  let navigate = useNavigate();
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      // metodo en auth add Staff member
-      console.log();
-   } catch (error) {
+      let user = await getOneUserByEmail(values.email);
+      await updateUserByField(user.id, "role", values.role);
+      onClose && onClose();
+      navigate("/settings/staff")
+    } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    getAllRoles();
+  }, []);
   return (
-    <div className="form_container staff">
-      <h2>Add Staff Member </h2>
+    <Box bg={"#fff"} p={"20px"}>
+      <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
+        Add Staff Member
+      </Heading>
+
       <Formik
         initialValues={{
           email: "",
           role: "",
-          mobile_phone: "",
-         }}
+        }}
         onSubmit={(values) => handleSubmit(values)}
         validationSchema={validationSchema}
       >
         <Form>
           <Stack mt={4} spacing={6} direction="column">
-            <FormControl isRequired>
+            <FormControl>
               <FormLabel htmlFor="email">Email</FormLabel>
               <Field
                 name="email"
@@ -86,23 +102,6 @@ const StaffMemberForm = () => {
             </FormControl>
             {/* _____________________ */}
 
-            <FormControl>
-              <FormLabel htmlFor="mobile_phone">Mobile Phone</FormLabel>
-              <Field
-                name="mobile_phone"
-                id="mobile_phone"
-                type="tel"
-                placeholder="Mobile Phone"
-                component={CustomInput}
-              />
-              <ErrorMessage
-                name="mobile_phone"
-                component="div"
-                className="error"
-              />
-            </FormControl>
-            {/* _____________________ */}
-
             <FormControl isRequired>
               <FormLabel htmlFor="role">Role</FormLabel>
               <Field
@@ -112,11 +111,10 @@ const StaffMemberForm = () => {
                 placeholder="Select Role"
                 component={CustomSelect}
               >
-                {
-                  roles.length && roles.map((role)=>{
-                    return <option key={role.id}>{role.name}</option>
-                  })
-                }
+                {roles.length &&
+                  roles.map((role) => {
+                    return <option key={role.id}>{role.name}</option>;
+                  })}
               </Field>
               <ErrorMessage name="role" component="div" className="error" />
             </FormControl>
@@ -128,6 +126,7 @@ const StaffMemberForm = () => {
                 color="red"
                 variant="outline"
                 content="Cancel"
+                onClick={onClose}
               />
               <CustomButton type="submit" content="Add Staff" />
             </Stack>
@@ -135,7 +134,7 @@ const StaffMemberForm = () => {
         </Form>
         {/* )} */}
       </Formik>
-    </div>
+    </Box>
   );
 };
 export default StaffMemberForm;

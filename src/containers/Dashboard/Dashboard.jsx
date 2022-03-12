@@ -5,7 +5,7 @@ const Dashboard = () => {
  
   return (
     <div className="dashboard">
-       <Text color={useColorModeValue('red', 'gray.800')} >Dashboard Section</Text> 
+       <Text color={useColorModeValue('gray.800', 'red')} >Dashboard Section</Text> 
     </div>
   );
 };
