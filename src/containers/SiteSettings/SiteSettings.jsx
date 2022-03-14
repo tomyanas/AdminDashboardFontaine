@@ -1,10 +1,10 @@
-import './SiteSettings.scss'
+import { Box } from '@chakra-ui/react';
 const SiteSettings = () => {
  
   return (
-    <div className="site-settings">
+    <Box >
        Site Settings
-    </div>
+    </Box>
   );
 };
 

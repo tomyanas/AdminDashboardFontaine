@@ -33,7 +33,7 @@ export const TablePagination = ({ arrayItems, handler, order }) => {
       pageNumbers.push(i);
     }
   }
-  console.log(pageNumbers);
+  // console.log(pageNumbers);
   useEffect(() => {
     handler(items);
   }, [nroPage, arrayItems, order]);

@@ -1,51 +1,16 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Image,
-  Td,
-  Th,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Image, Td, Th } from "@chakra-ui/react";
 import { SortAsc } from "../../../assets/icons/SortAsc";
 import { SortDesc } from "../../../assets/icons/SortDesc";
 import { Sort } from "../../../assets/icons/Sort";
-import { Trash } from "../../../assets/icons/Trash";
-import { Edit } from "../../../assets/icons/Edit";
-import { Eye } from "../../../assets/icons/Eye";
 import { FilterSolid } from "../../../assets/icons/FilterSolid";
 import { FilterOutline } from "../../../assets/icons/FilterOutline";
-import { DeleleItemMessage } from "../../DeleleItemMessage";
-import { CustomModal } from "../../Forms/CustomModal/CustomModal";
+import {
+  IconButtonBase,
+  TableButtonDelete,
+  TableButtonEdit,
+  TableButtonView,
+} from "./ActionButtons";
 
-export const IconButtonBase = ({ icon, ...props }) => {
-  return (
-    <>
-      <Button
-        _focus={{
-          outline: "none",
-          bg: "transparent",
-        }}
-        _hover={{
-          bg: "transparent",
-          color: "#333",
-        }}
-        _active={{
-          bg: "transpatent",
-        }}
-        minW={"fit-content"}
-        h={"fit-content"}
-        color="#666"
-        p={0}
-        m={0}
-        bg="transparent"
-        {...props}
-      >
-        {icon}
-      </Button>
-    </>
-  );
-};
 const TdBase = ({ children, ...props }) => {
   return (
     <Td
@@ -85,11 +50,10 @@ const ThBase = ({ children, ...props }) => {
 };
 
 export const CellActions = ({
-  header: { onClickDelete, onClickEdit, onClickView, columnWidth },
+  header: { onClickDelete, edit, view, columnWidth },
   itemId,
   customStyles = false,
 }) => {
-  let { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <TdBase w={columnWidth}>
@@ -104,48 +68,28 @@ export const CellActions = ({
         sx={customStyles ? customStyles : {}}
       >
         {onClickDelete && (
-          <IconButtonBase
-            onClick={onOpen}
-            _hover={{
-              color: "#ff3636",
-            }}
-            color="#ef4444AA"
-            icon={<Trash height="1.3rem" />}
+          <TableButtonDelete onClick={onClickDelete} itemId={itemId} />
+        )}
+
+        {edit?.Component && (
+          <TableButtonEdit
+            Component={edit.Component}
+            itemId={itemId}
+            size={edit.size}
           />
         )}
-        {onClickEdit && (
-          <IconButtonBase
-            onClick={() => onClickEdit(itemId)}
-            _hover={{ color: "#2495ff" }}
-            color="#4a8ccaAA"
-            icon={<Edit height="1.3rem" />}
-          />
-        )}
-        {onClickView && (
-          <IconButtonBase
-            onClick={() => onClickView(itemId)}
-            _hover={{ color: "#2495ff" }}
-            color="#4a8ccaAA"
-            height="1.3rem"
-            icon={<Eye height="1.3rem" />}
+        {view?.Component && (
+          <TableButtonView
+            Component={view.Component}
+            itemId={itemId}
+            size={view.size}
           />
         )}
       </Box>
-      <CustomModal
-        size="xs"
-        isOpen={isOpen}
-        onClose={onClose}
-        isCentered
-        closeButton={false}
-      >
-        <DeleleItemMessage
-          onClickDelete={() => onClickDelete(itemId, onClose)}
-          onClose={onClose}
-        />
-      </CustomModal>
     </TdBase>
   );
 };
+
 export const CellHeader = ({
   onClickOrder,
   header,
@@ -169,7 +113,6 @@ export const CellHeader = ({
         _hover={{
           bg: "#e9ecef",
         }}
-      
         // _active={{
         //   bg: "transpatent",
         // }}

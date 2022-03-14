@@ -6,12 +6,10 @@ import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { Section } from "../../components/Sections/Section";
 import { Stack } from "@chakra-ui/react";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { useNavigate } from "react-router-dom";
-
+import CustomerDetail from "./CustomerDetail";
 const Customers = () => {
-  const db = useDb();
-  let customers = db.filteredCustomers;
-  let navigate = useNavigate()
+  const {getAllCustomers, filteredCustomers, searchCustomers} = useDb();
+  let customers = filteredCustomers;
 
   const headers = [
     {
@@ -28,22 +26,24 @@ const Customers = () => {
     },
     {
       name: "Actions",
-      onClickView: (id) => {
-        navigate(`/customers/${id}`);
-      },
+      view:{
+        Component: CustomerDetail,
+        size: "2xl"
+      },      
+      columnWidth: "100px",
     },
   ];
 
   useEffect(() => {
-    db.getAllCustomers();
+    getAllCustomers();
   }, []);
   return (
     <Section>
       <SectionHeader title="Customers">
         <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
           <SearchBar
-            searchFunction={db.searchCustomers}
-            resetFunction={db.getAllCustomers}
+            searchFunction={searchCustomers}
+            resetFunction={getAllCustomers}
           />
         </Stack>
       </SectionHeader>

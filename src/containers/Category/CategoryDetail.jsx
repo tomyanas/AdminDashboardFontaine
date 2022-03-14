@@ -1,62 +1,44 @@
 import React, { useEffect, useState } from "react";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
-import { SectionHeader } from "../../components/Sections/SectionHeader";
-import {
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
 
-const CategoryDetail = () => {
-  const db = useDb();
-  let { categoryId } = useParams();
+const CategoryDetail = ({ itemId }) => {
+  const { getOneCategory } = useDb();
   const [category, setCategory] = useState(null);
 
-  useEffect(async () => {
-    let categoryDetail = await db.getOneCategory(categoryId);
-    setCategory(categoryDetail);
-  }, []);
+  useEffect(() => {
+    async function getData(id) {
+      let customerDetail = await getOneCategory(id);
+      setCategory(customerDetail);
+    }
+    getData(itemId);
+  }, [itemId, getOneCategory]);
 
   return (
-    <>
-      <SectionHeader
-        title={category ? "Edit: " + category.name : "Edit Category"}
-        paddingBottom={"10px"}
-        size="lg"
-      />
+    <Box p="2rem 1rem">
       {category ? (
-        <Tabs
-          variant="enclosed"
-          bg={"#fff"}
-          minHeight="400px"
-          padding={"1rem"}
-          boxShadow="1px 1px 3px 1px #0003"
-        >
-          <TabList>
-            <Tab>Detalle</Tab>
-            <Tab>Subcategorias</Tab>
-          </TabList>
+        <>
+          <Heading textAlign="center" paddingBottom="1.5rem" size="lg">
+            {category.name}
+          </Heading>
 
-          <TabPanels>
-            <TabPanel>
-              <p>one!</p>
-              <h1>{category.name}</h1>
-              <p>{category.id}</p>
-            </TabPanel>
-            <TabPanel>
-              <p>two!</p>
-            </TabPanel>
-          
-          </TabPanels>
-        </Tabs>
+          <Box
+            variant="enclosed"
+            bg={"#fff"}
+            minHeight="400px"
+            padding={"1rem"}
+            boxShadow="1px 1px 3px 1px #0003"
+          >
+            <Text>{category.id}</Text>
+            <Text>{category.name}</Text>
+            <Image src={category.image} />
+          </Box>
+        </>
       ) : (
         <InLineLoader />
       )}
-    </>
+    </Box>
   );
 };
 export default CategoryDetail;
