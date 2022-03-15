@@ -78,7 +78,7 @@ const Category = () => {
 
   useEffect(() => {
     getAllCategories();
-  }, [getAllCategories]);
+  }, []);
   return (
     <Section>
       <SectionHeader title="Categories">

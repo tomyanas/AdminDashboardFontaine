@@ -91,7 +91,8 @@ $background-f7: #f7f7f7;
   bottom: -75px;
   overflow-y: auto;
   li {
-    min-width: 60px;
+    // min-width: 60px;
+    max-width: 75px;
     width: auto;
     height: auto;
     max-height: 75px;

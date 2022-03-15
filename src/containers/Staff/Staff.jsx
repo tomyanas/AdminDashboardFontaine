@@ -42,7 +42,7 @@ const Customers = () => {
 
   useEffect(() => {
     getAllStaffMembers();
-  }, [getAllStaffMembers]);
+  }, []);
   return (
     <Section>
       <SectionHeader title="Staff Members">

@@ -8,28 +8,15 @@ import {
 } from "@chakra-ui/react";
 import { CaretLeft, CaretRight } from "phosphor-react";
 import Slider from "react-slick";
-const baseUrl = "https://picsum.photos";
-// Settings for the slider
-// const settings = {
-//   dots: true,
-//   arrows: false,
-//   fade: true,
-//   infinite: true,
-//   autoplay: true,
-//   speed: 500,
-//   autoplaySpeed: 5000,
-//   slidesToShow: 1,
-//   slidesToScroll: 1,
-// };
 
-const ArrowLeft = ({ className, style, onClick }) => {
-  console.log(style, className);
+const ArrowLeft = ({ onClick }) => {
   const top = useBreakpointValue({ base: "50%" });
   const side = useBreakpointValue({ base: "0" });
   return (
     <IconButton
       aria-label="left-arrow"
       colorScheme="ghost"
+      color="#f1f1f1"
       borderRadius="full"
       position="absolute"
       left={side}
@@ -48,13 +35,14 @@ const ArrowLeft = ({ className, style, onClick }) => {
     </IconButton>
   );
 };
-const ArrowRight = ({ className, style, onClick }) => {
+const ArrowRight = ({ onClick }) => {
   const top = useBreakpointValue({ base: "50%" });
   const side = useBreakpointValue({ base: "0%" });
   return (
     <IconButton
       aria-label="right-arrow"
       colorScheme="ghost"
+      color="#f1f1f1"
       borderRadius="full"
       position="absolute"
       right={side}
@@ -75,17 +63,11 @@ const ArrowRight = ({ className, style, onClick }) => {
 };
 
 export const ProductImageCarousel = ({ images }) => {
-  // const [slider, setSlider] = useState();
-
   const settings = {
     customPaging: function (i) {
       return (
         <Link>
-          <Image
-            w="100%"
-            maxwidth="100%"
-            src={`${baseUrl}/id/10${i + 1}/400/300`}
-          />
+          <Image w="100%" maxwidth="100%" src={images[i]} />
         </Link>
       );
     },
@@ -100,23 +82,15 @@ export const ProductImageCarousel = ({ images }) => {
   };
 
   return (
-    <Box m="0 auto" pb={{base:"60px", sm:"75px" }} w="100%" maxW="600px" >
+    <Box m="0 auto" pb={{ base: "60px", sm: "75px" }} w="100%" maxW="600px">
       <Slider {...settings}>
-        <Box>
-          <Image w="100%" src={baseUrl + `/id/101/400/300`} />
-        </Box>
-        <Box>
-          <Image w="100%" src={baseUrl + `/id/102/400/300`} />
-        </Box>
-        <Box>
-          <Image w="100%" src={baseUrl + `/id/102/400/300`} />
-        </Box>
-        <Box>
-          <Image w="100%" src={baseUrl + `/id/103/400/300`} />
-        </Box>
-    
+        {images &&
+          images.map((image, i) => (
+            <Box key={image + i}>
+              <Image w="100%" src={image} />
+            </Box>
+          ))}
       </Slider>
     </Box>
   );
 };
-
