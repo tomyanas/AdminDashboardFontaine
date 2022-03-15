@@ -4,55 +4,96 @@ import { useDb } from "../../db/DbProvider";
 import { Section } from "../../components/Sections/Section";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
 import {
-  Box, Center, Container, Divider, FormControl, FormLabel, Heading, IconButton, Image, Link, List, ListItem, SimpleGrid, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, useColorModeValue
+  Box,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  Text,
+  useColorModeValue,
+  ButtonGroup,
+  SimpleGrid,
+  Stack,
+  Center,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight } from "phosphor-react";
-import Slider from "react-slick";
+import {
+  CheckboxContainer,
+  CheckboxControl,
+  CheckboxSingleControl,
+  InputControl,
+  NumberInputControl,
+  PercentComplete,
+  RadioGroupControl,
+  ResetButton,
+  SelectControl,
+  SliderControl,
+  SubmitButton,
+  SwitchControl,
+  TextareaControl
+} from "formik-chakra-ui";
+import { useNavigate, useParams } from "react-router-dom";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import { useToast } from '@chakra-ui/react'
 
-const baseUrl = "https://picsum.photos";
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .required("Name is Required")
+    .max(255, "Max 255 Characters"),
+  brand: Yup.string().max(255, "Max 255 Characters"),
+  description: Yup.string().max(2000, "Max 2000 Characters"),
+  price: Yup.number().required().min(0, "the price should be higher zero"),
+  stock: Yup.number().required().min(0, "the stock should be higher zero"),
+  minStock: Yup.number()
+    .required()
+    .min(0, "the min stock should be higher zero"),
+  category: Yup.string().required().min(0, "Select a category"),
+ /*  gallery: Yup.array().min(1).max(5).required(), */
+  discountInPercent: Yup.number()
+    .min(0, "The discount should be higher zero")
+    .max(100, "The discount should be lower one hundred"),
+  sku: Yup.string(),
+});
+
+
 
 const ProductDetail = () => {
-  const [slider, setSlider] = useState(null);
-  const db = useDb();
+
   let { productId } = useParams();
   const [product, setProduct] = useState(null);
+  const {
+    getAllProducts,
+    getOneProduct,
+    updateProduct,
+    categories,
+    GenericToastSuccess,
+    GenericToastError
+  } = useDb();
+  let navigate = useNavigate();
 
-
-
-
-
-
- 
-
-  
-  
-  
-  
   useEffect(async () => {
-    let productDetail = await db.getOneProduct(productId);
+    let productDetail = await getOneProduct(productId);
     setProduct(productDetail);
   }, []);
-  
-  
-  const [sliderSettings, setSliderSettings] = useState({
-    customPaging:  function (i) {
-     return  (
-        <Box>
-          <Link>
-            <Image maxW={"100%"}    src={ ""}   />
-          </Link>
-        </Box>
-      );
-    },
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1
-  })
- 
+
+
+  const handleOnSubmit = async (event, values) => {
+    event.preventDefault();
+    try {
+      values.salePrice = Math.ceil((values.price - (values.price * values.discountInPercent) / 100) * 100) / 100
+
+      await updateProduct(productId, values);
+      GenericToastSuccess("El producto se actualizo correctamente");
+      getAllProducts();
+    } catch (error) {
+      GenericToastError("Error Al hacer el update", "Intenta nuevamente mas tarde");
+      console.log(error);
+    }
+  };
+
+
+
 
   return (
     <Section>
@@ -74,168 +115,84 @@ const ProductDetail = () => {
             <Tab>Stock</Tab>
             <Tab>Gallery</Tab>
           </TabList>
-
           <TabPanels>
             <TabPanel>
-              <Container
-                maxW={"2xl"}
+              <Formik
+                initialValues={{
+
+                  brand: product.brand,
+                  category: product.category,
+                  description: product.description,
+                  discountInPercent: product.discountInPercent,
+                  minStock: product.minStock,
+                  name: product.name,
+                  price: product.price,
+                  salePrice: product.salePrice,
+                  sku: product.sku,
+                  stock: product.stock,
+                }}
+                onSubmit={handleOnSubmit}
+                validationSchema={validationSchema}
               >
+                {({ values, errors }) => (
 
-                <SimpleGrid columns={[1, null, 2]} spacing='40px'>
-                  <Box>
-                    <Box>
-                      <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                      <style>{cssstyle}</style>
+                  <Box
 
-                    </Box>
-                    <Box>
-                      <Slider {...sliderSettings} ref={(slider) => setSlider(slider)}>
-                        <Stack>
-                          <Image maxW={"100%"} m={"0 0 1.45rem"} p={"0"} src={baseUrl + `/id/101/400/300`} />
-                        </Stack>
-                        <Stack>
-                          <Image maxW={"100%"} m={"0 0 1.45rem"} p={"0"} src={baseUrl + `/id/102/400/300`} />
-                        </Stack>
-                        <Stack>
-                          <Image maxW={"100%"} m={"0 0 1.45rem"} p={"0"} src={baseUrl + `/id/103/400/300`} />
-                        </Stack>
-                        <Stack>
-                          <Image maxW={"100%"} m={"0 0 1.45rem"} p={"0"} src={baseUrl + `/id/104/400/300`} />
-                        </Stack>
-                      </Slider>
-                    </Box>
-                  </Box>
-                  <Box>
-                    <Center>
-                      <Heading as={"span"} color={"blue.800"} fontWeight={'black'} fontSize={"2xl"} >
-                        Detalles de producto
-                      </Heading>
-                    </Center>
-                    <Divider />
-                    <Stack>
-                      <SimpleGrid align={"center"} paddingTop={3} columns={[3, 3]} >
-                        <List spacing={3} >
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Nombre:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              Tintura
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Marca:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              Total plus
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Categoria:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              Capilar
-                            </Text>
-                          </ListItem>
-                        </List>
-                        <List spacing={3}>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Precio:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              $1,000
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Discount %:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              20
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              SKU:
-                            </Text>{'   '}
-                            <Text color={"blue.500"} fontWeight={"normal"} fontSize={"smaller"} >
-                              354354354
-                            </Text>
-                          </ListItem>
-                        </List>
-                        <List spacing={3}>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Act. Stock:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              $1,000
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Stock:
-                            </Text>{'   '}
-                            <Text color={"blue.600"} fontWeight={"normal"} fontSize={"smaller"} >
-                              100
-                            </Text>
-                          </ListItem>
-                          <ListItem>
-                            <Text color={"blue.800"} fontWeight={'bold'} fontSize={"smaller"} >
-                              Min Stock:
-                            </Text>{'   '}
-                            <Text color={"blue.500"} fontWeight={"normal"} fontSize={"smaller"} >
-                              15
-                            </Text>
-                          </ListItem>
-                        </List>
+                    p={10}
+                    borderWidth="1px"
+                    rounded="lg"
+                    shadow="1px 1px 3px rgba(0,0,0,0.3)"
+                    maxWidth={800}
+                    spacing={10}
+                    m="10px auto"
+                    as="form"
+                    onSubmit={(event) => handleOnSubmit(event, values)}
+                  >
+                   
+                    <Stack
+                      spacing={8}
+                    >
+
+                      <InputControl name="brand" label="Brand" />
+                      <SelectControl
+                        name="category"
+                        selectProps={{ placeholder: product.category }}
+                      >
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.name}>
+                            {cat.name}
+                          </option>
+                        ))}
+
+
+                      </SelectControl>
+                      <TextareaControl name="description" label="Description" />
+                      <SimpleGrid columns={[1, null, 2]} spacing={10} >
+                        <NumberInputControl name="discountInPercent" label="Discount In Percent" />
+                        <NumberInputControl name="price" label="Price" />
                       </SimpleGrid>
+                      <SimpleGrid columns={[1, null, 2]} spacing={10} >
+                        <NumberInputControl name="stock" label="Stock" />
+                        <NumberInputControl name="minStock" label="MinStock" />
+                      </SimpleGrid>
+                      <InputControl name="sku" label="Sku" inputMode="text" />
+                      <Center>
+                        <PercentComplete />
+                        <ButtonGroup>
+                          <SubmitButton disabled={Object.keys(errors).length}>Submit</SubmitButton>
+                          <ResetButton>Reset</ResetButton>
+                        </ButtonGroup>
+                      </Center>
                     </Stack>
                   </Box>
-                </SimpleGrid>
-                <Center>
-                  <Divider m={10} />
-                </Center>
-                <Box
-                  marginTop={-5}
-                >
-                  <Heading paddingBottom={4} color={"blue.800"} fontWeight={'black'} fontSize={"2xl"} >
-                    Descripcion
-                  </Heading>
-
-                  <Text color={"grey"} fontWeight={"medium"} fontStyle={"oblique"} fontSize={{ base: '2xl', sm: '4xl', lg: "lg" }} >
-                    {product.description}
-                  </Text>
-                </Box>
-              </Container>
+                )}
+              </Formik>
             </TabPanel>
             <TabPanel>
               <p>two!</p>
             </TabPanel>
             <TabPanel>
-              <Container maxW={"xs"}>
-              <Box>
-                <Box>
-                  <link rel="stylesheet" type="text/css" charset="UTF-8" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css" />
-                  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css" />
-                  <style>{cssstyle}</style>
-
-                </Box>
-                <Box>
-                  <Slider {...sliderSettings} ref={(slider) => setSlider(slider)}>
-                    {product.gallery.map((image, index) => (
-                      <Stack key={index}>
-                        <Image maxW={"100%"} m={"0 0 1.45rem"} p={"0"} src={image} />
-                      </Stack>
-                    ))}
-                  </Slider>
-                </Box>
-                </Box>
-              </Container>
+              <p>three!</p>
             </TabPanel>
           </TabPanels>
         </Tabs>
@@ -246,18 +203,6 @@ const ProductDetail = () => {
   );
 };
 
-const cssstyle = `
-.slick-thumb {
-    bottom: -35px;
-}
-.slick-thumb li {
-    width: 50px;
-    height: 45px;
-		cursor: pointer;
-}
-.slick-next:before, .slick-prev:before {
-    color: #000;
-}
-`
+
 
 export default ProductDetail;
