@@ -3,8 +3,8 @@ import { extendTheme } from "@chakra-ui/react";
 export const newTheme = extendTheme({
     colors: {
         fonts: {
-            body: "Roboto, system-ui, sans-serif",
-            heading: "Roboto, system-ui, sans-serif",
+            body: "Open Sans, Roboto, system-ui, sans-serif",
+            heading: "Open Sans, Roboto, system-ui, sans-serif",
             monospace: "Menlo, monospace",
         },
         fontWeights: {

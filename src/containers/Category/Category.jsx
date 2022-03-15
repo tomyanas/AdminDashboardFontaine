@@ -6,21 +6,25 @@ import { Section } from "../../components/Sections/Section";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { ButtonAdd } from "../../components/Buttons/AddButton";
 import { Stack, useDisclosure, useToast } from "@chakra-ui/react";
-import { CustomModal } from "../../components/Forms/CustomModal/CustomModal";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { useNavigate } from "react-router-dom";
-import { CellImage } from "../../components/Tables/TableCell/TableCell";
+import { CellImage } from "../../components/Tables/CustomTable/TableCell";
+import CategoryDetail from "./CategoryDetail";
+import { CustomDrawer } from "../../components/Forms/CustomDrawer/CustomDrawer";
 
 const Category = () => {
-  const db = useDb();
+  const {
+    getAllCategories,
+    filteredCategories,
+    deleteCategory,
+    searchCategories,
+  } = useDb();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  let categories = db.filteredCategories;
-  let navigate = useNavigate();
+  let categories = filteredCategories;
   let toast = useToast();
   const handleDelete = async (id, onClose) => {
     try {
-      let res = await db.deleteCategory(id);
+      await deleteCategory(id);
 
       toast({
         title: `Eliminado Correctamente`,
@@ -28,7 +32,7 @@ const Category = () => {
         duration: 5000,
         isClosable: true,
       });
-      db.getAllCategories();
+      getAllCategories();
       onClose();
     } catch (error) {
       console.error(error);
@@ -44,8 +48,8 @@ const Category = () => {
     {
       name: "Image",
       property: "image",
-      customStyles: {width: "80px"},
-      customStylesHeader: {width: "80px"},
+      customStyles: { width: "80px" },
+      customStylesHeader: { width: "80px" },
       Component: CellImage,
       columnWidth: "80px",
     },
@@ -56,33 +60,35 @@ const Category = () => {
     {
       name: "ID",
       property: "id",
-      
     },
     {
       name: "Actions",
-      onClickEdit: (id) => {
-        navigate(`/category/${id}`);
-      },
       onClickDelete: handleDelete,
+      edit: {
+        Component: AddCategoryForm,
+        size: "lg",
+      },
+      view: {
+        Component: CategoryDetail,
+        size: "2xl",
+      },
       columnWidth: "100px",
-      customStyles: {width: "100px"},
-      customStylesHeader: {width: "100px"}
     },
   ];
 
   useEffect(() => {
-    db.getAllCategories();
+    getAllCategories();
   }, []);
   return (
     <Section>
       <SectionHeader title="Categories">
         <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
           <SearchBar
-            searchFunction={db.searchCategories}
-            resetFunction={db.getAllCategories}
+            searchFunction={searchCategories}
+            resetFunction={getAllCategories}
           />
           <ButtonAdd onClick={onOpen}>Add New Category</ButtonAdd>
-          <CustomModal
+          <CustomDrawer
             Component={AddCategoryForm}
             onClose={onClose}
             isOpen={isOpen}
