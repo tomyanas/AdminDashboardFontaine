@@ -9,8 +9,10 @@ import { SectionHeader } from "../../components/Sections/SectionHeader";
 import { Section } from "../../components/Sections/Section";
 import { CustomDrawer } from "../../components/Forms/CustomDrawer/CustomDrawer";
 import AddProductForm from "../../components/Forms/ProductForm";
+import EditProductForm from "../../components/Forms/EditProductForm";
 import { CellImage, CellPrice } from "../../components/Tables/CustomTable/TableCell";
 import ProductDetail from "./ProductDetail";
+
 
 const Products = () => {
   const {
@@ -109,8 +111,8 @@ const Products = () => {
     {
       name: "Actions",
       onClickDelete: handleDelete,
-      edit:{
-        Component: AddProductForm
+      edit:{ 
+        Component: EditProductForm,
       },
       view:{
         Component: ProductDetail,
@@ -121,6 +123,10 @@ const Products = () => {
     },
   ];
 
+  //Tomy esto ya deberia funcionar, hace NPM START y probalo ame voy vuelvo en 
+  // jajaajja
+  // suetteeeee
+  
   useEffect(() => {
     getAllProducts();
     getAllCategories();
