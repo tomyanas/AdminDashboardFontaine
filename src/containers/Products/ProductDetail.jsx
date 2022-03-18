@@ -2,14 +2,9 @@ import React, { useEffect, useState } from "react";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
 import {
-  Badge,
   Box,
-  Button,
   Divider,
   Heading,
-  Link,
-  Stack,
-  StackDivider,
   Text,
   Tag,
 } from "@chakra-ui/react";

@@ -53,13 +53,13 @@ const EditProductForm = ({ itemId }) => {
         GenericToastError
     } = useDb();
 
-    useEffect(async () => {
+    useEffect(() => {
         async function getData(id) {
             let productDetail = await getOneProduct(id);
             setProduct(productDetail);
         }
         getData(itemId)
-    }, []);
+    }, [itemId]);
 
 
     const handleOnSubmit = async (event, values) => {

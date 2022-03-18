@@ -16,7 +16,7 @@ import { CustomerIcon } from "../../assets/icons/CustomerIcon";
 import { CouponIcon } from "../../assets/icons/CouponIcon";
 import { SettingIcon } from "../../assets/icons/SettingIcon";
 import { NavLink } from "react-router-dom";
-import './Sidebar.scss'
+import { Box, Text } from "@chakra-ui/react";
 const sidebarMenus = [
   {
     name: "Dashboard",
@@ -57,20 +57,48 @@ const sidebarMenus = [
 
 export const Sidebar = () => {
   return (
-    <aside className="sidebar">
-      <div className="sidebar__navigation">
+    <Box
+      as="aside"
+      width={{ base: "220px", md: "270px" }}
+      minH="100%"
+      display="flex"
+      flexShrink="0"
+      bg="#ffffff"
+      flexDirection="column"
+      boxShadow="1px 0 3px #0003"
+    >
+      <Box
+        width="100%"
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        alignItems="flex-end"
+        padding={{ base: "35px 0", lg: "50px 0" }}
+        overflowY="auto"
+      >
         {sidebarMenus.map((menu, index) => (
           <NavLink
-            to={"/"+menu.path}
+            to={"/" + menu.path}
             key={index}
             className="sidebar__navigation_navlinks"
           >
-            {menu.icon ? <span>{menu.icon}</span> : ""}
+            {menu.icon ? (
+              <Text
+                as="span"
+                width="1rem"
+                marginRight="1rem"
+                display="flex"
+                alignItems="center"
+              >
+                {menu.icon}
+              </Text>
+            ) : (
+              ""
+            )}
             {menu.name}
-
           </NavLink>
         ))}
-      </div>
-    </aside>
+      </Box>
+    </Box>
   );
 };

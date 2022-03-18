@@ -12,7 +12,6 @@ import {
   COUPONS,
   SETTINGS,
   LOGIN,
-  PRODUCTSDETAIL
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
 const SectionWrapperRouter = lazy(() =>
@@ -111,18 +110,7 @@ export const Routing = () => {
               </Suspense>
             </PrivateRoute>
           }
-        />
-
-        {/* ____________________Route Products Init_______________________*/}
-        <Route
-          path={PRODUCTS}
-          element={
-            <Suspense fallback={<InLineLoader />}>
-              <SectionWrapperRouter />
-            </Suspense>
-          }
         >
-
           <Route
             index
             element={
@@ -131,7 +119,6 @@ export const Routing = () => {
               </Suspense>
             }
           />
-         
         </Route>
         {/* ____________________Route Category Finish_______________________*/}
         {/* ____________________Route Customer Init_______________________*/}
@@ -153,7 +140,6 @@ export const Routing = () => {
               </Suspense>
             }
           />
-         
         </Route>
         {/* ____________________Route Customer Finish_______________________*/}
         <Route

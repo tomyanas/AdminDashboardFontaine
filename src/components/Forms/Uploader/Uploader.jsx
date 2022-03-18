@@ -1,9 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import "./Uploader.scss";
 import { UploadIcon } from "../../../assets/icons/UploadIcon";
 import { useField } from "formik";
-import { useToast, CloseButton } from "@chakra-ui/react";
+import {
+  useToast,
+  CloseButton,
+  Box,
+  Image,
+  Text,
+  Input,
+} from "@chakra-ui/react";
 
 export const Uploader = ({ name, maxFiles = 2 }) => {
   const [_, __, helpers] = useField(name);
@@ -54,33 +60,76 @@ export const Uploader = ({ name, maxFiles = 2 }) => {
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks
     files.forEach((file) => URL.revokeObjectURL(file.preview));
-    helpers.setValue(files.map(file=> file.file));
+    helpers.setValue(files.map((file) => file.file));
   }, [files]);
 
   return (
-    <section className="container uploader">
-      <div className="uploader__container" {...getRootProps()}>
-        <input {...getInputProps()} name={name} />
+    <Box>
+      <Box
+        flex=" 1"
+        display=" flex"
+        flexDirection=" column"
+        alignItems=" center"
+        padding=" 30px"
+        border=" 2px dashed #e6e6e6"
+        borderRadius=" 2px"
+        bg=" #ffffff"
+        color=" #bdbdbd"
+        outline=" none"
+        transition=" border 0.24s ease-in-out"
+        cursor="pointer"
+        // className="uploader__container"
+        {...getRootProps()}
+      >
+        <Input {...getInputProps()} name={name} />
         <UploadIcon />
-        <span className="uploader__text">
-          <span>Drag/Upload</span> your image here.
-        </span>
-      </div>
+        <Text
+          as="span"
+          fontFamily="'Lato', sans-serif"
+          fontSize="14px"
+          fontWeight="400"
+          lineHeight="1.5"
+          color="#161f6a"
+          mt="15px"
+          textAlign="center"
+          // className="uploader__text"
+        >
+          <Text as="span" fontWeight="bold" color="#4a8cca">
+            Drag/Upload
+          </Text>{" "}
+          your image here.
+        </Text>
+      </Box>
       {!!files.length && (
-        <aside className="uploader__thumb-container">
+        <Box
+          display="flex"
+          flexDirection="row"
+          flexWrap="wrap"
+          mt="16px"
+          // className="uploader__thumb-container"
+        >
           {files.map((file, index) => (
             <ThumbUpload file={file} key={index} onDelete={onDelete} />
           ))}
-        </aside>
+        </Box>
       )}
-    </section>
+    </Box>
   );
 };
 
 const ThumbUpload = ({ file, onDelete }) => {
   return (
-    <div className="uploader__thumb">
-      <div className="uploader__thumb-inner">
+    <Box
+      display="inline-flex"
+      borderRadius="2px"
+      border="1px solid #eaeaea"
+      mb="8px"
+      mr="8px"
+      width="100px"
+      height="100px"
+      padding="4px"
+    >
+      <Box display="flex" minW="0" overflow="hidden" position="relative">
         <CloseButton
           size="sm"
           onClick={() => onDelete(file.file.name)}
@@ -89,12 +138,14 @@ const ThumbUpload = ({ file, onDelete }) => {
           right={0}
           _hover={{ bg: "#0008", color: "#FFF" }}
         />
-        <img
-          className="uploader__thumb-img"
+        <Image
+          display="block"
+          w="auto"
+          h="100%"
           src={file.preview}
           alt={file.file.name}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

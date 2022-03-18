@@ -78,6 +78,7 @@ const Category = () => {
 
   useEffect(() => {
     getAllCategories();
+    console.log("aquitoy")
   }, []);
   return (
     <Section>
