@@ -72,6 +72,8 @@ $background-f7: #f7f7f7;
     gap: 1rem;
   }
 }
+
+
 .error {
   width: fit-content;
   margin-top: 5px;
@@ -110,7 +112,7 @@ $background-f7: #f7f7f7;
 
 @keyframes animation{
   0% {
-      transform: translateX(0px);
+    transform: translateX(0px);
       opacity: 0.8;
   }
   80% {
@@ -120,11 +122,11 @@ $background-f7: #f7f7f7;
 }
 
 //________Sidebar_Navlinks____
-.sidebar__navigation_navlinks {
+.nav-link-light {
   font-family: "Lato", sans-serif;
-  font-size: 1rem;
   font-weight: 700;
   line-height: 1.5;
+  letter-spacing: 0.05em;
   width: calc(100% - 30px);
   outline: 0;
   color: #161f6a;
@@ -133,23 +135,72 @@ $background-f7: #f7f7f7;
   padding: 1rem 3.5rem 1rem 2rem;
   text-decoration: none;
   transition: 0.15s ease-in-out;
-      
+  margin: 3px 0 ;
+  .icon_navlink{
+    color: #161f6a;
+
+  }
+
   @media only screen and (max-width: 767px) {
-      width: 100%;
-      padding: 1rem 2rem;
+    width: 100%;
+    padding: 1rem 2rem;
   }
   
   &:hover {
-      // color: #00c58d;
-      color: #55a1e7;
-      background-color: #f7f7f7;
-      border-radius: 50px 0 0 50px;
+    border-radius: 50px 0 0 50px;
+    background-color: #f3f3f36b;
+    .icon_navlink{
+      color: #55a1e7; 
+    }
   }
 
 }
-.active{
-  // color: #00C58D;
-  color: #4a8cca;
-  background-color: #f7f7f7;
-  border-radius: 50px 0 0 50px;
+
+.nav-link-dark{
+  font-family: "Lato", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+  width: calc(100% - 30px);
+  outline: 0;
+  display: flex;
+  align-items: center;
+  padding: 1rem 3.5rem 1rem 2rem;
+  text-decoration: none;
+  transition: 0.15s ease-in-out;
+  margin: 3px 0 ;
+
+  .icon_navlink{
+    color: "#cbd5e0"; 
+  }
+  @media only screen and (max-width: 767px) {
+    width: 100%;
+    padding: 1rem 2rem; 
+  }
+  
+  &:hover {
+    color: #55a1e7;
+    background-color: #11121a8c;
+    border-radius: 50px 0 0 50px;
+  }
+}
+
+.sidebar_light{
+  .active{
+    color: #4a8cca;
+    background-color: #f3f3f3;
+    border-radius: 50px 0 0 50px;
+    .icon_navlink{
+      color: #55a1e7; 
+    }
+  }
+}
+.sidebar_dark{
+  .active{
+    // color: #00C58D;
+    color: #4a8cca;
+    background-color: #11121a;
+    border-radius: 50px 0 0 50px;
+  }
 }

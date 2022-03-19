@@ -3,8 +3,8 @@ export const SettingIcon = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='13'
-      height='13'
+      width='25'
+      height='25'
       viewBox='0 0 13 13'
     >
       <path
