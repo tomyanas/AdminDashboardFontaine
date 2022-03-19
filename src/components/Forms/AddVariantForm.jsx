@@ -76,8 +76,7 @@ const AddVariantForm = ({ onClose = null }) => {
       </Heading>
       <Formik
         initialValues={{
-          options: "",
-          category: "",
+          variant: {},
           gallery: [],
           stock: "",
           sku: "",
@@ -100,7 +99,7 @@ const AddVariantForm = ({ onClose = null }) => {
 
             <Stack mt={4} spacing={2} direction="row" align="space-between">
               <FormControl isRequired>
-                <FormLabel htmlFor="category">Category</FormLabel>
+                <FormLabel htmlFor="variant">Nombre de la variante</FormLabel>
                 <Field
                   name="category"
                   id="category"
