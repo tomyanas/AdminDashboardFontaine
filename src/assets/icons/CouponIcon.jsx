@@ -1,5 +1,5 @@
 import React from 'react';
-export const CouponIcon = ({ width = '11.426', height = '13' }) => {
+export const CouponIcon = ({ width = '20', height = '20' }) => {
   return (
     <svg
       data-name="Group 2930"

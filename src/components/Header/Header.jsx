@@ -18,6 +18,7 @@ import { UserIcon } from "../../assets/icons/UserIcon";
 import { UserAvatar } from "../../assets/icons/UserAvatar";
 import { LogoutIcon } from "../../assets/icons/LogoutIcon";
 import Logoimage from "../../assets/image/fontaine.svg";
+import Logo from "./Logo";
 import {
   Menu,
   MenuButton,
@@ -47,10 +48,10 @@ export const Header = ({ onOpenSidebar }) => {
     <Box
       display="flex"
       justifyContent="space-between"
-      p="1rem 2rem"
+      p={{ base: "1rem", sm: "1rem 2rem" }}
       w="100%"
-      bg="#FFF"
-      boxShadow={"0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)"}
+      bg={useColorModeValue("gray.50", "gray.900")}
+      boxShadow={useColorModeValue("0 1px 3px 0 rgba(0,0,0,0.1),0 1px 2px 0 rgba(0,0,0,0.06)", "0 1px 3px 0 rgba(250,250,250,0.1),0 1px 2px 0 rgba(250,250,250,0.06)")}
       zIndex={1}
       sx={{
         "@media only screen and (max-width: 767pxs)": {
@@ -75,22 +76,18 @@ export const Header = ({ onOpenSidebar }) => {
           </Button>
         </Box>
         <Link to="/">
-          <Image
-            src={Logoimage}
-            alt="Fontaine-logo"
-            h="28px"
-            ml="1rem"
-            sx={{
-              "@media only screen and (max-width: 767px)": {
-                display: "none",
-              },
-            }}
-          />
+          <Box
+            display="block"
+            ml={{ base: "0", sm: "1rem" }}
+          >
+            <Logo height="28px" color={useColorModeValue("#222220", "#fafafa")} />
+          </Box>
+
         </Link>
       </Box>
 
       <Box display="flex" gap="20px" alignItems="center">
-        <DarkModeSwitch />
+        <DarkModeSwitch display={{ base: "none", sm: "flex" }} />
         <Menu>
           <MenuButton
             as={Button}
@@ -135,6 +132,7 @@ const ModalProfile = () => {
         bg={useColorModeValue("white", "gray.800")}
       >
         <Stack bg={"gray.300"}>
+          {/* <Logo /> */}
           <Image
             alignSelf={"center"}
             h={"120px"}

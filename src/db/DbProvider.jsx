@@ -14,7 +14,7 @@ import {
 import { searchByName } from "./filters";
 import { db, storage } from "../firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
+import { useToast } from "@chakra-ui/react";
 export let DbContext = createContext(null);
 
 export const useDb = () => {
@@ -24,38 +24,45 @@ export const useDb = () => {
 };
 
 export const DbProvider = ({ children }) => {
+  const toast = useToast();
   let [categories, setCategories] = useState([]);
   let [products, setProducts] = useState([]);
   let [customers, setCustomers] = useState([]);
   let [roles, setRoles] = useState([]);
+  let [staff, setStaff] = useState([]);
   let [filteredProducts, setFilteredProducts] = useState(products);
   let [filteredCustomers, setFilteredCustomers] = useState(customers);
   let [filteredCategories, setFilteredCategories] = useState(categories);
+  let [filteredStaff, setFilteredStaff] = useState(staff);
+  //=======================Toast============================
+  const GenericToastError = (message, description) => {
+    toast({
+      title: message ? message : "Ops... Ocurrio un error, Intenta Luego",
+      description,
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+  const GenericToastSuccess = (message, description) => {
+    toast({
+      title: message ? message : "Salio Todo Bien =D",
+      description,
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
+
   //=======================UPLOAD============================
-  // const onUpload = async () => {
-  //   const storageRef = storage.ref();
-  //   const fileRef = storageRef.child(file.name);
-  //   await fileRef.put(file);
-  //   db.collection("products")
-  //     .doc(currentProduct)
-  //     .update({
-  //       images: firebase.firestore.FieldValue.arrayUnion({
-  //         name: file.name,
-  //         url: await fileRef.getDownloadURL(),
-  //       }),
-  //     });
-  // };
-
-  const onUpload = async (file) => {
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-
-    try {
-      const productsRef = ref(storage, "products/" + file.name);
-      const uploadTask = uploadBytesResumable(productsRef, file, metadata);
-
-      // uploadTask.on(
+  // TODO: No borrar lo comentado, lo necesito para hacer un
+  //  modal de carga con barrita de progreso
+  const onUpload = async (path, file) => {
+      try {
+      const productsRef = ref(storage, path + file.name);
+      const uploadTask = await uploadBytesResumable(productsRef, file);
+      console.log(uploadTask)
+      /*/ uploadTask.on(
       //   "state_changed",
       //   (snapshot) => {
       //     const progress =
@@ -71,16 +78,17 @@ export const DbProvider = ({ children }) => {
       //     }
       //   },
       //   (error) => {
+      // // Handle unsuccessful uploads
       //     console.log("Se rompio todo", error.code);
       //   },
-      //   () => {
+      //   () => {// Handle successful uploads on complete
       //     // Upload completed successfully, now we can get the download URL
       //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
       //       console.log("File available at", downloadURL);
       //     });
       //   }
-      // );
-      return uploadTask;
+      /*/// );
+      return getDownloadURL(uploadTask.ref);
     } catch (e) {
       console.log("error", e);
     }
@@ -152,8 +160,7 @@ export const DbProvider = ({ children }) => {
       console.log(updatedProduct.data());
       return updatedProduct.data();
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const updateProduct = async (id, newProduct) => {
@@ -166,10 +173,9 @@ export const DbProvider = ({ children }) => {
         },
         { merge: true }
       );
-      return updatedProduct.data();
+      return updatedProduct
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   //=======================CATEGORY============================
@@ -186,8 +192,7 @@ export const DbProvider = ({ children }) => {
       setFilteredCategories(allCategories);
       return allCategories;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const getOneCategory = async (id) => {
@@ -200,17 +205,16 @@ export const DbProvider = ({ children }) => {
         console.log("No such document!");
       }
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const addCategory = async (newCategory) => {
+    console.log(newCategory)
     try {
       await addDoc(collection(db, "categories"), newCategory);
       return "Categoria Añadida Correctamente";
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const updateCategoryBySub = async (idCat, subcategory, newSubcategory) => {
@@ -225,8 +229,7 @@ export const DbProvider = ({ children }) => {
       });
       return updatedCategory.data();
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const deleteCategory = async (id) => {
@@ -255,8 +258,22 @@ export const DbProvider = ({ children }) => {
       setFilteredCustomers(allCustomers);
       return allCustomers;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
+    }
+  };
+  const getAllStaffMembers = async () => {
+    try {
+      const q = query(collection(db, "users"), where("role", "!=", "customer"));
+      const querySnapshot = await getDocs(q);
+      let allStaff = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setStaff(allStaff);
+      setFilteredStaff(allStaff);
+      return allStaff;
+    } catch (error) {
+      throw new Error(error);
     }
   };
   const getOneUser = async (id) => {
@@ -270,8 +287,7 @@ export const DbProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const getOneUserByEmail = async (email) => {
@@ -289,26 +305,29 @@ export const DbProvider = ({ children }) => {
       });
       return user[0];
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
   const updateUserByField = async (id, field, value) => {
     try {
       const userRef = doc(db, "users", id);
-      let updatedUser = await updateDoc(userRef, {
+      await updateDoc(userRef, {
         [field]: value,
       });
-      console.log(updatedUser.data());
-      return updatedUser.data();
+      GenericToastSuccess("Actualizado Correctamente");
+      return true;
     } catch (error) {
-      console.error(error);
-      return null;
+      GenericToastError();
+      throw new Error(error);
     }
   };
   const searchCustomers = (search) => {
     let searchFound = searchByName(customers, search);
     setFilteredCustomers(searchFound);
+  };
+  const searchStaff = (search) => {
+    let searchFound = searchByName(staff, search);
+    setFilteredStaff(searchFound);
   };
 
   //=======================Role============================
@@ -323,40 +342,45 @@ export const DbProvider = ({ children }) => {
       setRoles(allRoles);
       return allRoles;
     } catch (error) {
-      console.error(error);
-      return null;
+      throw new Error(error);
     }
   };
 
   let value = {
     onUpload,
+    staff,
     roles,
     customers,
     categories,
     products,
+    filteredStaff,
     filteredProducts,
     filterProductBy,
     filteredCategories,
     filteredCustomers,
     addProduct,
-    searchProducs,
+    addCategory,
     getOneUserByEmail,
     getOneUser,
     getAllRoles,
-    getAllCategories,
-    getAllProducts,
     getOneCategory,
     getOneProduct,
+    getAllStaffMembers,
+    getAllCategories,
+    getAllCustomers,
+    getAllProducts,
+    searchCustomers,
     searchCategories,
-    addCategory,
+    searchProducs,
+    searchStaff,
     updateCategoryBySub,
     updateUserByField,
-    deleteCategory,
-    deleteProduct,
     updateProduct,
     updateProductByField,
-    getAllCustomers,
-    searchCustomers,
+    deleteCategory,
+    deleteProduct,
+    GenericToastSuccess,
+    GenericToastError,
   };
   return <DbContext.Provider value={value}>{children}</DbContext.Provider>;
 };

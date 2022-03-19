@@ -1,21 +1,17 @@
 import { Box, FormControl, FormLabel, Heading, Stack } from "@chakra-ui/react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useDb } from "../../db/DbProvider";
 import { db } from "../../firebase";
-// import { useAuth } from "../../auth/AuthProvider";
 import {
   CustomButton,
   CustomInput,
   CustomSelect,
 } from "./CustomInputs/CustomInputs";
 
-/*TODO:
- * => comprobar que el email ingresado exista en la db como customer
- * => Listar los roles existentes y mostrar solo los permitidos segun su nivel
- */
 const isValidEmail = async (value) => {
   try {
     if (!value) return false;
@@ -58,15 +54,16 @@ const validationSchema = Yup.object().shape({
 });
 
 const StaffMemberForm = ({ onClose }) => {
-  const { roles, getAllRoles, getOneUserByEmail } = useDb();
-
-  // const auth = useAuth();
-
+  const { roles, getAllRoles, getOneUserByEmail, updateUserByField } = useDb();
+  
+  let navigate = useNavigate();
   const handleSubmit = async (values) => {
     console.log(values);
     try {
-      // metodo en auth add Staff member
-      console.log();
+      let user = await getOneUserByEmail(values.email);
+      await updateUserByField(user.id, "role", values.role);
+      onClose && onClose();
+      navigate("/settings/staff")
     } catch (error) {
       console.log(error);
     }
@@ -100,7 +97,6 @@ const StaffMemberForm = ({ onClose }) => {
                 placeholder="Email"
                 component={CustomInput}
                 autoComplete="username"
-                // onBlur={(e)=>handleOnBlur(e)}
               />
               <ErrorMessage name="email" component="div" className="error" />
             </FormControl>

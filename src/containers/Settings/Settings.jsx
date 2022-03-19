@@ -1,11 +1,11 @@
 import SettingsCard from "../../components/SettingsCard/SettingsCard";
 import { Members } from "../../assets/icons/Members";
 import { SiteSettings } from "../../assets/icons/SiteSettings";
-import { OrderIcon } from "../../assets/icons/OrderIcon";
+// import { OrderIcon } from "../../assets/icons/OrderIcon";
 import { CouponIcon } from "../../assets/icons/CouponIcon";
 import { SidebarCategoryIcon } from "../../assets/icons/SidebarCategoryIcon";
 import { ProductIcon } from "../../assets/icons/ProductIcon";
-import StaffMemberForm from "../../components/Forms/StaffMemberForm";
+// import StaffMemberForm from "../../components/Forms/StaffMemberForm";
 import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
 import AddProductForm from "../../components/Forms/ProductForm";
 
@@ -22,12 +22,12 @@ const cards = [
     subtitle: "View and update your site settings",
     linkTo: "site-settings",
   },
-  {
-    icon: OrderIcon,
-    title: "Add Staff Members",
-    subtitle: "Add your staff members from here",
-    form: StaffMemberForm,
-  },
+  // {
+  //   icon: OrderIcon,
+  //   title: "Add Staff Members",
+  //   subtitle: "Add your staff members from here",
+  //   form: StaffMemberForm,
+  // },
   {
     icon: CouponIcon,
     title: "Add Coupons",

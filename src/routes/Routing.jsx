@@ -23,18 +23,12 @@ const Login = lazy(() => import("../containers/Login/Login"));
 const Layout = lazy(() => import("../containers/Layout/Layout"));
 const Dashboard = lazy(() => import("../containers/Dashboard/Dashboard"));
 const Products = lazy(() => import("../containers/Products/Products"));
-const ProductDetail = lazy(() =>
-  import("../containers/Products/ProductDetail")
-);
+
 const Category = lazy(() => import("../containers/Category/Category"));
-const CategoryDetail = lazy(() =>
-  import("../containers/Category/CategoryDetail")
-);
+
 const Orders = lazy(() => import("../containers/Orders/Orders"));
 const Customers = lazy(() => import("../containers/Customers/Customers"));
-const CustomerDetail = lazy(() =>
-  import("../containers/Customers/CustomerDetail")
-);
+
 const Coupons = lazy(() => import("../containers/Coupons/Coupons"));
 const SiteSettings = lazy(() =>
   import("../containers/SiteSettings/SiteSettings")
@@ -104,14 +98,6 @@ export const Routing = () => {
               </Suspense>
             }
           />
-          <Route
-            path=":productId"
-            element={
-              <Suspense fallback={<InLineLoader />}>
-                <ProductDetail />
-              </Suspense>
-            }
-          />
         </Route>
 
         {/* ____________________Route Products finish_______________________*/}
@@ -134,14 +120,6 @@ export const Routing = () => {
               </Suspense>
             }
           />
-          <Route
-            path=":categoryId"
-            element={
-              <Suspense fallback={<InLineLoader />}>
-                <CategoryDetail />
-              </Suspense>
-            }
-          />
         </Route>
         {/* ____________________Route Category Finish_______________________*/}
         {/* ____________________Route Customer Init_______________________*/}
@@ -160,14 +138,6 @@ export const Routing = () => {
             element={
               <Suspense fallback={<InLineLoader />}>
                 <Customers />
-              </Suspense>
-            }
-          />
-          <Route
-            path=":customerId"
-            element={
-              <Suspense fallback={<InLineLoader />}>
-                <CustomerDetail />
               </Suspense>
             }
           />

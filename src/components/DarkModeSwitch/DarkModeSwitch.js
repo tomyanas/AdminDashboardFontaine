@@ -1,17 +1,23 @@
 import { useColorMode, Switch, Box, Button, Text } from "@chakra-ui/react";
 import { Moon, Sun } from "phosphor-react";
 
-const DarkModeSwitch = () => {
+const DarkModeSwitch = ({display}) => {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   return (
-    <Box>
+    <Box display={display}>
       <Switch
         position={"relative"}
         size="lg"
         colorScheme="black"
         isChecked={isDark}
         onChange={toggleColorMode}
+        _focus={{
+          outline: "none",
+        }}
+        _active={{
+          outline: "none"
+        }}
       >
         <Box
           display={colorMode === "light" ? "none" : ""}

@@ -9,10 +9,7 @@ import {
 } from "./CustomInputs/CustomInputs";
 import { useDb } from "../../db/DbProvider";
 import { useEffect } from "react";
-import { useToast } from "@chakra-ui/react";
-/*TODO:
-Subir imagenes a FB storage
- */
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string()
@@ -35,52 +32,47 @@ const validationSchema = Yup.object().shape({
 });
 
 const AddProductForm = ({ onClose = null }) => {
-  const toast = useToast();
-  const db = useDb();
-  const categories = db.categories;
+  const {
+    GenericToastSuccess,
+    GenericToastError,
+    onUpload,
+    addProduct,
+    getAllCategories,
+    categories,
+  } = useDb();
+  let navigate = useNavigate();
 
   const handleSubmit = async (values) => {
-    console.log(values);
-    let algo = await db.onUpload(values.gallery[0]);
-    console.log(algo);
-    let gallery = values.gallery.map((item) => item.path);
-    let discountInPercent =
-      values.discountInPercent === "" ? 0 : values.discountInPercent;
-    let salePrice =
-      values.price - (values.price * values.discountInPercent) / 100;
-    console.log(salePrice, values.price, values.discountInPercent);
-
+    let gallery = [];
     try {
-      let res = await db.addProduct({
+      for (const item of values.gallery) {
+        let url = await onUpload("products/", item);
+        gallery.push(url);
+      }
+      let discountInPercent =
+        values.discountInPercent === "" ? 0 : values.discountInPercent;
+      let salePrice =
+        values.price - (values.price * values.discountInPercent) / 100;
+
+      let res = await addProduct({
         ...values,
         gallery,
         image: gallery[0],
         salePrice,
         discountInPercent,
       });
-      if (res) {
-        toast({
-          title: res,
-          status: "success",
-          duration: 9000,
-          isClosable: true,
-        });
-      } else {
-        toast({
-          title: "Error Al Crear.",
-          description: "Intenta nuevamente mas tarde",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-      onClose && onClose();
-    } catch (error) {
-      console.error(error);
+      res
+        ? GenericToastSuccess(res)
+        : GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
+        onClose && onClose();
+        navigate("/products");
+      } catch (error) {
+        console.error(error);
+        GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
     }
   };
   useEffect(() => {
-    db.getAllCategories();
+    getAllCategories();
   }, []);
 
   return (
