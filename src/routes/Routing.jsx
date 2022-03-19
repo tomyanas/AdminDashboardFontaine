@@ -14,6 +14,7 @@ import {
   LOGIN,
 } from "../settings/constants";
 import { PrivateRoute } from "./PrivateRoute";
+import AddVariantForm from "../components/Forms/AddVariantForm";
 const SectionWrapperRouter = lazy(() =>
   import("../components/Sections/SectionWrapperRouter")
 );
@@ -239,6 +240,7 @@ export const Routing = () => {
         {/* _____________Settings Router finish_________ */}
       </Route>
       {/* _____________General Admin Router finish_________ */}
+      <Route path="test" element={<AddVariantForm />}></Route>
     </Routes>
   );
 };
