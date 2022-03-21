@@ -10,7 +10,7 @@ import {
 import { useDb } from "../../db/DbProvider";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import { AddVariant } from "./AddVariant";
 const validationSchema = Yup.object().shape({
   name: Yup.string()
     .required("Name is Required")
@@ -64,11 +64,11 @@ const AddProductForm = ({ onClose = null }) => {
       res
         ? GenericToastSuccess(res)
         : GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
-        onClose && onClose();
-        navigate("/products");
-      } catch (error) {
-        console.error(error);
-        GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
+      onClose && onClose();
+      navigate("/products");
+    } catch (error) {
+      console.error(error);
+      GenericToastError("Error Al Crear.", "Intenta nuevamente mas tarde");
     }
   };
   useEffect(() => {
@@ -239,7 +239,9 @@ const AddProductForm = ({ onClose = null }) => {
             </FormControl>
 
             {/* _____________________ */}
-
+            <Stack>
+              <AddVariant />
+            </Stack>
             <Stack mt={4} spacing={2} direction="row" align="space-between">
               <CustomButton
                 type="reset"
