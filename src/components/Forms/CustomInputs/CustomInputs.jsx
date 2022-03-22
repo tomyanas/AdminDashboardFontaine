@@ -4,6 +4,7 @@ import {
   InputGroup,
   InputRightElement,
   Select,
+  Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Eye } from "../../../assets/icons/Eye";
@@ -12,6 +13,19 @@ import { EyeOff } from "../../../assets/icons/EyeOff";
 export const CustomInput = ({ field, form: { touched, errors }, ...props }) => {
   return (
     <Input
+      {...field}
+      {...props}
+      bg="#EEEEEE"
+      borderRadius={0}
+      border="none"
+      _placeholder={{ color: "#777", fontWeight: 600 }}
+      _focus={{ border: "2px solid #51a6f5" }}
+    />
+  );
+};
+export const CustomTextarea = ({ field, form: { touched, errors }, ...props }) => {
+  return (
+    <Textarea
       {...field}
       {...props}
       bg="#EEEEEE"
