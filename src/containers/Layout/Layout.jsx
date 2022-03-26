@@ -10,6 +10,7 @@ import {
   useDisclosure,
   DrawerCloseButton,
   Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { ArrowLeftRound } from "../../assets/icons/ArrowLeftRound";
 
@@ -17,7 +18,7 @@ const Layout = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box w="100%" display="flex" flexDirection="column" bg="#f7f7f7">
+    <Box w="100%" display="flex" flexDirection="column" bg={useColorModeValue("gray.100","gray.800")}>
       <Header onOpenSidebar={onOpen} />
       <Box w="100%" h="100%" display="flex">
         <Box h="100%" display={{ base: "none", lg: "block" }}>
