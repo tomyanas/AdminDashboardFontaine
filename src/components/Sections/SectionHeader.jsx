@@ -1,9 +1,9 @@
-import { Box, Heading } from "@chakra-ui/react";
+import { Box, Heading, useColorModeValue } from "@chakra-ui/react";
 
 export const SectionHeader = ({ children, title, size = "xl" , ...props }) => {
   return (
     <Box
-      bg={"#fff"}
+      bg={useColorModeValue("#fafafa", "gray.900")}
       minHeight="fit-content"
       padding={"10px"}
       boxShadow="1px 1px 3px 1px #0003"
