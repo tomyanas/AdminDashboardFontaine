@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
-import { useDb } from "../../db/DbProvider";
-import Logoimage from "../../assets/image/fontaine.svg";
+import React, { useEffect, useState } from 'react';
+import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
+import { useDb } from '../../db/DbProvider';
+import Logoimage from '../../assets/image/fontaine.svg';
 import {
   Avatar,
   Box,
@@ -11,7 +11,7 @@ import {
   Stack,
   Text,
   useColorModeValue,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 const CustomerDetail = ({ itemId }) => {
   const { getOneUser } = useDb();
@@ -27,11 +27,11 @@ const CustomerDetail = ({ itemId }) => {
 
   return (
     <Box
-      w={"90%"}
-      rounded={"md"}
-      overflow={"hidden"}
+      w={'90%'}
+      rounded={'md'}
+      overflow={'hidden'}
       py={6}
-      bg={useColorModeValue("white", "gray.800")}
+      bg={useColorModeValue('white', 'gray.800')}
       mx="auto"
     >
       {user ? (
@@ -42,19 +42,20 @@ const CustomerDetail = ({ itemId }) => {
             justifyContent="center"
             alignItems="center"
             p="1rem"
+            borderRadius="10px 10px 0 0px"
           >
-            <Image m={0} w={"100%"} src={Logoimage} objectFit={"fill"} />
+            <Image m={0} w={'100%'} src={Logoimage} objectFit={'fill'} />
           </Box>
-          <Flex justify={"center"} mt={{ base: -6, sm: -9, md: -12 }}>
+          <Flex justify={'center'} mt={{ base: -6, sm: -9, md: -12 }}>
             <Avatar
               // size={{base:"xs", md:"xl"}}
               size="xl"
               src={
                 user?.photoURL
                   ? user.photoURL
-                  : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                  : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
               }
-              alt={"Author"}
+              alt={'Author'}
               border="2px solid white"
             />
           </Flex>
@@ -62,14 +63,47 @@ const CustomerDetail = ({ itemId }) => {
           <Heading
             p={4}
             textAlign="center"
-            fontSize={{ base: "xl", md: "2xl" }}
+            fontSize={{ base: 'xl', md: '2xl' }}
             fontWeight={500}
-            fontFamily={"body"}
+            fontFamily={'body'}
           >
             {user.email}
           </Heading>
-          <Text color={"gray.500"} textTransform="capitalize">
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Role:
+            </Text>
             {user.role}
+          </Text>
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Nombre:
+            </Text>
+            {user.firstName}
+          </Text>
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Apellido:
+            </Text>
+            {user.lastName}
+          </Text>
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Cuenta Verificada:
+            </Text>
+            {user.isVerified ? "Si" : "No"}
+          </Text>
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Fecha de Registro:
+            </Text>
+            {user.registerDate}
+          </Text>
+          <Text color={'gray.500'} textTransform="capitalize">
+            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
+              Direccion:
+            </Text>
+            {user.address}
           </Text>
           {/* </Stack> */}
 
@@ -152,5 +186,3 @@ export default CustomerDetail;
 //       </Box>
 //   );
 // };
-
-

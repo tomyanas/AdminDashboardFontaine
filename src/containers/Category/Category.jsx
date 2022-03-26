@@ -35,7 +35,7 @@ const Category = () => {
       getAllCategories();
       onClose();
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       toast({
         title: "Ocurrio un error, intenta Luego",
         status: "error",
@@ -78,7 +78,6 @@ const Category = () => {
 
   useEffect(() => {
     getAllCategories();
-    console.log("aquitoy")
   }, []);
   return (
     <Section>
