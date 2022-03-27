@@ -9,13 +9,14 @@ import {
   Image,
   Text,
   Input,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 export const Uploader = ({ name, maxFiles = 2 }) => {
   const [_, __, helpers] = useField(name);
   const [files, setFiles] = useState([]);
   const toast = useToast();
-
+//#2d3748
   const onDrop = useCallback(
     (acceptedFiles, rejectedFiles) => {
       if (rejectedFiles.length) {
@@ -71,9 +72,10 @@ export const Uploader = ({ name, maxFiles = 2 }) => {
         flexDirection=" column"
         alignItems=" center"
         padding=" 30px"
-        border=" 2px dashed #e6e6e6"
+        border={useColorModeValue("2px dashed #e6e6e6", "2px dashed #eeeeee")}
+        // border=" 2px dashed #e6e6e6"
         borderRadius=" 2px"
-        bg=" #ffffff"
+        bg={useColorModeValue("#fff", "#2d3748")}
         color=" #bdbdbd"
         outline=" none"
         transition=" border 0.24s ease-in-out"
@@ -89,14 +91,15 @@ export const Uploader = ({ name, maxFiles = 2 }) => {
           fontSize="14px"
           fontWeight="400"
           lineHeight="1.5"
-          color="#161f6a"
+          color={useColorModeValue("#161f6a", "#e1e1e1")}
+          // color="#161f6a"
           mt="15px"
           textAlign="center"
           // className="uploader__text"
         >
           <Text as="span" fontWeight="bold" color="#4a8cca">
             Drag/Upload
-          </Text>{" "}
+          </Text >{" "}
           your image here.
         </Text>
       </Box>

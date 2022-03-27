@@ -68,9 +68,9 @@ export const AddCategoryForm = ({ onClose }) => {
     getAllCategories();
   }, []);
   return (
-    <Box bg={"#fff"} p={"20px"}>
+    <Box bg={"transparent"} p={"20px"}>
       <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
-        Add a New Category
+        Crear Nueva Categoría
       </Heading>
 
       <Formik
@@ -86,11 +86,11 @@ export const AddCategoryForm = ({ onClose }) => {
         <Form>
           <Stack mt={4} spacing={6} direction="column">
             <FormControl isRequired>
-              <FormLabel htmlFor="name">Category Name</FormLabel>
+              <FormLabel htmlFor="name">Nombre</FormLabel>
               <Field
                 name="name"
                 id="name"
-                placeholder="Category Name"
+                // placeholder="Category Name"
                 component={CustomInput}
               />
               <ErrorMessage
@@ -105,19 +105,19 @@ export const AddCategoryForm = ({ onClose }) => {
               <Field
                 name="slug"
                 id="slug"
-                placeholder="Slug"
+                // placeholder="Slug"
                 component={CustomInput}
               />
               <ErrorMessage name="slug" component="div" className="error" />
             </FormControl>
             {/* _____________________ */}
             <FormControl>
-              <FormLabel htmlFor="parent_category">Parent Category</FormLabel>
+              <FormLabel htmlFor="parent_category">Categoría Padre</FormLabel>
               <Field
                 name="parent_category"
                 id="parent_category"
                 type="parent_category"
-                placeholder="Select Parent Category"
+                placeholder="Categoría"
                 component={CustomSelect}
                 autoComplete="username"
               >
@@ -151,10 +151,10 @@ export const AddCategoryForm = ({ onClose }) => {
               type="reset"
               color="red"
               variant="outline"
-              content="Cancel"
+              content="Cancelar"
               onClick={onClose}
             />
-            <CustomButton type="submit" content="Add Category" />
+            <CustomButton type="submit" content="Añadir" />
           </Stack>
           {/* _____________________ */}
         </Form>

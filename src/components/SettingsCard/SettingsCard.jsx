@@ -1,17 +1,21 @@
 import { Link } from "react-router-dom";
-import { Box, Heading, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Heading, Text, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { CustomModal } from "../Forms/CustomModal/CustomModal";
 
 const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  let p_color = useColorModeValue("#4a8cca", "#4a8cca")
+  let shadow = useColorModeValue("1px 1px 3px 2px #0003", "1px 1px 3px 2px #4a8cca30")
+  // let shadow = useColorModeValue("1px 1px 3px 2px #0003", "1px 1px 3px 0px #4a8cca")
+  let bg_color = useColorModeValue("#fff", "#171923")
+  let text_color = useColorModeValue("#666d92", "#bebebe")
   if (linkTo)
     return (
       <Link to={linkTo}>
         <Box
           display="flex"
-          bg="#fff"
-          boxShadow="1px 1px 3px 2px #0003"
+          bg={bg_color}
+          boxShadow={shadow}
           cursor="pointer"
           padding="35px 20px"
           height="100%"
@@ -22,7 +26,7 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
             width="100px"
             justifyContent="center"
             alignItems="center"
-            color="#4a8cca"
+            color={p_color}
             mar="10px"
           >
             <Icon width="3.5rem" height="3.5rem" />
@@ -31,12 +35,12 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
             <Heading
               m="0 0 5px"
               fontSize="1.5rem"
-              color="#4a8cca"
+              color={p_color}
               fontWeight="600"
             >
               {title}
             </Heading>
-            <Text fontSize="0.875rem" color="#666d92">
+            <Text fontSize="0.875rem" color={text_color}>
               {subtitle}
             </Text>
           </Box>
@@ -48,9 +52,8 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
     return (
       <Box
         display="flex"
-        bg="#fff"
-        boxShadow="1px 1px 3px 2px #0003"
-        cursor="pointer"
+        bg={bg_color}
+        boxShadow={shadow}       cursor="pointer"
         padding="35px 20px"
         height="100%"
         width="100%"
@@ -61,7 +64,7 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
           width="100px"
           justifyContent="center"
           alignItems="center"
-          color="#4a8cca"
+          color={p_color}
           mar="10px"
         >
           <Icon width="3.5rem" height="3.5rem" />
@@ -70,12 +73,12 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
           <Heading
             m="0 0 5px"
             fontSize="1.5rem"
-            color="#4a8cca"
+            color={p_color}
             fontWeight="600"
           >
             {title}
           </Heading>
-          <Text fontSize="0.875rem" color="#666d92">
+          <Text fontSize="0.875rem" color={text_color}>
             {subtitle}
           </Text>
         </Box>
@@ -86,9 +89,8 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
   return (
     <Box
       display="flex"
-      bg="#fff"
-      boxShadow="1px 1px 3px 2px #0003"
-      cursor="pointer"
+      bg={bg_color}
+      boxShadow={shadow}     cursor="pointer"
       padding="35px 20px"
       height="100%"
       width="100%"
@@ -98,16 +100,16 @@ const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
         width="100px"
         justifyContent="center"
         alignItems="center"
-        color="#4a8cca"
+        color={p_color}
         mar="10px"
       >
         <Icon width="3.5rem" height="3.5rem" />
       </Box>
       <Box display="flex" flexDirection="column" lineHeight="1.5">
-        <Heading m="0 0 5px" fontSize="1.5rem" color="#4a8cca" fontWeight="600">
+        <Heading m="0 0 5px" fontSize="1.5rem" color={p_color} fontWeight="600">
           {title}
         </Heading>
-        <Text fontSize="0.875rem" color="#666d92">
+        <Text fontSize="0.875rem" color={text_color}>
           {subtitle}
         </Text>
       </Box>

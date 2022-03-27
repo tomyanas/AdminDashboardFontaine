@@ -1,4 +1,11 @@
-import { Box, Button, Text, Input, IconButton } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Text,
+  Input,
+  IconButton,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Minus, Plus } from 'phosphor-react';
 import { Trash } from '../../../assets/icons/Trash';
@@ -11,6 +18,10 @@ export const AddVariant = ({ name }) => {
   const [open, setOpen] = useState(false);
   const [varianteActual, setVarianteActual] = useState('');
   const [allVariants, setAllVariants] = useState({});
+  let bg_input = useColorModeValue('#EEEEEE', '#2d3748');
+  let border_input = useColorModeValue('none', '1px solid #eeeeee');
+  let ph_input = useColorModeValue('#777777', '#bababa');
+  let color_trashbtn = useColorModeValue('#2f2f2f', '#bababa');
 
   const setearOpciones = (nuevaOpcion, variante) => {
     setAllVariants({
@@ -42,7 +53,7 @@ export const AddVariant = ({ name }) => {
   }, [allVariants]);
 
   return (
-    <Box h="fit-content" w="100%" borderBottom="1px solid #e6e6e6">
+    <Box h="fit-content" w="100%" borderBottom={useColorModeValue("1px solid #e6e6e6","1px solid #bababa")}>
       <Box h="fit-content" p="0" w="100%">
         <Button
           onClick={() => setOpen(!open)}
@@ -51,7 +62,7 @@ export const AddVariant = ({ name }) => {
           justifyContent="center"
           ml="auto"
           bg="transpatent"
-          color="#2f2f2f"
+          color={useColorModeValue('#2f2f2f', '#eeeeee')}
           _focus={{
             outline: 'none',
             bg: 'transpatent',
@@ -64,7 +75,7 @@ export const AddVariant = ({ name }) => {
           }}
           leftIcon={open ? <Minus size={14} /> : <Plus size={14} />}
         >
-          variantes
+          Agregar variantes
         </Button>
       </Box>
       {open && (
@@ -74,13 +85,16 @@ export const AddVariant = ({ name }) => {
               <Input
                 type="text"
                 name={name}
-                placeholder="Nombre de la variante"
+                placeholder="¿Qué característica hace variar a tu producto?"
                 value={varianteActual}
                 onChange={(e) => setVarianteActual(e.target.value)}
-                bg="#EEEEEE"
+                bg={bg_input}
                 borderRadius={0}
-                border="none"
-                _placeholder={{ color: '#777', fontWeight: 600 }}
+                border={border_input}
+                _placeholder={{
+                  color: ph_input,
+                  fontWeight: 600,
+                }}
                 _focus={{ border: '2px solid #51a6f5' }}
               />
               <Button
@@ -107,18 +121,18 @@ export const AddVariant = ({ name }) => {
                   <Text
                     as="h3"
                     fontSize="1.2rem"
-                    fontWeight="500"
+                    fontWeight="400"
                     textTransform="capitalize"
                     key={variant}
                   >
-                    Variante: {variant}
+                    ¿Qué opciones de {variant} tenés?
                   </Text>
                   <IconButton
                     position="absolute"
                     top="0"
                     right="0"
                     bg="transpatent"
-                    color="#2f2f2f"
+                    color={color_trashbtn}
                     _focus={{
                       outline: 'none',
                       bg: 'transpatent',

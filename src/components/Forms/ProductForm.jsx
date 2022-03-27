@@ -1,5 +1,12 @@
 import { Uploader } from './Uploader/Uploader';
-import { Box, FormControl, FormLabel, Heading, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Heading,
+  Stack,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -77,7 +84,7 @@ const AddProductForm = ({ onClose = null }) => {
   }, []);
 
   return (
-    <Box bg={'#fff'} p={'20px'}>
+    <Box bg={'trasnparent'} p={'20px'}>
       <Heading as="h2" my={'20px'} textAlign={'center'} size="xl">
         Crear Nuevo Producto
       </Heading>
@@ -106,7 +113,7 @@ const AddProductForm = ({ onClose = null }) => {
               <Field
                 name="name"
                 id="name"
-                placeholder="Nombre del producto"
+                // placeholder="Nombre del producto"
                 component={CustomInput}
               />
               <ErrorMessage name="name" component="div" className="error" />
@@ -117,7 +124,7 @@ const AddProductForm = ({ onClose = null }) => {
               <Field
                 name="brand"
                 id="brand"
-                placeholder="Marca"
+                // placeholder="Marca"
                 component={CustomInput}
               />
               <ErrorMessage name="brand" component="div" className="error" />
@@ -129,7 +136,7 @@ const AddProductForm = ({ onClose = null }) => {
               <Field
                 name="description"
                 id="description"
-                placeholder="Descripción"
+                // placeholder="Descripción"
                 size="sm"
                 component={CustomTextarea}
               />
@@ -148,7 +155,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="price"
                   id="price"
                   type="number"
-                  placeholder="Precio"
+                  // placeholder="Precio"
                   component={CustomInput}
                 />
                 <ErrorMessage name="price" component="div" className="error" />
@@ -160,7 +167,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="discountInPercent"
                   id="discountInPercent"
                   type="number"
-                  placeholder="%"
+                  // placeholder="%"
                   component={CustomInput}
                 />
                 <ErrorMessage
@@ -179,7 +186,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="category"
                   id="category"
                   as="select"
-                  placeholder="Categorias"
+                  // placeholder="Categorias"
                   component={CustomSelect}
                 >
                   {categories.length &&
@@ -199,7 +206,7 @@ const AddProductForm = ({ onClose = null }) => {
                 <Field
                   name="sku"
                   id="sku"
-                  placeholder="SKU"
+                  // placeholder="SKU"
                   component={CustomInput}
                 />
                 <ErrorMessage name="sku" component="div" className="error" />
@@ -214,7 +221,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="stock"
                   id="stock"
                   type="number"
-                  placeholder="Stock"
+                  // placeholder="Stock"
                   component={CustomInput}
                 />
                 <ErrorMessage name="stock" component="div" className="error" />
@@ -226,7 +233,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="minStock"
                   id="minStock"
                   type="number"
-                  placeholder="Stock Minimo"
+                  // placeholder="Stock Minimo"
                   component={CustomInput}
                 />
                 <ErrorMessage
@@ -258,7 +265,11 @@ const AddProductForm = ({ onClose = null }) => {
                 content="Cancelar"
                 onClick={() => onClose && onClose()}
               />
-              <CustomButton type="submit" content="Añadir Producto" />
+              <CustomButton
+                type="submit"
+                content="Añadir Producto"
+                // color={useColorModeValue('blue', '')}
+              />
             </Stack>
           </Stack>
         </Form>

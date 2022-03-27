@@ -1,7 +1,13 @@
-import { Box, IconButton, Text } from '@chakra-ui/react';
+import {
+  Box,
+  IconButton,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { MinusCircle } from 'phosphor-react';
 
 export const ShowVariants = ({ allVariants, variant, deleteVariantOption }) => {
+  let btn_color = useColorModeValue('#2f2f2f', '#bababa');
   return (
     <Box h="fit-content" w="100%" py="1rem">
       {allVariants[variant].map((item, i) => {
@@ -22,7 +28,7 @@ export const ShowVariants = ({ allVariants, variant, deleteVariantOption }) => {
               h="fit-content"
               w="fit-content"
               minW="fit-content"
-              color="#2f2f2f"
+              color={btn_color}
               _focus={{
                 outline: 'none',
                 bg: 'transpatent',

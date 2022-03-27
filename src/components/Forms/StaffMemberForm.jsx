@@ -73,9 +73,9 @@ const StaffMemberForm = ({ onClose }) => {
     getAllRoles();
   }, []);
   return (
-    <Box bg={"#fff"} p={"20px"}>
+    <Box bg={"transparent"} p={"20px"}>
       <Heading as="h2" my={"20px"} textAlign={"center"} size="xl">
-        Add Staff Member
+        Añadir Personal
       </Heading>
 
       <Formik
@@ -94,7 +94,7 @@ const StaffMemberForm = ({ onClose }) => {
                 name="email"
                 id="email"
                 type="email"
-                placeholder="Email"
+                // placeholder="Email"
                 component={CustomInput}
                 autoComplete="username"
               />
@@ -103,12 +103,12 @@ const StaffMemberForm = ({ onClose }) => {
             {/* _____________________ */}
 
             <FormControl isRequired>
-              <FormLabel htmlFor="role">Role</FormLabel>
+              <FormLabel htmlFor="role">Rol</FormLabel>
               <Field
                 name="role"
                 id="role"
                 as="select"
-                placeholder="Select Role"
+                placeholder="Seleccionar Rol"
                 component={CustomSelect}
               >
                 {roles.length &&
@@ -125,10 +125,10 @@ const StaffMemberForm = ({ onClose }) => {
                 type="reset"
                 color="red"
                 variant="outline"
-                content="Cancel"
+                content="Cancelar"
                 onClick={onClose}
               />
-              <CustomButton type="submit" content="Add Staff" />
+              <CustomButton type="submit" content="Añadir" />
             </Stack>
           </Stack>
         </Form>

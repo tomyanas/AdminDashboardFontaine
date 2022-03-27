@@ -129,7 +129,7 @@ const ModalProfile = () => {
         w={"90%"}
         rounded={"md"}
         overflow={"hidden"}
-        bg={useColorModeValue("white", "gray.800")}
+       
       >
         <Stack bg={"gray.300"}>
           {/* <Logo /> */}
@@ -167,8 +167,8 @@ const ModalProfile = () => {
             <Button
               w={"50%"}
               mt={8}
-              bg={useColorModeValue("#151f21", "gray.900")}
-              color={"white"}
+              bg={useColorModeValue("#151f21", "blue.200")}
+              color={"black"}
               rounded={"md"}
               _hover={{
                 transform: "translateY(-2px)",

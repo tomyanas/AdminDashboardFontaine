@@ -1,9 +1,13 @@
-import { Box, IconButton, Input } from '@chakra-ui/react';
+import { Box, IconButton, Input, useColorModeValue } from '@chakra-ui/react';
 import { Plus } from 'phosphor-react';
 import { useState } from 'react';
 
 export const VariantOptionInput = ({ handleOption, variant }) => {
   const [options, setOptions] = useState({ name: '', stock: '', sku: '' });
+
+  let bg_input = useColorModeValue('#EEEEEE', '#2d3748');
+  let border_input = useColorModeValue('none', '1px solid #eeeeee');
+  let ph_input = useColorModeValue('#777777', '#bababa');
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -28,10 +32,10 @@ export const VariantOptionInput = ({ handleOption, variant }) => {
         placeholder="Nombre"
         value={options.name}
         onChange={(e) => handleChange(e)}
-        bg="#EEEEEE"
+        bg={bg_input}
+        border={border_input}
         borderRadius={0}
-        border="none"
-        _placeholder={{ color: '#777', fontWeight: 600 }}
+        _placeholder={{ color: ph_input, fontWeight: 600 }}
         _focus={{ border: '2px solid #51a6f5' }}
       />
       <Box display="flex" justifyContent="space-between" gap="0.5rem">
@@ -41,10 +45,10 @@ export const VariantOptionInput = ({ handleOption, variant }) => {
           placeholder="Stock"
           value={options.stock}
           onChange={(e) => handleChange(e)}
-          bg="#EEEEEE"
+          bg={bg_input}
+          border={border_input}
           borderRadius={0}
-          border="none"
-          _placeholder={{ color: '#777', fontWeight: 600 }}
+          _placeholder={{ color: ph_input, fontWeight: 600 }}
           _focus={{ border: '2px solid #51a6f5' }}
         />
         <Input
@@ -53,10 +57,10 @@ export const VariantOptionInput = ({ handleOption, variant }) => {
           placeholder="Sku"
           value={options.sku}
           onChange={(e) => handleChange(e)}
-          bg="#EEEEEE"
+          bg={bg_input}
+          border={border_input}
           borderRadius={0}
-          border="none"
-          _placeholder={{ color: '#777', fontWeight: 600 }}
+          _placeholder={{ color: ph_input, fontWeight: 600 }}
           _focus={{ border: '2px solid #51a6f5' }}
         />
         <IconButton
