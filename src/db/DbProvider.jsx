@@ -58,10 +58,10 @@ export const DbProvider = ({ children }) => {
   // TODO: No borrar lo comentado, lo necesito para hacer un
   //  modal de carga con barrita de progreso
   const onUpload = async (path, file) => {
-      try {
+    try {
       const productsRef = ref(storage, path + file.name);
       const uploadTask = await uploadBytesResumable(productsRef, file);
-      console.log(uploadTask)
+      console.log(uploadTask);
       /*/ uploadTask.on(
       //   "state_changed",
       //   (snapshot) => {
@@ -87,7 +87,7 @@ export const DbProvider = ({ children }) => {
       //       console.log("File available at", downloadURL);
       //     });
       //   }
-      /*/// );
+      /*/ // );
       return getDownloadURL(uploadTask.ref);
     } catch (e) {
       console.log("error", e);
@@ -173,7 +173,7 @@ export const DbProvider = ({ children }) => {
         },
         { merge: true }
       );
-      return updatedProduct
+      return updatedProduct;
     } catch (error) {
       throw new Error(error);
     }
@@ -209,7 +209,7 @@ export const DbProvider = ({ children }) => {
     }
   };
   const addCategory = async (newCategory) => {
-    console.log(newCategory)
+    console.log(newCategory);
     try {
       await addDoc(collection(db, "categories"), newCategory);
       return "Categoria Añadida Correctamente";
@@ -321,6 +321,23 @@ export const DbProvider = ({ children }) => {
       throw new Error(error);
     }
   };
+  const updateUser = async (id, newUser) => {
+    try {
+      const userRef = doc(db, "users", id);
+      let updatedUser = await updateDoc(
+        userRef,
+        {
+          ...newUser,
+        },
+        { merge: true }
+      );
+      GenericToastSuccess("Actualizado Correctamente");
+      return updatedUser;
+    } catch (error) {
+      GenericToastError();
+      throw new Error(error);
+    }
+  };
   const searchCustomers = (search) => {
     let searchFound = searchByName(customers, search);
     setFilteredCustomers(searchFound);
@@ -362,6 +379,7 @@ export const DbProvider = ({ children }) => {
     addCategory,
     getOneUserByEmail,
     getOneUser,
+    updateUser,
     getAllRoles,
     getOneCategory,
     getOneProduct,
