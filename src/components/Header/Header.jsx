@@ -11,6 +11,7 @@ import {
   Center,
   Flex,
   useColorModeValue,
+  Divider,
 } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { MenuIcon } from "../../assets/icons/MenuIcon";
@@ -30,11 +31,14 @@ import {
 import { useAuth } from "../../auth/AuthProvider";
 import { CustomModal } from "../Forms/CustomModal/CustomModal";
 import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
+import EditProfile from "../Forms/EditProfile";
 
 export const Header = ({ onOpenSidebar }) => {
   // let navigate = useNavigate();
+  const { user } = useAuth();
   let auth = useAuth();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen:abierto, onOpen: abrir, onClose: cerrar } = useDisclosure()
+
 
   const handleLogout = async () => {
     try {
@@ -89,6 +93,7 @@ export const Header = ({ onOpenSidebar }) => {
       <Box display="flex" gap="20px" alignItems="center">
         <DarkModeSwitch display={{ base: "none", sm: "flex" }} />
         <Menu>
+
           <MenuButton
             as={Button}
             p={0}
@@ -103,83 +108,67 @@ export const Header = ({ onOpenSidebar }) => {
               <UserIcon />
             )}
           </MenuButton>
-          <MenuList>
-            <MenuGroup title={auth.user?.email}>
-              <MenuItem icon={<UserAvatar />} onClick={onOpen}>
-                My Account
+          <MenuList
+            bg={useColorModeValue("#efefef", "#2d3748")}
+            boxShadow={useColorModeValue("1px 1px 3px 1px #0003", "1px 1px 3px 1px #e9e9e933")} >
+
+            <Center py={6}>
+
+
+
+              <Box
+                w={"40%"}
+                rounded={"md"}
+              >
+
+                <Flex justify={"center"} >
+                  <Avatar
+
+                    size={"xl"}
+                    src={
+                      user?.photoURL
+                        ? user.photoURL
+                        : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
+                    }
+                    alt={"Author"}
+                    border={useColorModeValue("2px solid #999", "2px solid white")}
+
+                  />
+                </Flex>
+
+                <Box p={6}>
+                  <Stack spacing={0} align={"center"} >
+                    <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
+                      {user.email}
+                    </Heading>
+                    <Text color={"gray.500"}>Administrador</Text>
+                  </Stack>
+
+                </Box>
+              </Box>
+            </Center>
+            <Divider mb={5} />
+            <MenuGroup >
+              <MenuItem
+                _hover={useColorModeValue({ bg: "#fafafa" }, { bg: "#292e37" })}
+                icon={<UserAvatar />}
+                onClick={abrir}>
+                Editar Perfil
               </MenuItem>
-              <MenuItem icon={<LogoutIcon />} onClick={handleLogout}>
-                Logout
+              <MenuItem
+                icon={<LogoutIcon />}
+                onClick={handleLogout}
+                _hover={useColorModeValue({ bg: "#fafafa" }, { bg: "#292e37" })}
+              >
+                Cerrar Sesión
               </MenuItem>
             </MenuGroup>
           </MenuList>
         </Menu>
       </Box>
-      <CustomModal Component={ModalProfile} isOpen={isOpen} onClose={onClose} />
+      <EditProfile isOpen={abierto} onClose={cerrar} />
     </Box>
   );
 };
 
-const ModalProfile = () => {
-  const { user } = useAuth();
 
-  return (
-    <Center py={6}>
-      <Box
-        w={"90%"}
-        rounded={"md"}
-        overflow={"hidden"}
-       
-      >
-        <Stack bg={"gray.300"}>
-          {/* <Logo /> */}
-          <Image
-            alignSelf={"center"}
-            h={"120px"}
-            w={"90%"}
-            src={Logoimage}
-            objectFit={"fill"}
-          />
-        </Stack>
-        <Flex justify={"center"} mt={-12}>
-          <Avatar
-            size={"xl"}
-            src={
-              user?.photoURL
-                ? user.photoURL
-                : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-            }
-            alt={"Author"}
-            css={{
-              border: "2px solid white",
-            }}
-          />
-        </Flex>
-
-        <Box p={6}>
-          <Stack spacing={0} align={"center"} mb={5}>
-            <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-              {user.email}
-            </Heading>
-            <Text color={"gray.500"}>Administrador</Text>
-          </Stack>
-          <Center>
-            <Button
-              w={"50%"}
-              mt={8}
-              bg={useColorModeValue("#151f21", "blue.200")}
-              color={"black"}
-              rounded={"md"}
-              _hover={{
-                transform: "translateY(-2px)",
-                boxShadow: "lg",
-              }}
-            >
-              Modificar Perfil
-            </Button>
-          </Center>
-        </Box>
-      </Box>
-    </Center>
-  );
-};

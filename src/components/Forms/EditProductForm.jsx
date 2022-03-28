@@ -7,6 +7,7 @@ import {
     SimpleGrid,
     Stack,
     Center,
+    Heading,
 } from "@chakra-ui/react";
 import {
 
@@ -97,10 +98,10 @@ const EditProductForm = ({ itemId }) => {
                 >
                     {({ values, errors }) => (
                         <Box
-                            p={10}
-                            borderWidth="1px"
+                            p={5}
+                           
                             rounded="lg"
-                            shadow="1px 1px 3px rgba(0,0,0,0.3)"
+                       
                             maxWidth={800}
                             spacing={10}
                             m="10% auto"
@@ -109,7 +110,11 @@ const EditProductForm = ({ itemId }) => {
                         >
                             <Stack
                                 spacing={8}
-                            >
+                                >
+                                <Heading as="h1" size="2xl" textAlign="center">
+                                
+                                    Editar Producto
+                                </Heading>
                                 <InputControl name="brand" label="Brand" />
                                 <SelectControl
                                     name="category"
