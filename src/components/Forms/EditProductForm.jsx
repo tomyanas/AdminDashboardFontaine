@@ -117,7 +117,7 @@ const EditProductForm = ({ itemId }) => {
                                 </Heading>
                                 <InputControl name="brand" label="Brand" />
                                 <SelectControl
-                                    name="category"
+                                    name="category"  label="Category"
                                     selectProps={{ placeholder: product.category }}
                                 >
                                     {categories.map((cat) => (

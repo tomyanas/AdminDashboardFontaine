@@ -37,7 +37,7 @@ export const Header = ({ onOpenSidebar }) => {
   // let navigate = useNavigate();
   const { user } = useAuth();
   let auth = useAuth();
-  const { isOpen:abierto, onOpen: abrir, onClose: cerrar } = useDisclosure()
+  const { isOpen:abierto, onOpen:abrir, onClose:cerrar } = useDisclosure()
 
 
   const handleLogout = async () => {

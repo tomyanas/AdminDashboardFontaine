@@ -114,6 +114,14 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => signOut(auth);
 
+  const refreshUser = async () => {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+    const dbUser = docSnap.data();
+    setUser(dbUser);
+    console.log(dbUser)
+  }
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -123,20 +131,19 @@ export const AuthProvider = ({ children }) => {
         if (dbUser.isVerified === false && currentUser.emailVerified === true) {
           await updateDoc(docRef, { isVerified: true });
         }
-      }
-      console.log({
-        email: currentUser.email,
-        name: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        isVerified: currentUser.emailVerified,
-      });
+        console.log(
+          dbUser,
+        );
+        setUser(dbUser);
+      }else{ 
       setUser(currentUser);
+      }
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  let value = { user, signup, login, logout, loading, getCredentials };
+  let value = { user, signup, login, logout, loading, getCredentials,refreshUser };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
