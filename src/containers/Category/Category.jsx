@@ -14,6 +14,7 @@ import {
 } from '../../components/Tables/CustomTable/TableCell';
 import CategoryDetail from './CategoryDetail';
 import { CustomDrawer } from '../../components/Forms/CustomDrawer/CustomDrawer';
+import { EditCategoryForm } from '../../components/Forms/EditCategoryForm';
 
 const Category = () => {
   const {
@@ -63,7 +64,7 @@ const Category = () => {
       Cell: ({ value }) => (
         <CellActions
           edit={{
-            Component: AddCategoryForm,
+            Component: EditCategoryForm,
             size: 'lg',
           }}
           onClickDelete={handleDelete}

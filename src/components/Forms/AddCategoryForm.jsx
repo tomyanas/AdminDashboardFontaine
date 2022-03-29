@@ -152,7 +152,7 @@ export const AddCategoryForm = ({ onClose }) => {
               color="red"
               variant="outline"
               content="Cancelar"
-              onClick={onClose}
+              onClick={()=>onClose()}
             />
             <CustomButton type="submit" content="Añadir" />
           </Stack>
