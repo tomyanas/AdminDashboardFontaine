@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
     Box,
     Stack,
@@ -21,8 +21,8 @@ import {
     ResetButton,
     SubmitButton,
 } from 'formik-chakra-ui';
-import * as Yup from "yup";
-import { Formik } from "formik";
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
 const validationSchema = Yup.object({
     firstName: Yup.string()
@@ -42,8 +42,6 @@ const validationSchema = Yup.object({
     country: Yup.string()
         .required("Country is Required"),
 });
-
-
 
 export const EditProfile = ({ isOpen, onClose }) => {
     const { user, refreshUser } = useAuth();

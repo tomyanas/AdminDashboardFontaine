@@ -21,37 +21,37 @@ import DarkModeSwitch from "../DarkModeSwitch/DarkModeSwitch";
 
 const sidebarMenus = [
   {
-    name: "Dashboard",
+    name: "Metricas",
     path: DASHBOARD,
     icon: <DashboardIcon />,
   },
   {
-    name: "Products",
+    name: "Productos",
     path: PRODUCTS,
     icon: <ProductIcon />,
   },
   {
-    name: "Category",
+    name: "Categorias",
     path: CATEGORY,
     icon: <SidebarCategoryIcon />,
   },
   {
-    name: "Orders",
+    name: "Pedidos",
     path: ORDERS,
     icon: <OrderIcon />,
   },
   {
-    name: "Customers",
+    name: "Clientes",
     path: CUSTOMERS,
     icon: <CustomerIcon />,
   },
   {
-    name: "Coupons",
+    name: "Cupones",
     path: COUPONS,
     icon: <CouponIcon />,
   },
   {
-    name: "Settings",
+    name: "Configuracion",
     path: SETTINGS,
     icon: <SettingIcon />,
   },

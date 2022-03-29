@@ -83,13 +83,13 @@ const Category = () => {
   }, []);
   return (
     <Section>
-      <SectionHeader title="Categories">
+      <SectionHeader title="Categorias">
         <Stack direction={['column', 'row']} spacing="24px" p={'.5rem'}>
           <SearchBar
             searchFunction={searchCategories}
             resetFunction={getAllCategories}
           />
-          <ButtonAdd onClick={onOpen}>Add New Category</ButtonAdd>
+          <ButtonAdd onClick={onOpen}>Añadir Categoria</ButtonAdd>
           <CustomDrawer
             Component={AddCategoryForm}
             onClose={onClose}

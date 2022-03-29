@@ -112,15 +112,15 @@ const Products = () => {
   }, []);
 
   return (
-    <Section>
-      <SectionHeader title="Products">
+    <>
+      <SectionHeader title="Productos">
         <Stack direction={['column', 'row']} spacing="24px" p={'.5rem'}>
           <SearchBar
             searchFunction={searchProducs}
             resetFunction={getAllProducts}
           />
 
-          <ButtonAdd onClick={onOpen}>Add Products</ButtonAdd>
+          <ButtonAdd onClick={onOpen}>Añadir Producto</ButtonAdd>
           <CustomDrawer
             Component={AddProductForm}
             onClose={onClose}
@@ -134,7 +134,7 @@ const Products = () => {
       ) : (
         <InLineLoader />
       )}
-    </Section>
+    </>
   );
 };
 

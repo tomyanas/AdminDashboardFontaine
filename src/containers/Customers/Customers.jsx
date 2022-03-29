@@ -47,7 +47,7 @@ const Customers = () => {
   }, []);
   return (
     <Section>
-      <SectionHeader title="Customers">
+      <SectionHeader title="Clientes">
         <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
           <SearchBar
             searchFunction={searchCustomers}

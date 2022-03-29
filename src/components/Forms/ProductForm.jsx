@@ -186,7 +186,7 @@ const AddProductForm = ({ onClose = null }) => {
                   name="category"
                   id="category"
                   as="select"
-                  // placeholder="Categorias"
+                  placeholder="Categorias..."
                   component={CustomSelect}
                 >
                   {categories.length &&
