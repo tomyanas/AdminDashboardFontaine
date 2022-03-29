@@ -5,8 +5,8 @@ import { CustomModal } from "../Forms/CustomModal/CustomModal";
 const SettingsCard = ({ Icon, title, subtitle, linkTo = false, form }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   let p_color = useColorModeValue("#4a8cca", "#4a8cca")
-  let shadow = useColorModeValue("1px 1px 3px 2px #0003", "1px 1px 3px 2px #4a8cca30")
-  // let shadow = useColorModeValue("1px 1px 3px 2px #0003", "1px 1px 3px 0px #4a8cca")
+  // let shadow = useColorModeValue("1px 1px 3px 2px #0003", "1px 1px 3px 2px #4a8cca30")
+  let shadow = useColorModeValue("1px 1px 3px 2px #0003", "0px 0px 2px 1px #fff1")
   let bg_color = useColorModeValue("#fff", "#171923")
   let text_color = useColorModeValue("#666d92", "#bebebe")
   if (linkTo)
