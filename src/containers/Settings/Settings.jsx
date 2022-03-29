@@ -12,14 +12,14 @@ import AddProductForm from "../../components/Forms/ProductForm";
 const cards = [
   {
     icon: Members,
-    title: "Staff Members",
-    subtitle: "Manage your employees and their permission",
-    linkTo: "staff",
+    title: "Personal",
+    subtitle: "Manejo y edicion de tu personal",
+    linkTo: "",
   },
   {
     icon: SiteSettings,
-    title: "Site Settings",
-    subtitle: "View and update your site settings",
+    title: "Configuracion Del Sitio",
+    subtitle: "Editar y Agregar funcionalidades del sitio",
     linkTo: "site-settings",
   },
   // {
@@ -30,19 +30,19 @@ const cards = [
   // },
   {
     icon: CouponIcon,
-    title: "Add Coupons",
-    subtitle: "Add coupons from here",
+    title: "Agregar Cupones",
+    subtitle: "Agregar cupones de descuento",
   },
   {
     icon: SidebarCategoryIcon,
-    title: "Add Categories",
-    subtitle: "Add product categories from here",
+    title: "Agregar Categorias",
+    subtitle: "Crear y editar categorias",
     form: AddCategoryForm,
   },
   {
     icon: ProductIcon,
-    title: "Add Products",
-    subtitle: "Add products from here",
+    title: "Agregar Productos",
+    subtitle: "Crear un nuevo producto",
     form: AddProductForm,
   },
 ];
