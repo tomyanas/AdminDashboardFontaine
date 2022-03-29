@@ -35,7 +35,7 @@ const Layout = () => {
         </Drawer>
         <Box
           w="100%"
-          h="100%"
+          h="calc(100vh - 72px)"
           display="flex"
           p={{ base: "20px 10px", md: "20px" }}
           overflow="hidden"
