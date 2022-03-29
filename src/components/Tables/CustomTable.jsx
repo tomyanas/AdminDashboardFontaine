@@ -9,11 +9,11 @@ const HeaderIcon = ({ icon }) => {
     <Text
       as="span"
       _hover={{
-        color: '#333',
+        color: useColorModeValue("#333", "#eee"),
       }}
       minW={'fit-content'}
       h={'fit-content'}
-      color="#666"
+      color={useColorModeValue("#666", "#aaa")}
       p={0}
       m={0}
     >
