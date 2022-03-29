@@ -1,17 +1,16 @@
 import {
-  background,
   Box,
   IconButton,
   Image,
   Link,
   useBreakpointValue,
-} from "@chakra-ui/react";
-import { CaretLeft, CaretRight } from "phosphor-react";
-import Slider from "react-slick";
+} from '@chakra-ui/react';
+import { CaretLeft, CaretRight } from 'phosphor-react';
+import Slider from 'react-slick';
 
 const ArrowLeft = ({ onClick }) => {
-  const top = useBreakpointValue({ base: "50%" });
-  const side = useBreakpointValue({ base: "0" });
+  const top = useBreakpointValue({ base: '50%' });
+  const side = useBreakpointValue({ base: '0' });
   return (
     <IconButton
       aria-label="left-arrow"
@@ -25,10 +24,10 @@ const ArrowLeft = ({ onClick }) => {
       zIndex={2}
       onClick={onClick}
       _focus={{
-        outline: "none",
+        outline: 'none',
       }}
       _hover={{
-        color: "#d1d1d1",
+        color: '#d1d1d1',
       }}
     >
       <CaretLeft size={32} />
@@ -36,8 +35,8 @@ const ArrowLeft = ({ onClick }) => {
   );
 };
 const ArrowRight = ({ onClick }) => {
-  const top = useBreakpointValue({ base: "50%" });
-  const side = useBreakpointValue({ base: "0%" });
+  const top = useBreakpointValue({ base: '50%' });
+  const side = useBreakpointValue({ base: '0%' });
   return (
     <IconButton
       aria-label="right-arrow"
@@ -51,10 +50,10 @@ const ArrowRight = ({ onClick }) => {
       zIndex={2}
       onClick={onClick}
       _focus={{
-        outline: "none",
+        outline: 'none',
       }}
       _hover={{
-        color: "#d1d1d1",
+        color: '#d1d1d1',
       }}
     >
       <CaretRight size={32} />
@@ -72,7 +71,7 @@ export const ProductImageCarousel = ({ images }) => {
       );
     },
     dots: true,
-    dotsClass: "slick-dots slick-thumb",
+    dotsClass: 'slick-dots slick-thumb',
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -82,7 +81,7 @@ export const ProductImageCarousel = ({ images }) => {
   };
 
   return (
-    <Box m="0 auto" pb={{ base: "60px", sm: "75px" }} w="100%" maxW="600px">
+    <Box m="0 auto" pb={{ base: '60px', sm: '75px' }} w="100%" maxW="600px">
       <Slider {...settings}>
         {images &&
           images.map((image, i) => (

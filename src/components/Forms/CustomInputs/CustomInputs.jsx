@@ -18,7 +18,6 @@ export const CustomInput = ({ field, form: { touched, errors }, ...props }) => {
       {...props}
       bg={useColorModeValue('#EEEEEE', '#2d3748')}
       borderRadius={0}
-      // border="none"
       // borderBottom={useColorModeValue('none', '1px solid #eeeeee')}
       border={useColorModeValue('none', '1px solid #eeeeee')}
       _placeholder={{ color: useColorModeValue("#777777",'#aaaaaa'), fontWeight: 600 }}

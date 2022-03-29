@@ -21,8 +21,6 @@ export const CustomTable = ({ items = [], headers, ...props }) => {
       setState(ordered);
     }
   };
-  // console.log("currPage", currentPage[0]?.name);
-
   return (
     <Box boxShadow="1px 1px 3px 2px #0003">
       <Box

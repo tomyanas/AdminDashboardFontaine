@@ -1,18 +1,20 @@
-import React, { useEffect } from "react";
-import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
-import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
-import { useDb } from "../../db/DbProvider";
-import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { Stack, useDisclosure, useToast } from "@chakra-ui/react";
-import { ButtonAdd } from "../../components/Buttons/AddButton";
-import { SectionHeader } from "../../components/Sections/SectionHeader";
-import { Section } from "../../components/Sections/Section";
-import { CustomDrawer } from "../../components/Forms/CustomDrawer/CustomDrawer";
-import AddProductForm from "../../components/Forms/ProductForm";
-import EditProductForm from "../../components/Forms/EditProductForm";
-import { CellImage, CellPrice } from "../../components/Tables/CustomTable/TableCell";
-import ProductDetail from "./ProductDetail";
-
+import React, { useEffect } from 'react';
+import { CustomTable } from '../../components/Tables/CustomTable';
+import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
+import { useDb } from '../../db/DbProvider';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+import { Stack, Text, useDisclosure, useToast } from '@chakra-ui/react';
+import { ButtonAdd } from '../../components/Buttons/AddButton';
+import { SectionHeader } from '../../components/Sections/SectionHeader';
+import { Section } from '../../components/Sections/Section';
+import { CustomDrawer } from '../../components/Forms/CustomDrawer/CustomDrawer';
+import AddProductForm from '../../components/Forms/ProductForm';
+import EditProductForm from '../../components/Forms/EditProductForm';
+import {
+  CellActions,
+  CellImage
+} from '../../components/Tables/CustomTable/TableCell';
+import ProductDetail from './ProductDetail';
 
 const Products = () => {
   const {
@@ -31,7 +33,7 @@ const Products = () => {
       console.log(res);
       toast({
         title: `Eliminado Correctamente`,
-        status: "success",
+        status: 'success',
         duration: 5000,
         isClosable: true,
       });
@@ -40,93 +42,70 @@ const Products = () => {
     } catch (error) {
       console.log(error);
       toast({
-        title: "Ocurrio un error, intenta Luego",
-        status: "error",
+        title: 'Ocurrio un error, intenta Luego',
+        status: 'error',
         duration: 5000,
         isClosable: true,
       });
     }
   };
 
-  const headers = [
+  const columns = [
     {
-      name: "Image",
-      property: "image",
-      Component: CellImage,
-      columnWidth: "80px",
+      Header: 'Imagen',
+      accessor: 'image',
+      Cell: ({ value }) => <CellImage data={value} />,
     },
     {
-      name: "Name",
-      property: "name",
-      order: "string",
-      // filter: true,
-      customStyles: {minWidth: "250px"},
-      customStylesHeader: {minWidth: "250px"},
+      Header: 'Nombre',
+      accessor: 'name',
     },
     {
-      name: "Brand",
-      property: "brand",
-      order: "string",
-      // filter: true,
+      Header: 'Marca',
+      accessor: 'brand',
     },
     {
-      name: "Category",
-      property: "category",
-      order: "string",
-      filter: false,
-    },
-    // {
-    //   name: "Price",
-    //   property: "price",
-    //   order: "number",
-    //   filter: false,
-    //   Component: CellPrice,
-    // },
-    // {
-    //   name: "Discount",
-    //   property: "discountInPercent",
-    //   order: "number",
-    //   filter: false,
-    //   Component: CellPercent,
-    // },
-    {
-      name: "Sale Price",
-      property: "salePrice",
-      order: "number",
-      filter: false,
-      Component: CellPrice,
+      Header: 'Categoria',
+      accessor: 'category',
     },
     {
-      name: "Stock",
-      property: "stock",
-      order: "number",
-      filter: false,
+      Header: 'Precio',
+      accessor: 'salePrice',
+      Cell: ({ value }) => (
+        <Text as="span" fontWeight={600} fontSize="1rem">
+          $ {value}
+        </Text>
+      ),
     },
-    // {
-    //   name: "Min Stock",
-    //   property: "minStock",
-    //   order: "number",
-    //   filter: false,
-    // },
     {
-      name: "Actions",
-      onClickDelete: handleDelete,
-      edit:{ 
-        Component: EditProductForm,
-      },
-      view:{
-        Component: ProductDetail,
-        size: "6xl"
-      },
-      columnWidth: "100px",
-      // customStyles: {width: "100px"},
+      Header: 'Stock',
+      accessor: 'stock',
+      Cell: ({ value }) => (
+        <Text as="span" fontWeight={600} fontSize="1rem">
+          {value}.u
+        </Text>
+      ),
+    },
+    {
+      Header: 'Acciones',
+      accessor: 'id',
+      Cell: ({ value }) => (
+        <CellActions
+          edit={{
+            Component: EditProductForm,
+          }}
+          onClickDelete={handleDelete}
+          view={{
+            Component: ProductDetail,
+            size: '6xl',
+          }}
+          data={value}
+        />
+      ),
     },
   ];
 
-  //Tomy esto ya deberia funcionar, hace NPM START y probalo ame voy vuelvo en 
-  // jajaajja
-  // suetteeeee
-  
+
   useEffect(() => {
     getAllProducts();
     getAllCategories();
@@ -134,9 +113,8 @@ const Products = () => {
 
   return (
     <Section>
-      <SectionHeader title="Products" >
-        <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
-        
+      <SectionHeader title="Products">
+        <Stack direction={['column', 'row']} spacing="24px" p={'.5rem'}>
           <SearchBar
             searchFunction={searchProducs}
             resetFunction={getAllProducts}
@@ -152,7 +130,7 @@ const Products = () => {
       </SectionHeader>
 
       {products.length ? (
-        <CustomTable headers={headers} items={products} />
+        <CustomTable data={products} columnsConfig={columns}></CustomTable>
       ) : (
         <InLineLoader />
       )}
