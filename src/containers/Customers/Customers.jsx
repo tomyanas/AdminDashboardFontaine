@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
+import { CustomTable } from "../../components/Tables/CustomTable";
 import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
 import { useDb } from "../../db/DbProvider";
 import { SectionHeader } from "../../components/Sections/SectionHeader";
@@ -7,32 +7,40 @@ import { Section } from "../../components/Sections/Section";
 import { Stack } from "@chakra-ui/react";
 import { SearchBar } from "../../components/SearchBar/SearchBar";
 import CustomerDetail from "./CustomerDetail";
+import { CellActions } from "../../components/Tables/CustomTable/TableCell";
 const Customers = () => {
   const {getAllCustomers, filteredCustomers, searchCustomers} = useDb();
   let customers = filteredCustomers;
 
-  const headers = [
+  const columns = [
     {
-      name: "Full Name",
-      property: "name",
+      Header: 'Nombre',
+      accessor: 'name',
+      // Cell: ({ value }) => <CellImage data={value} />,
     },
     {
-      name: "Email",
-      property: "email",
+      Header: 'Email',
+      accessor: 'email',
     },
     {
-      name: "Role",
-      property: "role",
+      Header: 'Rol',
+      accessor: 'role',
     },
     {
-      name: "Actions",
-      view:{
-        Component: CustomerDetail,
-        size: "2xl"
-      },      
-      columnWidth: "100px",
+      Header: 'Acciones',
+      accessor: 'id',
+      Cell: ({ value }) => (
+        <CellActions
+          view={{
+            Component: CustomerDetail,
+            size: '2xl',
+          }}
+          data={value}
+        />
+      ),
     },
   ];
+
 
   useEffect(() => {
     getAllCustomers();
@@ -48,7 +56,7 @@ const Customers = () => {
         </Stack>
       </SectionHeader>
       {customers.length ? (
-        <CustomTable headers={headers} items={customers} />
+        <CustomTable data={customers} columnsConfig={columns}  />
       ) : (
         <InLineLoader />
       )}

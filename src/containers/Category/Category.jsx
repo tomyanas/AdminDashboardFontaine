@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
-import { CustomTable } from "../../components/Tables/CustomTable/CustomTable";
-import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
-import { useDb } from "../../db/DbProvider";
-import { Section } from "../../components/Sections/Section";
-import { SectionHeader } from "../../components/Sections/SectionHeader";
-import { ButtonAdd } from "../../components/Buttons/AddButton";
-import { Stack, useDisclosure, useToast } from "@chakra-ui/react";
-import { AddCategoryForm } from "../../components/Forms/AddCategoryForm";
-import { SearchBar } from "../../components/SearchBar/SearchBar";
-import { CellImage } from "../../components/Tables/CustomTable/TableCell";
-import CategoryDetail from "./CategoryDetail";
-import { CustomDrawer } from "../../components/Forms/CustomDrawer/CustomDrawer";
+import React, { useEffect } from 'react';
+import { CustomTable } from '../../components/Tables/CustomTable';
+import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
+import { useDb } from '../../db/DbProvider';
+import { Section } from '../../components/Sections/Section';
+import { SectionHeader } from '../../components/Sections/SectionHeader';
+import { ButtonAdd } from '../../components/Buttons/AddButton';
+import { Stack, useDisclosure, useToast } from '@chakra-ui/react';
+import { AddCategoryForm } from '../../components/Forms/AddCategoryForm';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+import {
+  CellActions,
+  CellImage,
+} from '../../components/Tables/CustomTable/TableCell';
+import CategoryDetail from './CategoryDetail';
+import { CustomDrawer } from '../../components/Forms/CustomDrawer/CustomDrawer';
 
 const Category = () => {
   const {
@@ -28,7 +31,7 @@ const Category = () => {
 
       toast({
         title: `Eliminado Correctamente`,
-        status: "success",
+        status: 'success',
         duration: 5000,
         isClosable: true,
       });
@@ -37,42 +40,40 @@ const Category = () => {
     } catch (error) {
       // console.error(error);
       toast({
-        title: "Ocurrio un error, intenta Luego",
-        status: "error",
+        title: 'Ocurrio un error, intenta Luego',
+        status: 'error',
         duration: 5000,
         isClosable: true,
       });
     }
   };
-  const headers = [
+  const columns = [
     {
-      name: "Image",
-      property: "image",
-      customStyles: { width: "80px" },
-      customStylesHeader: { width: "80px" },
-      Component: CellImage,
-      columnWidth: "80px",
+      Header: 'Imagen',
+      accessor: 'image',
+      Cell: ({ value }) => <CellImage data={value} />,
     },
     {
-      name: "Name",
-      property: "name",
+      Header: 'Nombre',
+      accessor: 'name',
     },
     {
-      name: "ID",
-      property: "id",
-    },
-    {
-      name: "Actions",
-      onClickDelete: handleDelete,
-      edit: {
-        Component: AddCategoryForm,
-        size: "lg",
-      },
-      view: {
-        Component: CategoryDetail,
-        size: "2xl",
-      },
-      columnWidth: "100px",
+      Header: 'Acciones',
+      accessor: 'id',
+      Cell: ({ value }) => (
+        <CellActions
+          edit={{
+            Component: AddCategoryForm,
+            size: 'lg',
+          }}
+          onClickDelete={handleDelete}
+          view={{
+            Component: CategoryDetail,
+            size: '2xl',
+          }}
+          data={value}
+        />
+      ),
     },
   ];
 
@@ -82,7 +83,7 @@ const Category = () => {
   return (
     <Section>
       <SectionHeader title="Categories">
-        <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
+        <Stack direction={['column', 'row']} spacing="24px" p={'.5rem'}>
           <SearchBar
             searchFunction={searchCategories}
             resetFunction={getAllCategories}
@@ -96,7 +97,7 @@ const Category = () => {
         </Stack>
       </SectionHeader>
       {categories.length ? (
-        <CustomTable headers={headers} items={categories} />
+        <CustomTable data={categories} columnsConfig={columns} />
       ) : (
         <InLineLoader />
       )}

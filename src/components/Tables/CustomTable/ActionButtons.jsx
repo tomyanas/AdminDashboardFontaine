@@ -1,4 +1,4 @@
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { Button, useColorModeValue, useDisclosure } from "@chakra-ui/react";
 import { Edit } from "../../../assets/icons/Edit";
 import { Eye } from "../../../assets/icons/Eye";
 import { Trash } from "../../../assets/icons/Trash";
@@ -42,7 +42,8 @@ export const TableButtonDelete = ({ onClick, itemId }) => {
         _hover={{
           color: "#ff3636",
         }}
-        color="#ef4444AA"
+        color={useColorModeValue("#ef4444AA","#ed143ddd")}
+        
         icon={<Trash height="1.3rem" />}
       />
       <CustomModal
@@ -67,7 +68,7 @@ export const TableButtonEdit = ({ Component, itemId, size }) => {
       <IconButtonBase
         onClick={onOpen}
         _hover={{ color: "#2495ff" }}
-        color="#4a8ccaAA"
+        color={useColorModeValue("#4a8ccaAA","#51a6f5")}
         icon={<Edit height="1.3rem" />}
       />
       <CustomDrawer
@@ -91,7 +92,7 @@ export const TableButtonView = ({ onClick, itemId, Component, size}) => {
       <IconButtonBase
         onClick={onOpen}
         _hover={{ color: "#2495ff" }}
-        color="#4a8ccaAA"
+        color={useColorModeValue("#4a8ccaAA","#51a6f5")}
         height="1.3rem"
         icon={<Eye height="1.3rem" />}
       />

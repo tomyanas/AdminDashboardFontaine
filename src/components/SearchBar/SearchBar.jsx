@@ -3,6 +3,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Backspace } from "phosphor-react";
@@ -17,16 +18,17 @@ export const SearchBar = ({ searchFunction, resetFunction, ...props }) => {
   const handleReset = () => {
     setSearch("");
     resetFunction();
-  };
+  }; 
 
   return (
     <InputGroup size="md">
       <Input
         {...props}
-        bg="#EEEEEE"
+        // bg={useColorModeValue('#EEEEEE', 'transparent')}
+        bg={useColorModeValue('#EEEEEE', '#2d3748')}
         borderRadius={0}
-        border="none"
-        _placeholder={{ color: "#777", fontWeight: 600 }}
+        border={useColorModeValue('none', '1px solid #eeeeee')}
+        _placeholder={{ color: useColorModeValue("#777777",'#aaaaaa'), fontWeight: 600 }}
         _focus={{ border: "2px solid #51a6f5" }}
         placeholder="Escribe Algo.."
         type="text"
@@ -41,7 +43,8 @@ export const SearchBar = ({ searchFunction, resetFunction, ...props }) => {
           onClick={handleReset}
           variant="ghost"
           outline="none"
-          color= "#777"
+          zIndex={0}
+          color= {useColorModeValue("#777777",'#aaaaaa')}
           _hover={{
             background: "transparent",
             color: "#51a6f5",

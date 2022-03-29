@@ -99,7 +99,7 @@ export const Sidebar = () => {
       flexShrink="0"
       bg={useColorModeValue("white", "gray.900")}
       flexDirection="column"
-      boxShadow="1px 0 3px #0003"
+      boxShadow={useColorModeValue("1px 0 3px #0003", "1px 0 2px #fff1")}
     >
       <Box
         width="100%"
