@@ -150,7 +150,7 @@ const EditProductForm = ({ itemId }) => {
                                         fontWeight={600}
                                         >Reset</ResetButton>
                                         <SubmitButton 
-                                         bg={}
+                                         
                                          disabled={Object.keys(errors).length}
                                          width={"280px"}
                                          >Editar Producto</SubmitButton>
