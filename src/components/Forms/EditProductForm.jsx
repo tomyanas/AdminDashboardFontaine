@@ -79,6 +79,10 @@ const EditProductForm = ({ itemId }) => {
 
     return (
         <Box>
+                <Heading as="h1" size="xl" textAlign="center" marginTop={10}>
+                
+                    Editar Producto
+                </Heading>
             {product ? (
                 <Formik
                     initialValues={{
@@ -104,20 +108,16 @@ const EditProductForm = ({ itemId }) => {
                        
                             maxWidth={800}
                             spacing={10}
-                            m="10% auto"
+                            m=" auto"
                             as="form"
                             onSubmit={(event) => handleOnSubmit(event, values)}
                         >
                             <Stack
                                 spacing={8}
                                 >
-                                <Heading as="h1" size="2xl" textAlign="center">
-                                
-                                    Editar Producto
-                                </Heading>
-                                <InputControl name="brand" label="Brand" />
+                                <InputControl name="brand" label="Marca" />
                                 <SelectControl
-                                    name="category"  label="Category"
+                                    name="category"  label="Categoria"
                                     selectProps={{ placeholder: product.category }}
                                 >
                                     {categories.map((cat) => (
@@ -126,21 +126,35 @@ const EditProductForm = ({ itemId }) => {
                                         </option>
                                     ))}
                                 </SelectControl>
-                                <TextareaControl name="description" label="Description" />
+                                <TextareaControl name="description" label="Descripcion" />
                                 <SimpleGrid columns={[1, null, 2]} spacing={10} >
-                                    <NumberInputControl name="discountInPercent" label="Discount In Percent" />
-                                    <NumberInputControl name="price" label="Price" />
+                                    <NumberInputControl name="discountInPercent" label="Descuento %" />
+                                    <NumberInputControl name="price" label="Precio" />
                                 </SimpleGrid>
                                 <SimpleGrid columns={[1, null, 2]} spacing={10} >
                                     <NumberInputControl name="stock" label="Stock" />
-                                    <NumberInputControl name="minStock" label="MinStock" />
+                                    <NumberInputControl name="minStock" label="Stock Minimo" />
                                 </SimpleGrid>
                                 <InputControl name="sku" label="Sku" inputMode="text" />
                                 <Center>
                                     <PercentComplete />
-                                    <ButtonGroup>
-                                        <SubmitButton disabled={Object.keys(errors).length}>Submit</SubmitButton>
-                                        <ResetButton>Reset</ResetButton>
+                                    <ButtonGroup
+                                       
+                                    >
+                                        <SimpleGrid columns={[1, null, 2]} spacing={5} >
+                                        <ResetButton
+                                        width={"100%"}
+                                        color="red.200"
+                                        
+                                        variant="outline"
+                                        fontWeight={600}
+                                        >Reset</ResetButton>
+                                        <SubmitButton 
+                                         bg={}
+                                         disabled={Object.keys(errors).length}
+                                         width={"280px"}
+                                         >Editar Producto</SubmitButton>
+                                        </SimpleGrid>
                                     </ButtonGroup>
                                 </Center>
                             </Stack>
