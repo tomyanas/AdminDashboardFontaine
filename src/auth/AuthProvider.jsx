@@ -131,9 +131,7 @@ export const AuthProvider = ({ children }) => {
         if (dbUser.isVerified === false && currentUser.emailVerified === true) {
           await updateDoc(docRef, { isVerified: true });
         }
-        // console.log(
-        //   dbUser,
-        // );
+     
         setUser(dbUser);
       } else {
         setUser(currentUser);

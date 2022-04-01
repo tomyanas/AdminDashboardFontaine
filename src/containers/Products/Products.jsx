@@ -120,6 +120,7 @@ const Products = () => {
         <CellActions
           edit={{
             Component: EditProductForm,
+            size: 'lg',
           }}
           onClickDelete={handleDelete}
           view={{
