@@ -173,7 +173,7 @@ export const DbProvider = ({ children }) => {
         },
         { merge: true }
       );
-      return updatedProduct.data();
+      return updatedProduct
     } catch (error) {
       throw new Error(error);
     }

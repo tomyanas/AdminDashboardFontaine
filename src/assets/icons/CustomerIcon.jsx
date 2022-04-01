@@ -3,8 +3,8 @@ export const CustomerIcon = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      width='12.489'
-      height='13'
+      width='20'
+      height='20'
       viewBox='0 0 12.489 13'
     >
       <g data-name='group (1)' transform='translate(0)'>

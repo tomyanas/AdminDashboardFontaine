@@ -10,6 +10,7 @@ export const COUPONS = 'coupons';
 export const SETTINGS = 'settings';
 export const STAFF_MEMBERS = '/staff-members';
 export const SITE_SETTINGS = '/site-settings';
+export const PRODUCTSDETAIL = 'products-detail';
 // **************** ROUTE CONSTANT END **************************
 
 export const CURRENCY = '$';
