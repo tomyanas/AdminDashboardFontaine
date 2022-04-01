@@ -1,30 +1,44 @@
-import React, { useEffect } from "react";
-import { CustomTable } from "../../components/Tables/CustomTable";
-import { InLineLoader } from "../../components/InlineLoader/InlineLoader";
-import { useDb } from "../../db/DbProvider";
-import { SectionHeader } from "../../components/Sections/SectionHeader";
-import { Section } from "../../components/Sections/Section";
-import { Stack } from "@chakra-ui/react";
-import { SearchBar } from "../../components/SearchBar/SearchBar";
-import CustomerDetail from "./CustomerDetail";
-import { CellActions } from "../../components/Tables/CustomTable/TableCell";
+import React, { useEffect } from 'react';
+import { CustomTable } from '../../components/Tables/CustomTable';
+import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
+import { useDb } from '../../db/DbProvider';
+import { SectionHeader } from '../../components/Sections/SectionHeader';
+import { Section } from '../../components/Sections/Section';
+import { Stack } from '@chakra-ui/react';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+import CustomerDetail from './CustomerDetail';
+import {
+  CellActions,
+  CellAvatar,
+} from '../../components/Tables/CustomTable/TableCell';
 const Customers = () => {
-  const {getAllCustomers, filteredCustomers, searchCustomers} = useDb();
+  const { getAllCustomers, filteredCustomers, searchCustomers } = useDb();
   let customers = filteredCustomers;
 
   const columns = [
     {
+      Header: 'Avatar',
+      Cell: ({row}) => <CellAvatar data={row.original.email} />,
+      minWidth: 80,
+      maxWidth: 100,
+    },
+    {
       Header: 'Nombre',
       accessor: 'name',
-      // Cell: ({ value }) => <CellImage data={value} />,
+      sort: true,
+      minWidth: 200,
     },
     {
       Header: 'Email',
       accessor: 'email',
+      sort: true,
+      minWidth: 250,
     },
     {
       Header: 'Rol',
       accessor: 'role',
+      minWidth: 100,
+      maxWidth: 150,
     },
     {
       Header: 'Acciones',
@@ -38,9 +52,10 @@ const Customers = () => {
           data={value}
         />
       ),
+      minWidth: 80,
+      maxWidth: 120,
     },
   ];
-
 
   useEffect(() => {
     getAllCustomers();
@@ -48,7 +63,7 @@ const Customers = () => {
   return (
     <Section>
       <SectionHeader title="Clientes">
-        <Stack direction={["column", "row"]} spacing="24px" p={".5rem"}>
+        <Stack direction={['column', 'row']} spacing="24px" p={'.5rem'}>
           <SearchBar
             searchFunction={searchCustomers}
             resetFunction={getAllCustomers}
@@ -56,7 +71,7 @@ const Customers = () => {
         </Stack>
       </SectionHeader>
       {customers.length ? (
-        <CustomTable data={customers} columnsConfig={columns}  />
+        <CustomTable data={customers} columnsConfig={columns} />
       ) : (
         <InLineLoader />
       )}

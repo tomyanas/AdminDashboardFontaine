@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
 import { useDb } from '../../db/DbProvider';
-import { Box, Divider, Heading, Image, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Heading,
+  Image,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 import { Tag } from 'phosphor-react';
 
 const CategoryDetail = ({ itemId }) => {
   const { getOneCategory } = useDb();
   const [category, setCategory] = useState(null);
-
+  let titleColor = useColorModeValue('#1F2937', '#eee');
+  let textColor = useColorModeValue('#6b7280', '#ccc');
   useEffect(() => {
     async function getData(id) {
       let customerDetail = await getOneCategory(id);
@@ -15,7 +23,7 @@ const CategoryDetail = ({ itemId }) => {
     }
     getData(itemId);
   }, [itemId, getOneCategory]);
-  console.log(category);
+
   return (
     <Box
       p="1rem"
@@ -38,9 +46,10 @@ const CategoryDetail = ({ itemId }) => {
           w="100%"
         >
           <Box
-            w={{ base: '100%', md: '50%' }}
+            w={{ base: '100%', sm: '80%', md: '50%' }}
             h="fit-content"
             position="relative"
+            alignSelf="center"
           >
             <Image
               src={
@@ -56,26 +65,24 @@ const CategoryDetail = ({ itemId }) => {
             flexDirection="column"
             px={{ base: '0', lg: '2rem' }}
             pt="1rem"
-
-            // gap="0.5rem"
           >
             <Heading
               size="md"
               fontFamily="Open Sans"
-              color="#1F2937"
+              color={titleColor}
               fontWeight={600}
               textTransform="capitalize"
             >
               {category.name}
             </Heading>
 
-            <Box fontSize="14px" color="#6b7280" my="16px">
+            <Box fontSize="14px" color={textColor} my="16px">
               Slug: {category.slug}
             </Box>
 
             <Divider />
             <Box mt="12px" display="flex" flexDirection="row">
-              <Text mr="1.5rem">
+              <Text mr="1.5rem" color={titleColor}>
                 Subcategorias:{' '}
                 {category.subcategory?.length &&
                   category.subcategory.map((item) => (
@@ -83,6 +90,16 @@ const CategoryDetail = ({ itemId }) => {
                       {item}
                     </Tag>
                   ))}
+              </Text>
+            </Box>
+            <Box mt="12px" display="flex" flexDirection="row">
+              <Text mr="1.5rem" color={titleColor}>
+                Categoria Padre:{' '}
+                {category.parentCategory && (
+                  <Tag textTransform="capitalize" mx="6px">
+                    {category.parentCategory}
+                  </Tag>
+                )}
               </Text>
             </Box>
           </Box>

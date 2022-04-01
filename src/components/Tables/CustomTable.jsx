@@ -18,6 +18,8 @@ import {
   useSortBy,
   useGlobalFilter,
   usePagination,
+  useBlockLayout,
+  useFlexLayout,
 } from 'react-table';
 import { useMemo } from 'react';
 import {
@@ -94,6 +96,8 @@ const TdCustom = ({ children, ...props }) => {
       fontSize={'0.875rem'}
       fontWeight={useColorModeValue(400, 500)}
       color={useColorModeValue('#495057', '#eee')}
+      display="flex"
+      alignItems="center"
       {...props}
     >
       {children}
@@ -130,9 +134,10 @@ export const CustomTable = ({ data = [], columnsConfig, ...props }) => {
     { columns, data, initialState: { pageIndex: 0, pageSize: 10 } },
     useGlobalFilter,
     useSortBy,
-    usePagination
+    usePagination,
+    useFlexLayout
   );
-  let bgRowHoverColor = useColorModeValue('#e9ecef', 'gray.700');
+  let bgRowHoverColor = useColorModeValue('#e9ecef66', 'gray.700');
   const {
     getTableProps,
     getTableBodyProps,
@@ -179,31 +184,38 @@ export const CustomTable = ({ data = [], columnsConfig, ...props }) => {
         >
           <Thead>
             {headerGroups.map((headerGroup) => (
-              <Tr {...headerGroup.getHeaderGroupProps()}>
+              <Tr {...headerGroup.getHeaderGroupProps()} minWidth="500px">
                 {headerGroup.headers.map((column) => (
                   <ThCustom
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    {...column.getHeaderProps(
+                      column.sort && column.getSortByToggleProps()
+                    )}
+                    maxW={column.maxWidth}
+                    minW={column.minWidth}
+                    w="auto"
                   >
                     {column.render('Header')}
-                    <HeaderIcon
-                      icon={
-                        column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <SortAsc height="1rem" />
+                    {column.sort && (
+                      <HeaderIcon
+                        icon={
+                          column.isSorted ? (
+                            column.isSortedDesc ? (
+                              <SortAsc height="1rem" />
+                            ) : (
+                              <SortDesc height="1rem" />
+                            )
                           ) : (
-                            <SortDesc height="1rem" />
+                            ''
                           )
-                        ) : (
-                          ''
-                        )
-                      }
-                    />
+                        }
+                      />
+                    ) }
                   </ThCustom>
                 ))}
               </Tr>
             ))}
           </Thead>
-          <Tbody {...getTableBodyProps()}>
+          <Tbody {...getTableBodyProps()} minWidth="500px">
             {page.map((row) => {
               prepareRow(row);
               return (
@@ -212,10 +224,16 @@ export const CustomTable = ({ data = [], columnsConfig, ...props }) => {
                     bg: bgRowHoverColor,
                   }}
                   {...row.getRowProps()}
+                  minWidth="500px"
                 >
                   {row.cells.map((cell) => {
                     return (
-                      <TdCustom {...cell.getCellProps()}>
+                      <TdCustom
+                        {...cell.getCellProps()}
+                        width="auto"
+                        maxW={cell.column.maxWidth}
+                        minW={cell.column.minWidth}
+                      >
                         {cell.render('Cell')}
                       </TdCustom>
                     );

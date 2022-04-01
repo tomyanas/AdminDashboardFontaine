@@ -30,6 +30,7 @@ import {
 import { useAuth } from '../../auth/AuthProvider';
 import DarkModeSwitch from '../DarkModeSwitch/DarkModeSwitch';
 import EditProfile from '../Forms/EditProfile';
+import Gravatar from 'react-gravatar';
 
 export const Header = ({ onOpenSidebar }) => {
   const { user } = useAuth();
@@ -98,11 +99,20 @@ export const Header = ({ onOpenSidebar }) => {
             _focus={{ outline: 'none' }}
             color="#b4b4b4"
           >
-            {auth.user?.photoURL ? (
+            <Box
+              alt={'Author'}
+              border="2px solid #aaa8"
+              borderRadius="full"
+              overflow="hidden"
+              bg={useColorModeValue('white', 'gray.800')}
+            >
+              <Gravatar email={auth.user?.email} default="robohash" size={40} />
+            </Box>
+            {/* {auth.user?.photoURL ? (
               <Image src={auth.user.photoURL} alt="profile image" />
             ) : (
               <UserIcon />
-            )}
+            )} */}
           </MenuButton>
           <MenuList
             bg={useColorModeValue('#efefef', '#2d3748')}
@@ -114,7 +124,7 @@ export const Header = ({ onOpenSidebar }) => {
             <Center py={6}>
               <Box w="100%" rounded="md">
                 <Flex justify={'center'}>
-                  <Avatar
+                  {/* <Avatar
                     size={'xl'}
                     src={
                       user?.photoURL
@@ -126,7 +136,20 @@ export const Header = ({ onOpenSidebar }) => {
                       '2px solid #999',
                       '2px solid white'
                     )}
-                  />
+                  /> */}
+                  <Box
+                    alt={'Author'}
+                    border="2px solid #aaa8"
+                    borderRadius="full"
+                    overflow="hidden"
+                    bg={useColorModeValue('white', 'gray.800')}
+                  >
+                    <Gravatar
+                      email={auth.user?.email}
+                      default="robohash"
+                      size={100}
+                    />
+                  </Box>
                 </Flex>
 
                 <Box p={6} pb={2}>

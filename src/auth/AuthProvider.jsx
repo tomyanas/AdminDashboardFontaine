@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,16 +9,16 @@ import {
   // GoogleAuthProvider,
   // signInWithPopup,
   // sendPasswordResetEmail,
-} from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { auth, db } from "../firebase";
-import { useToast } from "@chakra-ui/react";
+} from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase';
+import { useToast } from '@chakra-ui/react';
 
 const setToast = {
   duration: 5000,
   isClosable: true,
   containerStyle: {
-    marginBottom: "50px",
+    marginBottom: '50px',
   },
 };
 
@@ -26,7 +26,7 @@ export let AuthContext = createContext(null);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("There is no Auth provider");
+  if (!context) throw new Error('There is no Auth provider');
   return context;
 };
 
@@ -51,23 +51,23 @@ export const AuthProvider = ({ children }) => {
       //________Email verification_________
 
       const config = {
-        url: "http://localhost:3000/",
+        url: 'http://localhost:3000/',
       };
       sendEmailVerification(userCredentials.user, config)
         .then((res) => {
           toast({
-            title: "Account Created.",
-            description: "Verify your account. Check your email.",
-            status: "success",
+            title: 'Account Created.',
+            description: 'Verify your account. Check your email.',
+            status: 'success',
             ...setToast,
           });
         })
         .catch((error) => {
           console.log(error);
           toast({
-            title: "error al enviar email de verificacion",
+            title: 'error al enviar email de verificacion',
             description: error.message,
-            status: "error",
+            status: 'error',
             ...setToast,
           });
         });
@@ -75,16 +75,16 @@ export const AuthProvider = ({ children }) => {
       //===========USER DB===========
 
       try {
-        const docRef = doc(db, "users", userCredentials.user.uid);
+        const docRef = doc(db, 'users', userCredentials.user.uid);
         await setDoc(docRef, {
           firstName,
           lastName,
           email,
           name: `${firstName} ${lastName}`,
           uid: userCredentials.user.uid,
-          role: "customer",
+          role: 'customer',
           photoURL: userCredentials.user.photoURL,
-          address: "no registrada",
+          address: 'no registrada',
           isVerified: userCredentials.user.emailVerified,
           phoneNumber: userCredentials.user.phoneNumber,
           creationTime: userCredentials.user.metadata.creationTime,
@@ -93,11 +93,11 @@ export const AuthProvider = ({ children }) => {
         console.log(error);
       }
     } catch (error) {
-      console.log("error", error);
+      console.log('error', error);
       toast({
-        title: "Sign In Error.",
+        title: 'Sign In Error.',
         description: error.message,
-        status: "error",
+        status: 'error',
         ...setToast,
       });
     }
@@ -115,35 +115,43 @@ export const AuthProvider = ({ children }) => {
   const logout = () => signOut(auth);
 
   const refreshUser = async () => {
-    const docRef = doc(db, "users", user.uid);
+    const docRef = doc(db, 'users', user.uid);
     const docSnap = await getDoc(docRef);
     const dbUser = docSnap.data();
     setUser(dbUser);
-    console.log(dbUser)
-  }
+    // console.log(dbUser)
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const docRef = doc(db, "users", currentUser.uid);
+        const docRef = doc(db, 'users', currentUser.uid);
         const docSnap = await getDoc(docRef);
         const dbUser = docSnap.data();
         if (dbUser.isVerified === false && currentUser.emailVerified === true) {
           await updateDoc(docRef, { isVerified: true });
         }
-        console.log(
-          dbUser,
-        );
+        // console.log(
+        //   dbUser,
+        // );
         setUser(dbUser);
-      }else{ 
-      setUser(currentUser);
+      } else {
+        setUser(currentUser);
       }
       setLoading(false);
     });
     return () => unsubscribe();
   }, []);
 
-  let value = { user, signup, login, logout, loading, getCredentials,refreshUser };
+  let value = {
+    user,
+    signup,
+    login,
+    logout,
+    loading,
+    getCredentials,
+    refreshUser,
+  };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

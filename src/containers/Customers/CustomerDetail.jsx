@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { InLineLoader } from '../../components/InlineLoader/InlineLoader';
 import { useDb } from '../../db/DbProvider';
-import Logoimage from '../../assets/image/fontaine.svg';
+// import Logoimage from '../../assets/image/fontaine.svg';
 import {
-  Avatar,
   Box,
   Flex,
   Heading,
-  Image,
-  Stack,
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import Gravatar from 'react-gravatar';
 
 const CustomerDetail = ({ itemId }) => {
   const { getOneUser } = useDb();
   const [user, setUser] = useState(null);
-
+  let bgAvatar = useColorModeValue('white', 'gray.800');
+  let titleColor = useColorModeValue('#1F2937', '#eee');
+  let textColor = useColorModeValue('#666', '#bbb');
+  let subtitleColor = useColorModeValue('gray.800', '#ddd');
   useEffect(() => {
     async function getData(id) {
       let customerDetail = await getOneUser(id);
@@ -24,19 +25,18 @@ const CustomerDetail = ({ itemId }) => {
     }
     getData(itemId);
   }, [itemId, getOneUser]);
-
   return (
     <Box
       w={'90%'}
       rounded={'md'}
       overflow={'hidden'}
       py={6}
-      bg={useColorModeValue('white', 'gray.800')}
+      // bg={useColorModeValue('white', 'gray.800')}
       mx="auto"
     >
       {user ? (
         <>
-          <Box
+          {/* <Box
             bg="gray.300"
             display="flex"
             justifyContent="center"
@@ -45,85 +45,118 @@ const CustomerDetail = ({ itemId }) => {
             borderRadius="10px 10px 0 0px"
           >
             <Image m={0} w={'100%'} src={Logoimage} objectFit={'fill'} />
-          </Box>
-          <Flex justify={'center'} mt={{ base: -6, sm: -9, md: -12 }}>
-            <Avatar
-              // size={{base:"xs", md:"xl"}}
-              size="xl"
-              src={
-                user?.photoURL
-                  ? user.photoURL
-                  : 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ'
-              }
+          </Box> */}
+          <Flex justify={'center'}
+          //  mt={{ base: -6, sm: -9, md: -12 }}
+          >
+            <Box
               alt={'Author'}
-              border="2px solid white"
-            />
+              border="2px solid #aaa8"
+              borderRadius="full"
+              overflow="hidden"
+              bg={bgAvatar}
+            >
+              <Gravatar email={user.email} default="robohash" size={150} />
+            </Box>
           </Flex>
-          {/* <Stack spacing={0} align={"center"} mb={5} > */}
           <Heading
             p={4}
             textAlign="center"
             fontSize={{ base: 'xl', md: '2xl' }}
             fontWeight={500}
             fontFamily={'body'}
+            color={titleColor}
           >
             {user.email}
           </Heading>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Role:
-            </Text>
-            {user.role}
-          </Text>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Nombre:
-            </Text>
-            {user.firstName}
-          </Text>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Apellido:
-            </Text>
-            {user.lastName}
-          </Text>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Cuenta Verificada:
-            </Text>
-            {user.isVerified ? "Si" : "No"}
-          </Text>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Fecha de Registro:
-            </Text>
-            {user.registerDate}
-          </Text>
-          <Text color={'gray.500'} textTransform="capitalize">
-            <Text as="span" fontWeight={600} color={'gray.900'} pr="0.875rem">
-              Direccion:
-            </Text>
-            {user.address}
-          </Text>
-          {/* </Stack> */}
-
-          {/* <Heading textAlign="center" paddingBottom="1.5rem" size="lg">
-            {user.name}
-          </Heading>
-
           <Box
-            variant="enclosed"
-            bg={"#fff"}
-            minHeight="400px"
-            padding={"1rem"}
-            boxShadow="1px 1px 3px 1px #0003"
+            display="flex"
+            flexDirection={{base:"column", sm:"row"}}
+            py="1rem"
+            // w={{ base: '100%', sm: '50%', md:"100%" }}
           >
-            <Text>{user.id}</Text>
-            <Text>{user.email}</Text>
-            <Text>{user.firstName}</Text>
-            <Text>{user.lastName}</Text>
-            <Text>{user.role}</Text>
-          </Box> */}
+            <Box w="100%" display="flex" flexDirection="column" gap="0.5rem">
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Role:
+                </Text>
+                {user.role}
+              </Text>
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Nombre:
+                </Text>
+                {user.firstName}
+              </Text>
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Apellido:
+                </Text>
+                {user.lastName}
+              </Text>
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Telefono:
+                </Text>
+                {user.phoneNumber}
+              </Text>
+            </Box>
+            <Box w="100%" display="flex" flexDirection="column" gap="0.5rem">
+              <Text color={user.isVerified ? '#45d17a' : '#df1f43'}  fontWeight={700} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Cuenta Verificada:
+                </Text>
+                {user.isVerified ? 'Si' : 'No'}
+              </Text>
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Fecha de Registro:
+                </Text>
+                {user.creationTime}
+              </Text>
+              <Text color={textColor} textTransform="capitalize">
+                <Text
+                  as="span"
+                  fontWeight={600}
+                  color={subtitleColor}
+                  pr="0.875rem"
+                >
+                  Direccion:
+                </Text>
+                {user.address}
+              </Text>
+            </Box>
+          </Box>
         </>
       ) : (
         <InLineLoader />
@@ -132,57 +165,3 @@ const CustomerDetail = ({ itemId }) => {
   );
 };
 export default CustomerDetail;
-
-// const ModalProfile = () => {
-//   // const { user } = useAuth();
-
-//   return (
-//       <Box
-//         w={"90%"}
-//         rounded={"md"}
-//         overflow={"hidden"}
-//         py={6}
-//         bg={useColorModeValue("white", "gray.800")}
-//       >
-
-//         <Flex justify={"center"} mt={-12}>
-//           <Avatar
-//             size={"xl"}
-//             src={
-//               user?.photoURL
-//                 ? user.photoURL
-//                 : "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-//             }
-//             alt={"Author"}
-//             css={{
-//               border: "2px solid white",
-//             }}
-//           />
-//         </Flex>
-
-//         <Box p={6}>
-//           <Stack spacing={0} align={"center"} mb={5}>
-//             <Heading fontSize={"2xl"} fontWeight={500} fontFamily={"body"}>
-//               {user.email}
-//             </Heading>
-//             <Text color={"gray.500"}>Administrador</Text>
-//           </Stack>
-//           <Center>
-//             <Button
-//               w={"50%"}
-//               mt={8}
-//               bg={useColorModeValue("#151f21", "gray.900")}
-//               color={"white"}
-//               rounded={"md"}
-//               _hover={{
-//                 transform: "translateY(-2px)",
-//                 boxShadow: "lg",
-//               }}
-//             >
-//               Modificar Perfil
-//             </Button>
-//           </Center>
-//         </Box>
-//       </Box>
-//   );
-// };

@@ -81,12 +81,31 @@ export const ProductImageCarousel = ({ images }) => {
   };
 
   return (
-    <Box m="0 auto" pb={{ base: '60px', sm: '75px' }} w="100%" maxW="600px">
+    <Box
+      m="0 auto"
+      pb={{ base: '60px', sm: '75px' }}
+      w="100%"
+      maxH={{ base: '400px', sm: '500px', md: '500px', lg: '600px' }}
+      maxW={{ base: '300px', sm: '400px', md: '400px', lg: '500px' }}
+    >
       <Slider {...settings}>
         {images &&
           images.map((image, i) => (
-            <Box key={image + i}>
-              <Image w="100%" src={image} />
+            <Box
+              maxH={{ base: '300px', sm: '400px', md: '400px', lg: '500px' }}
+              maxW={{ base: '300px', sm: '400px', md: '400px', lg: '500px' }}
+              key={image + i}
+              // justifyContent="center"
+              // alignItems="center"
+              // pb="0.5rem"
+            >
+              <Image
+                maxH={{ base: '300px', sm: '400px', md: '400px', lg: '500px' }}
+                m="auto"
+                maxW={{ base: '300px', sm: '400px', md: '400px', lg: '500px' }}
+                objectFit="cover"
+                src={image}
+              />
             </Box>
           ))}
       </Slider>

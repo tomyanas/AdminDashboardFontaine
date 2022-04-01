@@ -6,13 +6,12 @@ import { SearchBar } from '../../components/SearchBar/SearchBar';
 import { Stack, Text, useDisclosure, useToast } from '@chakra-ui/react';
 import { ButtonAdd } from '../../components/Buttons/AddButton';
 import { SectionHeader } from '../../components/Sections/SectionHeader';
-import { Section } from '../../components/Sections/Section';
 import { CustomDrawer } from '../../components/Forms/CustomDrawer/CustomDrawer';
 import AddProductForm from '../../components/Forms/ProductForm';
 import EditProductForm from '../../components/Forms/EditProductForm';
 import {
   CellActions,
-  CellImage
+  CellImage,
 } from '../../components/Tables/CustomTable/TableCell';
 import ProductDetail from './ProductDetail';
 
@@ -55,36 +54,64 @@ const Products = () => {
       Header: 'Imagen',
       accessor: 'image',
       Cell: ({ value }) => <CellImage data={value} />,
+      minWidth: 80,
+      maxWidth: 100,
     },
     {
       Header: 'Nombre',
       accessor: 'name',
+      minWidth: 200,
+      sort: true
     },
     {
       Header: 'Marca',
       accessor: 'brand',
+      minWidth: 100,
+      maxWidth: 250,
+      sort: true
     },
     {
       Header: 'Categoria',
       accessor: 'category',
+      minWidth: 100,
+      maxWidth: 250,
+      sort: true
     },
     {
       Header: 'Precio',
       accessor: 'salePrice',
       Cell: ({ value }) => (
-        <Text as="span" fontWeight={600} fontSize="1rem">
+        <Text
+          as="span"
+          fontWeight={600}
+          fontSize="1rem"
+          w="100%"
+          textAlign="center"
+        >
           $ {value}
         </Text>
       ),
+      minWidth: 80,
+      maxWidth: 120,
+      sort: true
     },
     {
       Header: 'Stock',
       accessor: 'stock',
       Cell: ({ value }) => (
-        <Text as="span" fontWeight={600} fontSize="1rem">
+        <Text
+          as="span"
+          fontWeight={600}
+          fontSize="1rem"
+          w="100%"
+          textAlign="center"
+        >
           {value}.u
         </Text>
       ),
+      minWidth: 80,
+      maxWidth: 120,
+      sort: true
     },
     {
       Header: 'Acciones',
@@ -102,9 +129,10 @@ const Products = () => {
           data={value}
         />
       ),
+      minWidth: 100,
+      maxWidth: 150,
     },
   ];
-
 
   useEffect(() => {
     getAllProducts();

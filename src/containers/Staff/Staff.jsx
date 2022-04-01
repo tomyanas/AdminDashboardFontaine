@@ -10,7 +10,7 @@ import CustomerDetail from "../Customers/CustomerDetail";
 import { ButtonAdd } from "../../components/Buttons/AddButton";
 import { CustomDrawer } from "../../components/Forms/CustomDrawer/CustomDrawer";
 import StaffMemberForm from "../../components/Forms/StaffMemberForm";
-import { CellActions } from "../../components/Tables/CustomTable/TableCell";
+import { CellActions, CellAvatar } from "../../components/Tables/CustomTable/TableCell";
 
 const Customers = () => {
   const { filteredStaff, getAllStaffMembers, searchStaffMembers } = useDb();
@@ -20,17 +20,28 @@ const Customers = () => {
 
   const columns = [
     {
+      Header: 'Avatar',
+      Cell: ({row}) => <CellAvatar data={row.original.email} />,
+      minWidth: 80,
+      maxWidth: 100,
+    },
+    {
       Header: 'Nombre',
       accessor: 'name',
-      // Cell: ({ value }) => <CellImage data={value} />,
+      sort: true,
+      minWidth: 200,
     },
     {
       Header: 'Email',
       accessor: 'email',
+      sort: true,
+      minWidth: 250,
     },
     {
       Header: 'Rol',
       accessor: 'role',
+      minWidth: 100,
+      maxWidth: 150,
     },
     {
       Header: 'Acciones',
@@ -44,8 +55,11 @@ const Customers = () => {
           data={value}
         />
       ),
+      minWidth: 80,
+      maxWidth: 120,
     },
   ];
+
 
 
   useEffect(() => {
