@@ -1,16 +1,20 @@
-import { Box, Container, Text, Image } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../auth/AuthProvider";
+import {
+  Box,
+  Container,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthProvider';
+import Logo from '../../components/Header/Logo';
 
-import Logoimage from "../../assets/image/fontaine.svg";
-
-const Login = ({children, subtitle}) => {
+const Login = ({ children, subtitle }) => {
   let navigate = useNavigate();
   let auth = useAuth();
   useEffect(() => {
     if (auth.user) {
-      navigate("/");
+      navigate('/');
     }
   }, [auth.user]);
   return (
@@ -19,23 +23,28 @@ const Login = ({children, subtitle}) => {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      bg="#efefef"
+      bg={useColorModeValue('#efefef')}
     >
-      <Container maxW="lg" bg="white" boxShadow="lg" borderRadius="3px" p={6}>
-        <Box
-          d="flex"
-          alignItems="center"
-          flexDirection="column"
-          bg="white"
-          w="100%"
-        >
-          <Image src={Logoimage} alt="Fontaine-logo" w={"50%"} m={6} />
+      <Container
+        maxW="lg"
+        bg={useColorModeValue('white', 'gray.900')}
+        boxShadow="lg"
+        borderRadius="3px"
+        p={6}
+      >
+        <Box d="flex" alignItems="center" flexDirection="column" w="100%">
+          <Box m={6}>
+            <Logo
+              height="28px"
+              color={useColorModeValue('#222220', '#fafafa')}
+            />
+          </Box>
 
           <Text fontSize="2xl" fontFamily="Work sans" display="block">
-              {subtitle}
+            {subtitle}
           </Text>
         </Box>
-        <Box bg="white" w="100%" p={8} borderRadius="lg">
+        <Box w="100%" p={8}>
           {children}
         </Box>
       </Container>

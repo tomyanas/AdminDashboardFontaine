@@ -20,7 +20,10 @@ export const CustomInput = ({ field, form: { touched, errors }, ...props }) => {
       borderRadius={0}
       // borderBottom={useColorModeValue('none', '1px solid #eeeeee')}
       border={useColorModeValue('none', '1px solid #eeeeee')}
-      _placeholder={{ color: useColorModeValue("#777777",'#aaaaaa'), fontWeight: 600 }}
+      _placeholder={{
+        color: useColorModeValue('#777777', '#aaaaaa'),
+        fontWeight: 600,
+      }}
       // border= '2px solid #51a6f5'
       _focus={{
         // border: useColorModeValue('2px solid #51a6f5', '2px 0 2x 0 solid #51a6f5'),
@@ -42,7 +45,10 @@ export const CustomTextarea = ({
       border={useColorModeValue('none', '1px solid #eeeeee')}
       bg={useColorModeValue('#EEEEEE', '#2d3748')}
       borderRadius={0}
-      _placeholder={{ color: useColorModeValue("#777777",'#aaaaaa'), fontWeight: 600 }}
+      _placeholder={{
+        color: useColorModeValue('#777777', '#aaaaaa'),
+        fontWeight: 600,
+      }}
       _focus={{ border: '2px solid #51a6f5' }}
     />
   );
@@ -55,8 +61,7 @@ export const CustomSelect = ({ field, form, children, ...props }) => {
       {...props}
       border={useColorModeValue('none', '1px solid #eeeeee')}
       bg={useColorModeValue('#EEEEEE', '#2d3748')}
-     
-      color={useColorModeValue("#161f6a",'#bababa')}
+      color={useColorModeValue('#161f6a', '#bababa')}
       fontWeight={700}
       _focus={{ border: '2px solid #51a6f5' }}
       borderRadius={0}
@@ -79,9 +84,12 @@ export const CustomInputPassword = ({
         {...field}
         {...props}
         // bg={useColorModeValue("#EEEEEE", "#2d3748")}
-        bg="EEEEEE"
+        // bg="EEEEEE"
+        // border="none"
+        border={useColorModeValue('none', '1px solid #eeeeee')}
+        bg={useColorModeValue('#EEEEEE', '#2d3748')}
+        color={useColorModeValue('#161f6a', '#bababa')}
         borderRadius={0}
-        border="none"
         _placeholder={{ color: '#777', fontWeight: 600 }}
         _focus={{ border: '2px solid #51a6f5' }}
         type={show ? 'text' : 'password'}
@@ -91,7 +99,9 @@ export const CustomInputPassword = ({
         <Button
           p={2}
           fontSize={'10px'}
-          color="#aaa"
+          // color="#aaa"
+
+          color={useColorModeValue('#161f6a', '#bababa')}
           bg="transparent"
           onClick={() => setShow(!show)}
           _focus={{ outline: 'none' }}
