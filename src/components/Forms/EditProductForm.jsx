@@ -8,9 +8,13 @@ import {
     Stack,
     Center,
     Heading,
+    useColorModeValue,
+    Text,
+    FormLabel,
 } from "@chakra-ui/react";
 import {
 
+    FormControl,
     InputControl,
     NumberInputControl,
     PercentComplete,
@@ -77,6 +81,8 @@ const EditProductForm = ({ itemId }) => {
         }
     };
 
+    let bgColor = useColorModeValue('#EEEEEE', '#2d3748');
+
     return (
         <Box>
                 <Heading as="h1" size="xl" textAlign="center" marginTop={10}>
@@ -126,7 +132,8 @@ const EditProductForm = ({ itemId }) => {
                                         </option>
                                     ))}
                                 </SelectControl>
-                                <TextareaControl name="description" label="Descripcion" />
+                                <FormLabel >Description</FormLabel>
+                                <TextareaControl marginTop={-5} name="description" bg={bgColor}/>
                                 <SimpleGrid columns={[1, null, 2]} spacing={10} >
                                     <NumberInputControl name="discountInPercent" label="Descuento %" />
                                     <NumberInputControl name="price" label="Precio" />

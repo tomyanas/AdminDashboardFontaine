@@ -56,13 +56,14 @@ export const EditProfile = ({ isOpen, onClose }) => {
     const handleOnSubmit = async (event, values) => {
         event.preventDefault();
         try {
+          
             values.name = values.firstName + ' ' + values.lastName
             await updateUser(userDetail.uid, values);
             await refreshUser()
             GenericToastSuccess("Tu perfil ha sido actualizado");
             onClose()
         } catch (error) {
-            GenericToastError("Lo sentimos, ha ocurrido un error");
+            GenericToastError("Lo sentimos, algo salió mal");
         }
     }
 
