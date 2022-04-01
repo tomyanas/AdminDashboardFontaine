@@ -53,11 +53,21 @@ const Category = () => {
       Header: 'Imagen',
       accessor: 'image',
       Cell: ({ value }) => <CellImage data={value} />,
+      minWidth: 80,
+      maxWidth: 100,
     },
     {
       Header: 'Nombre',
       accessor: 'name',
+      minWidth: 200,
+      sort: true
     },
+    // {
+    //   Header: 'Slug',
+    //   accessor: 'slug',
+    //   minWidth: 100,
+    //   maxWidth: 250,
+    // },
     {
       Header: 'Acciones',
       accessor: 'id',
@@ -75,6 +85,8 @@ const Category = () => {
           data={value}
         />
       ),
+      minWidth: 100,
+      maxWidth: 150,
     },
   ];
 

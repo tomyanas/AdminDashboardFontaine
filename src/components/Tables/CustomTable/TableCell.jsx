@@ -1,4 +1,5 @@
-import { Box, Image} from '@chakra-ui/react';
+import { Box, Image, useColorModeValue } from '@chakra-ui/react';
+import Gravatar from 'react-gravatar';
 import {
   TableButtonDelete,
   TableButtonEdit,
@@ -14,6 +15,7 @@ export const CellActions = ({ edit, view, onClickDelete, data }) => {
       p={2}
       display={'flex'}
       justifyContent="space-around"
+      alignItems="center"
       gap={'3px'}
     >
       {onClickDelete && (
@@ -44,6 +46,7 @@ export const CellImage = ({ data, ...props }) => {
   return (
     <Box
       // p="0.5rem"
+      w="100%"
       minW="fit-content"
       display={'flex'}
       flexDirection="row"
@@ -52,6 +55,32 @@ export const CellImage = ({ data, ...props }) => {
       {...props}
     >
       <Image h={'40px'} w={'40px'} src={url_image} alt="img" />
+    </Box>
+  );
+};
+export const CellAvatar = ({ data, ...props }) => {
+  
+  return (
+    <Box
+      // p="0.5rem"
+      w="100%"
+      minW="fit-content"
+      display={'flex'}
+      flexDirection="row"
+      justifyContent="center"
+      alignItems="center"
+      {...props}
+    >
+      <Box
+        h={'40px'}
+        w={'40px'}
+        alt={'Author'}
+        border="2px solid #aaa8"
+        borderRadius="full"
+        overflow="hidden"
+      >
+        <Gravatar email={data} default="robohash" size={40} />
+      </Box>
     </Box>
   );
 };

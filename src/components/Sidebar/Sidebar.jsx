@@ -78,7 +78,7 @@ const SonNavLink = ({ path, icon, name }) => {
         color={useColorModeValue("#161f6a", "gray.100")}
         as="span"
         fontSize="lg"
-        fontWeight="bold"
+        fontWeight={500}
       >
         {name}
       </Text>
@@ -93,7 +93,8 @@ export const Sidebar = () => {
   return (
     <Box
       as="aside"
-      width={{ base: "220px", md: "270px" }}
+      width={{ base: "230px", md: "270px" }}
+      pl="10px"
       minH="100%"
       display="flex"
       flexShrink="0"
