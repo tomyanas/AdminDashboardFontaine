@@ -29,7 +29,7 @@ const validationSchema = Yup.object({
         .required("Name is Required"),
     lastName: Yup.string()
         .required("Name is Required"),
-    phone: Yup.string()
+    phoneNumber: Yup.string()
         .required("Phone is Required"),
     address: Yup.string()
         .required("Address is Required"),
@@ -56,7 +56,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
     const handleOnSubmit = async (event, values) => {
         event.preventDefault();
         try {
-          
+            values.address = `${values.address}, ${values.city}, ${values.state}, ${values.zip}, ${values.country}`
             values.name = values.firstName + ' ' + values.lastName
             await updateUser(userDetail.uid, values);
             await refreshUser()
@@ -66,9 +66,6 @@ export const EditProfile = ({ isOpen, onClose }) => {
             GenericToastError("Lo sentimos, algo salió mal");
         }
     }
-
-
-
 
     return (
         <Drawer onClose={onClose} isOpen={isOpen} size={"md"} >
@@ -90,7 +87,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
 
                                     firstName: userDetail.firstName ? userDetail.firstName : "",
                                     lastName: userDetail.lastName ? userDetail.lastName : "",
-                                    phone: userDetail.phone ? userDetail.phone : "",
+                                    phoneNumber: userDetail.phoneNumber ? userDetail.phoneNumber : "",
                                     address: userDetail.address ? userDetail.address : "",
                                     city: userDetail.city ? userDetail.city : "",
                                     state: userDetail.state ? userDetail.state : "",
@@ -119,7 +116,7 @@ export const EditProfile = ({ isOpen, onClose }) => {
 
                                             <InputControl name="firstName" label="firstName" />
                                             <InputControl name="lastName" label="lastName" />
-                                            <InputControl name="phone" label="phone" />
+                                            <InputControl name="phoneNumber" label="phone" />
                                             <InputControl name="address" label="address" />
                                             <InputControl name="city" label="city" />
                                             <InputControl name="state" label="state" />
