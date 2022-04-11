@@ -82,13 +82,14 @@ const EditProductForm = ({ itemId }) => {
     };
 
     let bgColor = useColorModeValue('#EEEEEE', '#2d3748');
+    let bgColorLabel = useColorModeValue('white','#2d3748');
 
     return (
         <Box>
-                <Heading as="h1" size="xl" textAlign="center" marginTop={10}>
-                
-                    Editar Producto
-                </Heading>
+            <Heading as="h1" size="xl" textAlign="center" marginTop={10}>
+
+                Editar Producto
+            </Heading>
             {product ? (
                 <Formik
                     initialValues={{
@@ -109,9 +110,9 @@ const EditProductForm = ({ itemId }) => {
                     {({ values, errors }) => (
                         <Box
                             p={5}
-                           
+
                             rounded="lg"
-                       
+
                             maxWidth={800}
                             spacing={10}
                             m=" auto"
@@ -120,10 +121,32 @@ const EditProductForm = ({ itemId }) => {
                         >
                             <Stack
                                 spacing={8}
-                                >
-                                <InputControl name="brand" label="Marca" />
+                            >
+                                <InputControl name="brand" label="Marca"
+                                     labelProps={
+                                        {
+                                            backgroundColor: bgColorLabel,
+                                            width: "100%",
+                                            margin: "0 auto",
+                                            paddingBottom: "10px",
+                                        }
+                                    }
+
+                                    bg={bgColor} 
+                                />
                                 <SelectControl
-                                    name="category"  label="Categoria"
+                                    name="category" label="Categoria"
+                                    labelProps={
+                                        {
+                                            backgroundColor: bgColorLabel,
+                                            width: "100%",
+                                            margin: "0 auto",
+                                            paddingBottom: "10px",
+                                        }
+                                    }
+
+                                    bg={bgColor} 
+
                                     selectProps={{ placeholder: product.category }}
                                 >
                                     {categories.map((cat) => (
@@ -132,35 +155,102 @@ const EditProductForm = ({ itemId }) => {
                                         </option>
                                     ))}
                                 </SelectControl>
-                                <FormLabel >Description</FormLabel>
-                                <TextareaControl marginTop={-5} name="description" bg={bgColor}/>
+                                <TextareaControl
+                                    name="description"
+                                    label="Descripción"
+                                    labelProps={
+                                        {
+                                            backgroundColor: bgColorLabel,
+                                            width: "100%",
+                                            margin: "0 auto",
+                                            paddingBottom: "10px",
+                                        }
+                                    }
+
+                                    bg={bgColor} 
+                                    />
                                 <SimpleGrid columns={[1, null, 2]} spacing={10} >
-                                    <NumberInputControl name="discountInPercent" label="Descuento %" />
-                                    <NumberInputControl name="price" label="Precio" />
+                                    <NumberInputControl name="discountInPercent" label="Descuento %" 
+                                         labelProps={
+                                            {
+                                                backgroundColor: bgColorLabel,
+                                                width: "100%",
+                                                margin: "0 auto",
+                                                paddingBottom: "10px",
+                                            }
+                                        }
+    
+                                        bg={bgColor} 
+                                    />
+                                    <NumberInputControl name="price" label="Precio" 
+                                         labelProps={
+                                            {
+                                                backgroundColor: bgColorLabel,
+                                                width: "100%",
+                                                margin: "0 auto",
+                                                paddingBottom: "10px",
+                                            }
+                                        }
+    
+                                        bg={bgColor} 
+                                    />
                                 </SimpleGrid>
                                 <SimpleGrid columns={[1, null, 2]} spacing={10} >
-                                    <NumberInputControl name="stock" label="Stock" />
-                                    <NumberInputControl name="minStock" label="Stock Minimo" />
+                                    <NumberInputControl name="stock" label="Stock" 
+                                         labelProps={
+                                            {
+                                                backgroundColor: bgColorLabel,
+                                                width: "100%",
+                                                margin: "0 auto",
+                                                paddingBottom: "10px",
+                                            }
+                                        }
+    
+                                        bg={bgColor} 
+                                    />
+                                    <NumberInputControl name="minStock" label="Stock Minimo" 
+                                         labelProps={
+                                            {
+                                                backgroundColor: bgColorLabel,
+                                                width: "100%",
+                                                margin: "0 auto",
+                                                paddingBottom: "10px",
+                                            }
+                                        }
+    
+                                        bg={bgColor} 
+                                    />
                                 </SimpleGrid>
-                                <InputControl name="sku" label="Sku" inputMode="text" />
+                                <InputControl name="sku" label="Sku" inputMode="text"
+                                     labelProps={
+                                        {
+                                            backgroundColor: bgColorLabel,
+                                            width: "100%",
+                                            margin: "0 auto",
+                                            paddingBottom: "10px",
+                                        }
+                                    }
+
+                                    bg={bgColor} 
+                                />
                                 <Center>
                                     <PercentComplete />
                                     <ButtonGroup
-                                       
+
                                     >
                                         <SimpleGrid columns={[1, null, 2]} spacing={5} >
-                                        <ResetButton
-                                        width={"100%"}
-                                        color="red.200"
-                                        
-                                        variant="outline"
-                                        fontWeight={600}
-                                        >Reset</ResetButton>
-                                        <SubmitButton 
-                                         
-                                         disabled={Object.keys(errors).length}
-                                         width={"280px"}
-                                         >Editar Producto</SubmitButton>
+                                            <ResetButton
+                                                width={"100%"}
+                                                color="red.200"
+
+                                                variant="outline"
+                                                fontWeight={600}
+                                            >Reset</ResetButton>
+                                            <SubmitButton
+
+                                                disabled={Object.keys(errors).length}
+                                                width={"280px"}
+                                            >Editar Producto</SubmitButton>
                                         </SimpleGrid>
                                     </ButtonGroup>
                                 </Center>

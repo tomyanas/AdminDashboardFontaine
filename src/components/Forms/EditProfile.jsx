@@ -11,6 +11,7 @@ import {
     DrawerCloseButton,
     Heading,
     ButtonGroup,
+    useColorModeValue,
 } from '@chakra-ui/react'
 import { useDb } from '../../db/DbProvider'
 import { useAuth } from "../../auth/AuthProvider";
@@ -66,7 +67,8 @@ export const EditProfile = ({ isOpen, onClose }) => {
             GenericToastError("Lo sentimos, algo salió mal");
         }
     }
-
+    let bgColor = useColorModeValue('#EEEEEE', '#2d3748');
+    let bgColorLabel = useColorModeValue('white','#2d3748');
     return (
         <Drawer onClose={onClose} isOpen={isOpen} size={"md"} >
             <DrawerOverlay />
@@ -114,14 +116,102 @@ export const EditProfile = ({ isOpen, onClose }) => {
                                             spacing={8}
                                         >
 
-                                            <InputControl name="firstName" label="firstName" />
-                                            <InputControl name="lastName" label="lastName" />
-                                            <InputControl name="phoneNumber" label="phone" />
-                                            <InputControl name="address" label="address" />
-                                            <InputControl name="city" label="city" />
-                                            <InputControl name="state" label="state" />
-                                            <InputControl name="zip" label="zip" />
-                                            <InputControl name="country" label="country" />
+                                            <InputControl name="firstName" label="firstName"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="lastName" label="lastName"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="phoneNumber" label="phone"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="address" label="address"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="city" label="city"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="state" label="state"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="zip" label="zip"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
+                                            <InputControl name="country" label="country"
+                                                labelProps={
+                                                    {
+                                                        backgroundColor: bgColorLabel,
+                                                        width: "100%",
+                                                        margin: "0 auto",
+                                                        paddingBottom: "10px",
+                                                    }
+                                                }
+
+                                                bg={bgColor}
+                                            />
 
                                             <Center>
                                                 <PercentComplete />
